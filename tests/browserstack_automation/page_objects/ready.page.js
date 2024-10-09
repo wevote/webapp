@@ -234,10 +234,6 @@ class ReadyPage extends Page {
     return $('#profileAvatarHeaderBar');
   }
 
-  get getProfileIconElement() {
-    return $('#profileAvatarHeaderBar');
-  }
-
 
   async login () {
     const waitTime = 5000;
