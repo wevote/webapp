@@ -3,17 +3,18 @@ const { readFileSync } = require('fs');
 const browserStackConfig = require('./browserstack.config');
 const browserCapabilities = require('../capabilities/browser.json');
 
-let mobileCapabilities = [];
+// let mobileCapabilities = [];
 
-try {
-  const data = readFileSync('./tests/browserstack_automation/capabilities/mobile.json', { encoding: 'utf8' });
-  mobileCapabilities = JSON.parse(data);
-} catch (error) {
-  // Run `npm run wdio:setup`
-}
+// try {
+//   const data = readFileSync('./tests/browserstack_automation/capabilities/mobile.json', { encoding: 'utf8' });
+//   mobileCapabilities = JSON.parse(data);
+// } catch (error) {
+  
+//   // Run `npm run wdio:setup`
+// }
 
-const capabilities = [...browserCapabilities, ...mobileCapabilities];
-
+// const capabilities = [...browserCapabilities, ...mobileCapabilities];
+const capabilities = [...browserCapabilities];
 const date = new Date();
 
 const dateForDisplay = date.toDateString();
@@ -44,6 +45,7 @@ module.exports.config = {
     '../specs/TopNavigation.js',
     '../specs/HowItWorks.js',
   ],
+
   capabilities,
   commonCapabilities: {
     'bstack:options': {
