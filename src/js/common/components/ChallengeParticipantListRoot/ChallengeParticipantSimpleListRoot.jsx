@@ -19,7 +19,7 @@ const participantListDummyData = [
 ];
 
 
-const ChallengeParticipantSimpleListRoot = ({ challengeWeVoteId, classes, uniqueExternalId }) => {
+const ChallengeParticipantSimpleListRoot = ({ challengeWeVoteId, classes, uniqueExternalId, showSimpleList }) => {
   // eslint-disable-next-line no-unused-vars
   const [participantList, setParticipantList] = React.useState([]);
   const [participantsCount, setParticipantsCount] = useState(0);
@@ -53,7 +53,7 @@ const ChallengeParticipantSimpleListRoot = ({ challengeWeVoteId, classes, unique
         // participantList={participantList}
         participantList={participantListDummyData}
         uniqueExternalId={uniqueExternalId}
-        showSimpleList
+        showSimpleList={showSimpleList}
       />
       <Suspense fallback={<></>}>
         <FirstChallengeParticipantListController challengeWeVoteId={challengeWeVoteId} searchText="SEARCH TEXT HERE" />
@@ -67,6 +67,7 @@ ChallengeParticipantSimpleListRoot.propTypes = {
   // searchFunction: PropTypes.func.isRequired,
   challengeWeVoteId: PropTypes.string,
   uniqueExternalId: PropTypes.string,
+  showSimpleList: PropTypes.bool,
 };
 
 const styles = () => ({

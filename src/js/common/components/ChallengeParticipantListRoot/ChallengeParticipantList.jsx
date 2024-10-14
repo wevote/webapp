@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ChallengeParticipantListItem from './ChallengeParticipantListItem';
 import VoterStore from '../../../stores/VoterStore';
 
-const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
+const ChallengeParticipantList = ({ participantList, uniqueExternalId, showSimpleList }) => {
   const [voterWeVoteID, setVoterWeVoteID] = React.useState('');
 
   const handleVoterStoreChange = () => {
@@ -29,7 +29,7 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
           key={`participantKey-${participant.voter_we_vote_id}-${uniqueExternalId}`}
           participant={participant}
           isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
-          showSimpleList
+          showSimpleList={showSimpleList}
         />
       ))}
     </LeaderboardListContainer>
@@ -38,6 +38,7 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
 ChallengeParticipantList.propTypes = {
   participantList: PropTypes.array,
   uniqueExternalId: PropTypes.string,
+  showSimpleList: PropTypes.bool,
 };
 
 const LeaderboardListContainer = styled.div`
