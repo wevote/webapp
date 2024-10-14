@@ -85,7 +85,7 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
             {rankOfVoter}
             {' '}
             <span className="arrow">
-              <img src={arrowImage} alt="arrow" classes={{ root: classes.arrow}} />
+              <img src={arrowImage} alt="arrow" />
             </span>
           </Button>
         </YourRankButtonWrapper>
@@ -159,7 +159,7 @@ const YourRankOuterWrapper = styled('div')`
 `;
 
 const YourRankButtonWrapper = styled('div')`
-  background-color: ${(props)=>(props.clicked ? "#AC5204" : "#FFFFFF")};
+  background-color: ${(props) => (props.clicked ? '#AC5204' : '#FFFFFF')};
   width: 105px;
   height: 34px;
   //top: 443px;

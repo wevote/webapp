@@ -29,6 +29,7 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
           key={`participantKey-${participant.voter_we_vote_id}-${uniqueExternalId}`}
           participant={participant}
           isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
+          showSimpleList
         />
       ))}
     </LeaderboardListContainer>

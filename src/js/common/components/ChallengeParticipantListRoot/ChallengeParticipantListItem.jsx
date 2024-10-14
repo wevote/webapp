@@ -5,7 +5,7 @@ import { Avatar } from '@mui/material';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import speakerDisplayNameToInitials from '../../utils/speakerDisplayNameToInitials';
 
-const ChallengeParticipantListItem = ({ participant, isCurrentUser }) => {
+const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleList }) => {
   let avatarJsx;
   if (participant && participant.we_vote_hosted_profile_image_url_medium) {
     avatarJsx = <Avatar src={participant.we_vote_hosted_profile_image_url_medium} alt={participant.participant_name} />;
@@ -14,30 +14,46 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser }) => {
     avatarJsx = <Avatar sx={sx}>{children}</Avatar>;
   }
   return (
-    <ParticipantItem isCurrentUser={isCurrentUser}>
-      <ParticipantRow>
-        <Rank>{`#${participant.rank}`}</Rank>
-        <Name>
-          {avatarJsx}
-          {participant.participant_name}
-        </Name>
-        <Points>{participant.points}</Points>
-        <FriendsJoined makeBold={participant.invitees_who_joined > 0}>{participant.invitees_who_joined}</FriendsJoined>
-      </ParticipantRow>
-      <Details>
-        {`${participant.invitees_count} invited, `}
-        {`${participant.invitees_who_viewed} viewed challenge`}
-        {/*
+    <>
+      { showSimpleList ? (
+        <ParticipantItem isCurrentUser={isCurrentUser}>
+          <ParticipantRow>
+            <Rank showSimpleList>{`#${participant.rank}`}</Rank>
+            <Name showSimpleList>
+              {avatarJsx}
+              {participant.participant_name}
+            </Name>
+            <Points showSimpleList>{participant.points}</Points>
+          </ParticipantRow>
+        </ParticipantItem>
+      )    : (
+        <ParticipantItem isCurrentUser={isCurrentUser}>
+          <ParticipantRow>
+            <Rank>{`#${participant.rank}`}</Rank>
+            <Name>
+              {avatarJsx}
+              {participant.participant_name}
+            </Name>
+            <Points>{participant.points}</Points>
+            <FriendsJoined makeBold={participant.invitees_who_joined > 0}>{participant.invitees_who_joined}</FriendsJoined>
+          </ParticipantRow>
+          <Details>
+            {`${participant.invitees_count} invited, `}
+            {`${participant.invitees_who_viewed} viewed challenge`}
+            {/*
         {' '}
         {`- ${participant.invitees_who_viewed_plus} total views`}
         */}
-      </Details>
-    </ParticipantItem>
+          </Details>
+        </ParticipantItem>
+      )}
+    </>
   );
 };
 ChallengeParticipantListItem.propTypes = {
   isCurrentUser: PropTypes.bool,
   participant: PropTypes.object,
+  showSimpleList: PropTypes.bool,
 };
 
 const ParticipantItem = styled('div', {
@@ -54,29 +70,37 @@ const ParticipantRow = styled.div`
   align-items: center;
 `;
 
-const Rank = styled.div`
-  font-weight: bold;
+const Rank = styled('div', {
+  shouldForwardProp: (prop) => !['showSimpleList'].includes(prop),
+})(({ showSimpleList }) => `
+  font-weight: ${showSimpleList ? 'normal' : 'bold'};
   color: ${DesignTokenColors.neutral900};
   width: 35px; /* Adjust width as needed */
-`;
+`);
 
-const Name = styled.div`
+
+const Name = styled('div', {
+  shouldForwardProp: (prop) => !['showSimpleList'].includes(prop),
+})(({ showSimpleList }) => `
   align-items: center;
-  color: ${DesignTokenColors.neutral900};
   display: flex;
   flex: 1;
-  font-weight: bold;
+  font-weight: ${showSimpleList ? 'normal' : 'bold'};
   gap: 10px;
   margin-left: 10px;
-`;
+`);
 
-const Points = styled.div`
-  color: ${DesignTokenColors.neutral900};
+
+
+const Points = styled('div', {
+  shouldForwardProp: (prop) => !['showSimpleList'].includes(prop),
+})(({ showSimpleList }) => `
   font-size: 14px;
-  font-weight: bold;
+  font-weight: ${showSimpleList ? 'normal' : 'bold'};
   text-align: center;
   width: 80px;
-`;
+`);
+
 
 const FriendsJoined = styled('div', {
   shouldForwardProp: (prop) => !['makeBold'].includes(prop),

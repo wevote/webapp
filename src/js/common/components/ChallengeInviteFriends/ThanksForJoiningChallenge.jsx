@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import Confetti from 'react-confetti';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import YourRank from '../Challenge/YourRank';
+import ChallengeParticipantSimpleListRoot from '../ChallengeParticipantListRoot/ChallengeParticipantSimpleListRoot';
 
 
 const ThanksForJoiningChallenge = ({ voterFirstName, challengeTitle, onClose }) => {
@@ -47,6 +49,9 @@ const ThanksForJoiningChallenge = ({ voterFirstName, challengeTitle, onClose }) 
               </>
             )}
             !
+
+            <YourRank />
+            <ChallengeParticipantSimpleListRoot />
           </ThankYouMessage>
           <CloseMessageIconWrapper>
             <IconButton
