@@ -69,4 +69,4 @@ const Title = styled.h2`
   padding-left: 0;
 `;
 
-export default withStyles(styles)(YourRankModal);
+export default withTheme(withStyles(templateAStyles)(YourRankModal));
