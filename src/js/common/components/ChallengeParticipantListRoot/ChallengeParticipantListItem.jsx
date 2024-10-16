@@ -13,47 +13,39 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleLi
     const { sx, children } = speakerDisplayNameToInitials(participant.participant_name);
     avatarJsx = <Avatar sx={sx}>{children}</Avatar>;
   }
+  console.log(showSimpleList);
   return (
-    <>
-      { showSimpleList ? (
-        <ParticipantItem isCurrentUser={isCurrentUser}>
-          <ParticipantRow>
-            <Rank showSimpleList>{`#${participant.rank}`}</Rank>
-            <Name showSimpleList>
-              {avatarJsx}
-              {participant.participant_name}
-            </Name>
-            <Points showSimpleList>{participant.points}</Points>
-          </ParticipantRow>
-        </ParticipantItem>
-      )    : (
-        <ParticipantItem isCurrentUser={isCurrentUser}>
-          <ParticipantRow>
-            <Rank>{`#${participant.rank}`}</Rank>
-            <Name>
-              {avatarJsx}
-              {participant.participant_name}
-            </Name>
-            <Points>{participant.points}</Points>
-            <FriendsJoined makeBold={participant.invitees_who_joined > 0}>{participant.invitees_who_joined}</FriendsJoined>
-          </ParticipantRow>
-          <Details>
-            {`${participant.invitees_count} invited, `}
-            {`${participant.invitees_who_viewed} viewed challenge`}
-            {/*
+    <ParticipantItem isCurrentUser={isCurrentUser}>
+      <ParticipantRow>
+        <Rank showSimpleList>{`#${participant.rank}`}</Rank>
+        <Name showSimpleList>
+          {avatarJsx}
+          {participant.participant_name}
+        </Name>
+        <Points showSimpleList>{participant.points}</Points>
+        {!showSimpleList && <FriendsJoined makeBold={participant.invitees_who_joined > 0}>{participant.invitees_who_joined}</FriendsJoined>}
+      </ParticipantRow>
+      {!showSimpleList && (
+      <Details>
+        {`${participant.invitees_count} invited, `}
+        {`${participant.invitees_who_viewed} viewed challenge`}
+        {/*
         {' '}
         {`- ${participant.invitees_who_viewed_plus} total views`}
         */}
-          </Details>
-        </ParticipantItem>
+      </Details>
       )}
-    </>
+    </ParticipantItem>
   );
 };
 ChallengeParticipantListItem.propTypes = {
   isCurrentUser: PropTypes.bool,
   participant: PropTypes.object,
   showSimpleList: PropTypes.bool,
+};
+
+ChallengeParticipantListItem.defaultProps = {
+  showSimpleList: false,
 };
 
 const ParticipantItem = styled('div', {

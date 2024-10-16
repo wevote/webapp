@@ -51,7 +51,7 @@ const ThanksForJoiningChallenge = ({ voterFirstName, challengeTitle, onClose }) 
             !
 
             <YourRank />
-            <ChallengeParticipantSimpleListRoot />
+            <ChallengeParticipantSimpleListRoot showSimpleList />
           </ThankYouMessage>
           <CloseMessageIconWrapper>
             <IconButton

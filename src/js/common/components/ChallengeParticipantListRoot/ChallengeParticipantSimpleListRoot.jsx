@@ -1,11 +1,8 @@
 import React, { Suspense, useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Button } from '@mui/material';
 import { withStyles } from '@mui/styles';
-import DesignTokenColors from '../Style/DesignTokenColors';
 import ChallengeParticipantList from './ChallengeParticipantList';
-import SearchBar2024 from '../../../components/Search/SearchBar2024';
 import AppObservableStore, { messageService } from '../../stores/AppObservableStore';
 import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import FirstChallengeParticipantListController from './FirstChallengeParticipantListController';
