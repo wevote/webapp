@@ -17,12 +17,12 @@ import stringContains from '../../common/utils/stringContains';
 import FriendStore from '../../stores/FriendStore';
 import VoterStore from '../../stores/VoterStore';
 import { cordovaFooterHeight } from '../../utils/cordovaOffsets';
-import webAppConfig from '../../config';
+// import webAppConfig from '../../config';
 
 // It's not ideal to have two images, but this is a complex svg, and I couldn't figure out how to change the fill color with a variable
 const capitalBuilding = '/img/global/svg-icons/capital-building.svg';
 const capitalBuildingSelected = '/img/global/svg-icons/capital-building-selected.svg';
-const nextReleaseFeaturesEnabled = webAppConfig.ENABLE_NEXT_RELEASE_FEATURES === undefined ? false : webAppConfig.ENABLE_NEXT_RELEASE_FEATURES;
+// const nextReleaseFeaturesEnabled = webAppConfig.ENABLE_NEXT_RELEASE_FEATURES === undefined ? false : webAppConfig.ENABLE_NEXT_RELEASE_FEATURES;
 
 class FooterBar extends React.Component {
   constructor (props) {
@@ -197,6 +197,7 @@ class FooterBar extends React.Component {
       },
       '& .MuiBottomNavigationAction-label': {
         fontSize: 16,
+        marginBottom: '-4px',
       },
     };
     const groupsIconStyles = {
@@ -214,7 +215,7 @@ class FooterBar extends React.Component {
       },
       '& .MuiBottomNavigationAction-label': {
         fontSize: 16,
-        marginBottom: '4px',
+        marginBottom: '3px',
         marginTop: '-5px',
       },
     };
@@ -224,7 +225,7 @@ class FooterBar extends React.Component {
     let discussVisible;
     let donateVisible;
     const friendsVisible = false; // 2023-09-04 Dale We are turning off Friends footer icon for now
-    const squadsVisible = isWebApp() && nextReleaseFeaturesEnabled;
+    const squadsVisible = isWebApp();
     // const squadsVisible = false;
     // let howItWorksVisible;
     const howItWorksVisible = false;
@@ -271,7 +272,8 @@ class FooterBar extends React.Component {
               showLabel
               sx={defaultIconStyles}
               style={{
-                paddingLeft: '0px',
+                marginLeft: '-4px',
+                paddingLeft: 0,
               }}
             />
             <BottomNavigationAction
@@ -300,7 +302,7 @@ class FooterBar extends React.Component {
               )}
               label="Candidates"
               style={{
-                marginLeft: '2px',
+                marginLeft: '-4px',
               }}
               showLabel
               sx={defaultIconStyles}
@@ -341,7 +343,7 @@ class FooterBar extends React.Component {
                 label="Challenges"
                 showLabel
                 style={{
-                  marginLeft: '8px',
+                  marginLeft: '4px',
                 }}
                 sx={groupsIconStyles}
               />
