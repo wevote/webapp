@@ -11,7 +11,6 @@ import IssueActions from '../../actions/IssueActions';
 import MeasureActions from '../../actions/MeasureActions';
 import OrganizationActions from '../../actions/OrganizationActions';
 import PoliticianActions from '../../common/actions/PoliticianActions';
-import PoliticianCardForList from '../PoliticianListRoot/PoliticianCardForList';
 import VoterGuideActions from '../../actions/VoterGuideActions';
 import apiCalming from '../../common/utils/apiCalming';
 import { hasIPhoneNotch } from '../../common/utils/cordovaUtils';
@@ -35,7 +34,6 @@ import { headroomWrapperOffset } from '../../utils/cordovaCalculatedOffsets';
 import { getPageKey } from '../../utils/cordovaPageUtils';
 import AppObservableStore, { messageService } from '../../common/stores/AppObservableStore';
 import { Candidate, CandidateNameAndPartyWrapper, CandidateNameH4, CandidateParty, CandidateTopRow } from '../Style/BallotStyles';
-import ImageHandler from '../ImageHandler';
 import normalizedImagePath from '../../common/utils/normalizedImagePath';
 import CampaignSupportThermometer from '../../common/components/CampaignSupport/CampaignSupportThermometer';
 // import { handleResize } from '../../common/utils/isMobileScreenSize';
@@ -44,7 +42,8 @@ const CampaignRetrieveController = React.lazy(() => import(/* webpackChunkName: 
 const DelayedLoad = React.lazy(() => import(/* webpackChunkName: 'DelayedLoad' */ '../../common/components/Widgets/DelayedLoad'));
 const IssuesByBallotItemDisplayList = React.lazy(() => import(/* webpackChunkName: 'IssuesByBallotItemDisplayList' */ '../Values/IssuesByBallotItemDisplayList'));
 const MeasureItem = React.lazy(() => import(/* webpackChunkName: 'MeasureItem' */ '../Ballot/MeasureItem'));
-// const PoliticianCardForList = React.lazy(() => import(/* webpackChunkName: 'PoliticianCardForList' */ '../PoliticianListRoot/PoliticianCardForList'));
+const ImageHandler = React.lazy(() => import(/* webpackChunkName: 'ImageHandler' */ '../ImageHandler'));
+const PoliticianCardForList = React.lazy(() => import(/* webpackChunkName: 'PoliticianCardForList' */ '../PoliticianListRoot/PoliticianCardForList'));
 const PositionList = React.lazy(() => import(/* webpackChunkName: 'PositionList' */ '../Ballot/PositionList'));
 const ScoreSummaryListController = React.lazy(() => import(/* webpackChunkName: 'ScoreSummaryListController' */ '../Widgets/ScoreDisplay/ScoreSummaryListController'));
 
@@ -283,8 +282,6 @@ class OrganizationModal extends Component {
     }
   }
 
-
-
   // handleResizeLocal () {
   //   if (handleResize('Footer')) {
   //     // console.log('Footer handleResizeEntry update');
@@ -385,16 +382,16 @@ class OrganizationModal extends Component {
           <DrawerHeaderInnerContainer>
             <CandidateTopRow>
               <Candidate
-                      id={`officeItemCompressedCandidateImageAndName-${politicianWeVoteId}`}
+                id={`organizationModalCandidateImageAndName-${politicianWeVoteId}`}
               >
                 <Suspense fallback={<></>}>
                   <ImageHandler
-                          className={avatarCompressed}
-                          sizeClassName="icon-candidate-small u-push--sm "
-                          imageUrl={politicianImageUrlLarge}
-                          alt=""
-                          kind_of_ballot_item="CANDIDATE"
-                          style={{ backgroundImage: { avatarBackgroundImage } }}
+                    className={avatarCompressed}
+                    sizeClassName="icon-candidate-small u-push--sm "
+                    imageUrl={politicianImageUrlLarge}
+                    alt=""
+                    kind_of_ballot_item="CANDIDATE"
+                    style={{ backgroundImage: { avatarBackgroundImage } }}
                   />
                 </Suspense>
                 <CandidateNameAndPartyWrapper>
@@ -409,11 +406,11 @@ class OrganizationModal extends Component {
               <CloseDrawerHeaderIconWrapper>
                 <div>
                   <IconButton
-                  aria-label="Close"
-                  className={classes.closeButton}
-                  id="closeOrganizationModal"
-                  onClick={this.closeOrganizationModal}
-                  size="large"
+                    aria-label="Close"
+                    className={classes.closeButton}
+                    id="closeOrganizationModal"
+                    onClick={this.closeOrganizationModal}
+                    size="large"
                   >
                     <span className="u-cursor--pointer">
                       <Close classes={{ root: classes.closeIcon }} />
@@ -425,7 +422,7 @@ class OrganizationModal extends Component {
             <HeartToggleAndThermometerWrapper>
               <Suspense fallback={<span>&nbsp;</span>}>
                 <CampaignSupportThermometer
-                        campaignXWeVoteId={linkedCampaignXWeVoteId}
+                  campaignXWeVoteId={linkedCampaignXWeVoteId}
                 />
               </Suspense>
             </HeartToggleAndThermometerWrapper>
@@ -433,12 +430,14 @@ class OrganizationModal extends Component {
         </DrawerHeaderOuterContainer>
         {(isCandidate && !hideBallotItemInfo) && (
           <PoliticianCardForListWrapper>
-            <PoliticianCardForList
-              politicianWeVoteId={politicianWeVoteId}
-              showPoliticianOpenInNewWindow
-              useCampaignSupportThermometer
-              useVerticalCard
-            />
+            <Suspense fallback={<span>&nbsp;</span>}>
+              <PoliticianCardForList
+                politicianWeVoteId={politicianWeVoteId}
+                showPoliticianOpenInNewWindow
+                useCampaignSupportThermometer
+                useVerticalCard
+              />
+            </Suspense>
             <Suspense fallback={<></>}>
               <IssuesByBallotItemDisplayList
                 ballotItemDisplayName={ballotItemDisplayName}

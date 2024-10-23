@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import React, { Suspense, useEffect, useState } from 'react';
-import Confetti from 'react-confetti';
+import { useReward } from 'react-rewards'; // react-rewards is a library for rewarding users with confetti
 import styled from 'styled-components';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import arrow from '../../../../img/global/icons/ph_arrow-up-bold.png';
@@ -19,7 +19,23 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
   const [arrowImage, setArrowImage] = useState(arrow);
   const [openYourRankModal, setOpenYourRankModal] = useState(false);
   const [rankOfVoter, setRankOfVoter] = React.useState(0);
-  const [showConfetti, setShowConfetti] = useState(false);
+
+  const { reward: triggerConfetti } = useReward('confettiReward', 'confetti', {
+    elementCount: 50, // Number of confetti pieces
+    spread: 80, // How far the confetti spreads
+    elementSize: 8, // Size of the confetti
+    zIndex: 10, // Z-index of the canvas
+    springAnimation: true, // Should the confetti fall like spring animation
+    colors: [
+      DesignTokenColors.primary600, // Blue
+      DesignTokenColors.caution800, // Yellow
+      DesignTokenColors.confirmation700, // Green
+      DesignTokenColors.accent500, // Orange
+    ], // Colors of the confetti
+    startVelocity: 20, // Higher velocity for a higher explosion
+    decay: 0.9, // How quickly confetti falls back
+    angle: 90, // Confetti moves straight up
+  });
 
   const onAppObservableStoreChange = () => {
     setRankOfVoter(AppObservableStore.getChallengeParticipantRankOfVoterByChallengeWeVoteId(challengeWeVoteId));
@@ -35,6 +51,8 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
       const newPoints = prevPoints + 1;
       setClicked(true);
       setArrowImage(arrow1);
+
+      // triggerConfetti(); // Show confetti when the button is clicked (uncomment this line to show confetti when the button rank is clicked)
 
       setTimeout(() => {
         setClicked(false);
@@ -60,10 +78,9 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
 
   useEffect(() => {
     // Show confetti when the component mounts
-    setShowConfetti(true);
+    triggerConfetti();
     // Hide confetti after a short duration
     const timer = setTimeout(() => {
-      setShowConfetti(false);
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -72,14 +89,16 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
     <YourRankOuterWrapper>
       <YourRankInnerWrapper>
         <YourRankText>
-          {showConfetti && <Confetti />}
           Your rank in the challenge:
         </YourRankText>
         <YourRankButtonWrapper clicked={clicked}>
           <Button
+            id="confettiReward"
             onClick={handleClick}
             classes={{ root: classes.buttonDesktop }}
-            style={{ color: clicked ? '#FFFFFF' : '#AC5204' }}
+            style={{
+              backgroundColor: clicked ? '#AC5204' : 'white',
+              color: clicked ? '#FFFFFF' : '#AC5204' }}
           >
             #
             {rankOfVoter}
@@ -87,6 +106,9 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
             <span className="arrow">
               <img src={arrowImage} alt="arrow" />
             </span>
+            <StyledArrowContainer>
+              <ArrowImg src={arrowImage} alt="arrow"/>
+            </StyledArrowContainer>
           </Button>
         </YourRankButtonWrapper>
       </YourRankInnerWrapper>
@@ -135,15 +157,6 @@ const styles = (theme) => ({
       textDecoration: 'underline',
     },
   },
-  arrow: {
-    width: '10.5px',
-    height: '12.5px',
-    top: '2.75px',
-    left: '14.25px',
-    gap: '0px',
-    opacity: '0px',
-    angle: '-90 deg',
-  },
 });
 
 const YourRankInnerWrapper = styled('div')`
@@ -160,21 +173,40 @@ const YourRankOuterWrapper = styled('div')`
 
 const YourRankButtonWrapper = styled('div')`
   background-color: ${(props) => (props.clicked ? '#AC5204' : '#FFFFFF')};
+const YourRankButtonWrapper = styled('div', {
+  shouldForwardProp: (prop) => !['clicked'].includes(prop),
+})(({ clicked }) => `
+  background-color: ${clicked ? DesignTokenColors.orange500 : DesignTokenColors.white};
   width: 105px;
   height: 34px;
-  //top: 443px;
-  //left: 234px;
-  gap: 0px;
+  // top: 443px;
+  // left: 234px;
+  gap: 0;
   border-radius: 20px;
   border: 1px solid #AC5204;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease, color 0.3s ease;
-`;
+`);
 
 const YourRankText = styled('div')`
   margin-right: 10px;
+`;
+
+const StyledArrowContainer = styled('div')`
+  width: '10.5px',
+  height: '12.5px',
+  top: '2.75px',
+  left: '14.25px',
+  gap: 0,
+  opacity: 0,
+  angle: '-90 deg',
+`;
+
+const ArrowImg = styled('img')`
+  width: 10.5px;
+  height: 12.5px;
 `;
 
 export default withStyles(styles)(YourRank);
