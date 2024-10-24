@@ -188,6 +188,7 @@ class ChallengeInviteCustomizeMessage extends Component {
           <ThanksForJoiningChallenge
             voterFirstName={VoterStore.getFirstName()}
             challengeTitle={challengeTitle}
+            challengeWeVoteId={challengeWeVoteId}
             onClose={() => AppObservableStore.setShowChallengeThanksForJoining(false)}
           />
         )}
