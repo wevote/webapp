@@ -11,7 +11,7 @@ import { renderLog } from '../../common/utils/logging';
 import normalizedImagePath from '../../common/utils/normalizedImagePath';
 import TeamMemberDisplayForList from '../../components/More/TeamMemberDisplayForList';
 import ShowMoreButtons from '../../components/Widgets/ShowMoreButtons';
-import { Title, Video, PlayerContainer } from '../../components/Welcome/headerWelcomeStyles';
+import { Title } from '../../components/Welcome/headerWelcomeStyles';
 import { Bold, DescriptionContainer, MemberListContainer, Section, SectionTitle } from '../../components/Welcome/sectionStyles';
 import VoterStore from '../../stores/VoterStore';
 import cordovaScrollablePaneTopPadding from '../../utils/cordovaScrollablePaneTopPadding';
@@ -116,13 +116,6 @@ class About extends Component {
             </DescriptionImageColumn>
           </DescriptionContainer>
         </Section>
-        <PlayerContainer>
-          <Video
-            src="https://player.vimeo.com/video/1023325204"
-            frameBorder="0"
-            allow="fullscreen"
-          />
-        </PlayerContainer>
         <Section noTopMargin>
           <SectionTitle>
             Our Vision
