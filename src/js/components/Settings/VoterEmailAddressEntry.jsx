@@ -23,7 +23,7 @@ import { validateEmail } from '../../utils/regex-checks';
 const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenExternalWebSite' */ '../../common/components/Widgets/OpenExternalWebSite'));
 
 /* global $ */
-
+let shiftTabKeyPressed = false
 class VoterEmailAddressEntry extends Component {
   constructor (props) {
     super(props);
@@ -242,9 +242,11 @@ class VoterEmailAddressEntry extends Component {
       this.setState({
         displayEmailVerificationButton: false,
       });
-      const TermsOfServiceLink = document.getElementById('openTermsOfService');
-      if (TermsOfServiceLink) {
-        TermsOfServiceLink.focus();
+      if(!shiftTabKeyPressed){
+        const TermsOfServiceLink = document.getElementById("openTermsOfService");
+        if (TermsOfServiceLink) {
+          TermsOfServiceLink.focus(); 
+        }
       }
       blurTextFieldAndroid();
     }
@@ -308,6 +310,11 @@ class VoterEmailAddressEntry extends Component {
     const ENTER_KEY_CODE = 13;
     const SPACE_KEY_CODE = 32;
     const keyCodesToBlock = [ENTER_KEY_CODE, SPACE_KEY_CODE];
+    if (event.key === "Tab" && event.shiftKey) {
+      shiftTabKeyPressed = true;
+    } else {
+      shiftTabKeyPressed = false;
+    }
     if (keyCodesToBlock.includes(event.keyCode)) {
       event.preventDefault();
     }

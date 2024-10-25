@@ -29,7 +29,7 @@ const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenEx
 
 
 /* global $ */
-
+let shiftTabKeyPressed = false
 class VoterPhoneVerificationEntry extends Component {
   constructor (props) {
     super(props);
@@ -280,9 +280,23 @@ class VoterPhoneVerificationEntry extends Component {
       this.setState({
         displayPhoneVerificationButton: false,
       });
-      const nextField = document.getElementById("enterVoterEmailAddress") || document.getElementById("openTermsOfService");    
-      if (nextField) {
-        nextField.focus();
+      if(!shiftTabKeyPressed){
+        if (isMobileScreenSize()) {
+          if (this.props.showEmailOnlySignIn) {
+            this.props.showEmailOnlySignIn();
+            setTimeout(() => {
+              const nextField = document.getElementById("enterVoterEmailAddress");   
+              if (nextField) {
+                nextField.focus();
+              }
+            }, 100);
+          }
+        } else {  
+            const nextField = document.getElementById("enterVoterEmailAddress") || document.getElementById("openTermsOfService");    
+            if (nextField) {
+              nextField.focus();
+            }
+        }
       }
     }
     blurTextFieldAndroid();
@@ -314,6 +328,12 @@ class VoterPhoneVerificationEntry extends Component {
     } else if (isMobileScreenSize()) {
       if (this.props.showEmailOnlySignIn) {
         this.props.showEmailOnlySignIn();
+        setTimeout(() => {
+          const nextField = document.getElementById("enterVoterEmailAddress");   
+          if (nextField) {
+            nextField.focus();
+          }
+        }, 100);
       }
     } else {
       const nextField = document.getElementById("enterVoterEmailAddress") || document.getElementById("openTermsOfService");    
@@ -321,7 +341,6 @@ class VoterPhoneVerificationEntry extends Component {
         nextField.focus();
       }
     }
-
   };
 
   onFocus = () => {
@@ -360,6 +379,11 @@ class VoterPhoneVerificationEntry extends Component {
     const SPACE_KEY_CODE = 32;
     const keyCodesToBlock = [SPACE_KEY_CODE];
     const keyCodesForSubmit = [ENTER_KEY_CODE];
+    if (event.key === "Tab" && event.shiftKey) {
+      shiftTabKeyPressed = true;
+    } else {
+      shiftTabKeyPressed = false;
+    }
     if (keyCodesToBlock.includes(event.keyCode)) {
       event.preventDefault();
     } else if (keyCodesForSubmit.includes(event.keyCode)) {
@@ -428,7 +452,7 @@ class VoterPhoneVerificationEntry extends Component {
       smsPhoneNumberStatus, smsPhoneNumberList, smsPhoneNumberListCount, voterSMSPhoneNumber,
     } = this.state;
     // console.log('VoterPhoneVerificationEntry render showVerifyModal:', showVerifyModal);
-
+    
     const signInLinkOrCodeSent = (smsPhoneNumberStatus.link_to_sign_in_sms_sent || smsPhoneNumberStatus.sign_in_code_sms_sent);
     const smsPhoneNumberStatusHtml = (
       <span>
