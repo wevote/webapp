@@ -5,6 +5,7 @@ import { isCordova, isWebApp } from '../utils/isCordovaOrWebApp';
 import { renderLog } from '../utils/logging';
 import ToolBar from './Widgets/ToolBar';
 import webAppConfig from '../../config';
+import { Title, Video, PlayerContainer } from '../../components/Welcome/headerWelcomeStyles';
 
 
 const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenExternalWebSite' */ './Widgets/OpenExternalWebSite'));
@@ -64,7 +65,13 @@ export default class FAQBody extends Component {
         .
         <br />
         <br />
-
+        <PlayerContainer>
+          <Video
+            src="https://player.vimeo.com/video/1023325204"
+            frameBorder="0"
+            allow="fullscreen"
+          />
+        </PlayerContainer>
         <strong>Who&apos;s behind WeVote?</strong>
         <br />
         WeVote is a collaboration between two nonprofits
