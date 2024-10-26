@@ -44,6 +44,7 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
   const onChallengeParticipantStoreChange = () => {
     const sortedParticipantsWithRank = ChallengeParticipantStore.getChallengeParticipantList(challengeWeVoteId);
     setParticipantsCount(sortedParticipantsWithRank.length);
+    setRankOfVoter(AppObservableStore.getChallengeParticipantRankOfVoterByChallengeWeVoteId(challengeWeVoteId));
   };
 
   const handleClick = () => {
@@ -186,18 +187,16 @@ const YourRankText = styled('div')`
 `;
 
 const StyledArrowContainer = styled('div')`
-  angle: -90deg,
-  gap: 0,
-  height: 12.5px,
-  left: 14.25px,
-  opacity: 0,
-  top: 2.75px,
-  width: 10.5px,
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-left: 5px;
 `;
 
 const ArrowImg = styled('img')`
-  height: 12.5px;
-  width: 10.5px;
+  height: 12px;
+  margin-top: -2px;
+  width: 10px;
 `;
 
 export default withStyles(styles)(YourRank);
