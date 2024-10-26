@@ -69,7 +69,7 @@ export const PlayerContainer = styled('div')(({ theme }) => (`
   max-height: calc(80vw * 0.5625);
   position: relative;
   background-color: black;
-  margin: 2em auto;
+  margin: 1em auto;
   -webkit-box-shadow: 0px 3px 15px 2px rgba(0,0,0,.3);
   -moz-box-shadow: 0px 3px 15px 2px rgba(0,0,0,.3);
   box-shadow: 0px 3px 15px 2px rgba(0,0,0,.3);
