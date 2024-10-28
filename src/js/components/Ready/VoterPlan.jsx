@@ -56,7 +56,7 @@ class VoterPlan extends Component {
 
     const googleCivicElectionId = VoterStore.electionId();
     const savedVoterPlan = ReadyStore.getVoterPlanForVoterByElectionId(googleCivicElectionId);
-    console.log('componentDidMount savedVoterPlan: ', savedVoterPlan);
+    // console.log('componentDidMount savedVoterPlan: ', savedVoterPlan);
     let savedVoterPlanFound = false;
     if (savedVoterPlan.google_civic_election_id === undefined) {
       ReadyActions.voterPlansForVoterRetrieve();

@@ -5,6 +5,7 @@ import { isCordova, isWebApp } from '../utils/isCordovaOrWebApp';
 import { renderLog } from '../utils/logging';
 import ToolBar from './Widgets/ToolBar';
 import webAppConfig from '../../config';
+import { Video, PlayerContainer } from '../../components/Welcome/headerWelcomeStyles';
 
 
 const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenExternalWebSite' */ './Widgets/OpenExternalWebSite'));
@@ -33,7 +34,8 @@ export default class FAQBody extends Component {
         <br />
         <strong>What is WeVote?</strong>
         <br />
-        WeVote is a nonprofit technology startup, creating a digital voter guide informed by
+        WeVote is a nonprofit technology startup, creating a digital voter guide
+        informed by
         {' '}
         <Suspense fallback={<></>}>
           <OpenExternalWebSite
@@ -43,13 +45,15 @@ export default class FAQBody extends Component {
             body="issues you care about"
           />
         </Suspense>
-        , and people you trust. Through our nonpartisan, open source platform, we&apos;ll help you become a better voter, up and down the ballot.
+        , and people you trust. Through our nonpartisan, open source platform,
+        we&apos;ll help you become a better voter, up and down the ballot.
         <br />
         <br />
 
         <strong>How does WeVote help voters?</strong>
         <br />
-        WeVote is where you view your ballot, see endorsements from your network for all
+        WeVote is where you view your ballot, see endorsements from your network
+        for all
         candidates and measures, and collaborate with
         folks who share your
         {' '}
@@ -63,8 +67,14 @@ export default class FAQBody extends Component {
         </Suspense>
         .
         <br />
+        <PlayerContainer>
+          <Video
+            src="https://player.vimeo.com/video/1023325204"
+            frameBorder="0"
+            allow="fullscreen"
+          />
+        </PlayerContainer>
         <br />
-
         <strong>Who&apos;s behind WeVote?</strong>
         <br />
         WeVote is a collaboration between two nonprofits
@@ -96,14 +106,15 @@ export default class FAQBody extends Component {
             - 501(c)(4) FEIN 81-1052585,&nbsp;
           </>
         )}
-        both based in Oakland, CA. We do not support or oppose any political candidate or party.
+        both based in Oakland, CA. We do not support or oppose any political
+        candidate or party.
         We are not affiliated with WeVoteProject.org or WeVoteUSA.com.
         <br />
         <br />
 
         <strong>No really, who are you?</strong>
         <br />
-        We are volunteers from across the country, in over 22 states. See our
+        We are volunteers from across the country, in over 32 states. See our
         {' '}
         <Suspense fallback={<></>}>
           <OpenExternalWebSite
@@ -113,8 +124,10 @@ export default class FAQBody extends Component {
             body="volunteer openings here"
           />
         </Suspense>
-        , and join us! We use our engineering, design, marketing, and other skills to build
-        WeVote. We are over 400 people (60+ active) who have donated 20,000+ volunteer hours, including
+        , and join us! We use our engineering, design, marketing, and other
+        skills to build
+        WeVote. We are over 900 people (120+ active every week) who have donated 75,000+
+        volunteer hours, including
         {' '}
         <Suspense fallback={<></>}>
           <OpenExternalWebSite
@@ -163,7 +176,8 @@ export default class FAQBody extends Component {
 
         <strong>How does WeVote work?</strong>
         <br />
-        Follow people and groups you trust to get info on candidates and ballot measures. Ask your friends
+        Follow people and groups you trust to get info on candidates and ballot
+        measures. Ask your friends
         what they think. Then take WeVote with you to
         the polls for an easy-to-use cheat sheet.
         <br />
@@ -219,7 +233,8 @@ export default class FAQBody extends Component {
 
         <strong>How does WeVote help nonprofits?</strong>
         <br />
-        We provide a free place where organizations can share and promote their voter guides, including
+        We provide a free place where organizations can share and promote their
+        voter guides, including
         endorsements of candidates and
         ballot measures, and connect to constituents.
         <br />
@@ -227,8 +242,10 @@ export default class FAQBody extends Component {
 
         <strong>Will you sell my email address?</strong>
         <br />
-        Not a chance. WeVote will not sell your email address or any other individually identifiable information.
-        (We don&apos;t want our email addresses sold either!) We may sell aggregated data.
+        Not a chance. WeVote will not sell your email address or any other
+        individually identifiable information.
+        (We don&apos;t want our email addresses sold either!) We may sell
+        aggregated data.
         <br />
         <br />
 
@@ -240,7 +257,9 @@ export default class FAQBody extends Component {
           <>
             If you like WeVote,
             {' '}
-            <Link to="/donate" className="u-cursor--pointer u-link-color">please donate monthly</Link>
+            <Link to="/donate" className="u-cursor--pointer u-link-color">
+              please donate monthly
+            </Link>
             {' '}
             so we can help more voters.
           </>
@@ -250,21 +269,26 @@ export default class FAQBody extends Component {
 
         <strong>How do you make money?</strong>
         <br />
-        Like most nonprofits, we take in donations from individuals and foundations.
+        Like most nonprofits, we take in donations from individuals and
+        foundations.
         <br />
         <br />
 
         <strong>How will you use my donation?</strong>
         <br />
-        Expenses include server costs ($600 - $2,500 per month), data fees (~$40,000 per year), collaboration tools and other hard costs.
-        In the future, we might hire some key staff with donations, for the smooth operation of WeVote.
+        Expenses include server costs ($600 - $2,500 per month), data fees
+        (~$40,000 per year), collaboration tools and other hard costs.
+        In the future, we might hire some key staff with donations, for the
+        smooth operation of WeVote.
         <br />
         <br />
 
         <strong>How will you handle trolls?</strong>
         <br />
-        Unless your name is J.R.R. Tolkien, we know how much you hate trolls. That&apos;s why on WeVote you mainly hear from
-        people and organizations that you Friend or Follow. WeVote reduces the noise from people with radically
+        Unless your name is J.R.R. Tolkien, we know how much you hate trolls.
+        That&apos;s why on WeVote you mainly hear from
+        people and organizations that you Friend or Follow. WeVote reduces the
+        noise from people with radically
         different
         {' '}
         <Suspense fallback={<></>}>
@@ -282,7 +306,8 @@ export default class FAQBody extends Component {
         <strong>What&apos;s next for WeVote?</strong>
         <br />
         Better tools to let organizations promote their voter guides and
-        poll their members. Tools to let candidates ask for help from their supporters.
+        poll their members. Tools to let candidates ask for help from their
+        supporters.
         <br />
         <br />
 
@@ -302,11 +327,15 @@ export default class FAQBody extends Component {
         {' '}
         and
         {' '}
-        <Link to="/donate" className="u-cursor--pointer u-link-color">donate $5 monthly</Link>
+        <Link to="/donate" className="u-cursor--pointer u-link-color">
+          donate $5 monthly
+        </Link>
         .
         <br />
         <br />
-        <Link to="/" className="u-cursor--pointer u-link-color">Let&apos;s get started!</Link>
+        <Link to="/" className="u-cursor--pointer u-link-color">
+          Let&apos;s get started!
+        </Link>
         <br />
         <br />
         <br />

@@ -6,7 +6,6 @@ import React, { Component, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
 import VoterActions from '../../../actions/VoterActions';
-import webAppConfig from '../../../config';
 import VoterStore from '../../../stores/VoterStore';
 import ChallengeParticipantActions from '../../actions/ChallengeParticipantActions';
 import ChallengeHeaderSimple from '../../components/Navigation/ChallengeHeaderSimple';
@@ -17,11 +16,9 @@ import {
 } from '../../components/Style/CampaignDetailsStyles';
 import DesignTokenColors from '../../components/Style/DesignTokenColors';
 import { CampaignSupportSection, CampaignSupportSectionWrapper } from '../../components/Style/CampaignSupportStyles';
-import commonMuiStyles from '../../components/Style/commonMuiStyles';
 import { ContentInnerWrapperDefault, ContentOuterWrapperDefault, PageWrapperDefault } from '../../components/Style/PageWrapperStyles';
 import AppObservableStore, { messageService } from '../../stores/AppObservableStore';
 import ChallengeStore from '../../stores/ChallengeStore';
-// import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import { getChallengeValuesFromIdentifiers, retrieveChallengeFromIdentifiersIfNeeded } from '../../utils/challengeUtils';
 import historyPush from '../../utils/historyPush';
 import initializejQuery from '../../utils/initializejQuery';
@@ -150,13 +147,22 @@ class ChallengeInviteFriendsJoin extends Component {
         challengeSEOFriendlyPath: challengeSEOFriendlyPathFromParams,
       });
     }
+    let challengeWeVoteIdToUse = null;
     if (challengeWeVoteId) {
       this.setState({
         challengeWeVoteId,
       });
+      challengeWeVoteIdToUse = challengeWeVoteId;
     } else if (challengeWeVoteIdFromParams) {
       this.setState({
         challengeWeVoteId: challengeWeVoteIdFromParams,
+      });
+      challengeWeVoteIdToUse = challengeWeVoteIdFromParams;
+    }
+    if (challengeWeVoteIdToUse) {
+      const voterIsChallengeParticipant = ChallengeStore.getVoterIsChallengeParticipant(challengeWeVoteIdToUse);
+      this.setState({
+        voterIsChallengeParticipant,
       });
     }
   }
@@ -197,6 +203,10 @@ class ChallengeInviteFriendsJoin extends Component {
     historyPush(this.getChallengeBasePath());
   }
 
+  goToChallengeLeaderboard = () => {
+    historyPush(`${this.getChallengeBasePath()}leaderboard`);
+  }
+
   joinChallengeNowSubmit = () => {
     // The function to save the voter plan is in the VoterPlan component because that's where the latest data is.
     // We pass this triggerVotingPlanSave into that component to make the save.
@@ -207,7 +217,7 @@ class ChallengeInviteFriendsJoin extends Component {
   }
 
   joinChallengeNowSubmitPart2 = () => {
-    const { challengeInviteTextDefault, challengeWeVoteId } = this.state;
+    const { challengeInviteTextDefault, challengeWeVoteId, voterIsChallengeParticipant } = this.state;
     // console.log('ChallengeInviteFriendsJoin, joinChallengeNowSubmitPart2, challengeWeVoteId:', challengeWeVoteId);
     if (challengeWeVoteId) {
       // const participantEndorsementQueuedToSave = ChallengeParticipantStore.getSupporterEndorsementQueuedToSave();
@@ -241,7 +251,11 @@ class ChallengeInviteFriendsJoin extends Component {
 
       // If all the necessary data has been saved, proceed to the next step
       // console.log(`ChallengeInviteFriendsJoin, joinChallengeNowSubmitPart2, redirect to ${this.getChallengeBasePath()}customize-message`);
-      historyPush(`${this.getChallengeBasePath()}customize-message`);
+      if (voterIsChallengeParticipant) {
+        historyPush(`${this.getChallengeBasePath()}invite-friends`);
+      } else {
+        historyPush(`${this.getChallengeBasePath()}customize-message`);
+      }
     }
   }
 
@@ -251,7 +265,7 @@ class ChallengeInviteFriendsJoin extends Component {
     const {
       challengePhotoLargeUrl, challengeSEOFriendlyPath, challengeTitle,
       challengeWeVoteId, chosenWebsiteName,
-      triggerVotingPlanSave,
+      triggerVotingPlanSave, voterIsChallengeParticipant,
     } = this.state;
     const htmlTitle = `Join now: ${challengeTitle}? - ${chosenWebsiteName}`;
     const pigsCanFly = false;
@@ -270,9 +284,15 @@ class ChallengeInviteFriendsJoin extends Component {
           politicianBasePath={this.getPoliticianBasePath()}
         />
         <ChallengeH1Wrapper>
-          <ChallengeH1>
-            To join this challenge, share when you will cast your vote &mdash; then ask your friends to join.
-          </ChallengeH1>
+          {voterIsChallengeParticipant ? (
+            <ChallengeH1>
+              Please verify your plan and information.
+            </ChallengeH1>
+          ) : (
+            <ChallengeH1>
+              To join this challenge, share when you will cast your vote &mdash; then ask your friends to join.
+            </ChallengeH1>
+          )}
         </ChallengeH1Wrapper>
         <PageWrapperDefault>
           <ContentOuterWrapperDefault>
@@ -331,13 +351,13 @@ class ChallengeInviteFriendsJoin extends Component {
             <CenteredDiv>
               <StackedDiv>
                 <Button
-                  // classes={{ root: classes.buttonDesktop }}
+                  classes={{ root: classes.buttonDesktop }}
                   color="primary"
                   id="joinChallengeNow"
                   onClick={this.joinChallengeNowSubmit}
                   variant="contained"
                 >
-                  Join Challenge now
+                  {voterIsChallengeParticipant ? 'Next' : 'Join Challenge now'}
                 </Button>
               </StackedDiv>
             </CenteredDiv>
@@ -359,6 +379,14 @@ ChallengeInviteFriendsJoin.propTypes = {
   setShowHeaderFooter: PropTypes.func,
 };
 
+const styles = () => ({
+  buttonDesktop: {
+    borderRadius: 45,
+    maxWidth: '450px',
+    minWidth: '300px',
+    width: '100%',
+  },
+});
 
 const CenteredDiv = styled('div')`
   display: flex;
@@ -402,4 +430,4 @@ const StackedDiv = styled('div')`
   max-width: 620px;
 `;
 
-export default withStyles(commonMuiStyles)(ChallengeInviteFriendsJoin);
+export default withStyles(styles)(ChallengeInviteFriendsJoin);
