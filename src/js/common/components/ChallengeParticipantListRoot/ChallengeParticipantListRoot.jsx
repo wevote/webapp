@@ -141,6 +141,7 @@ const ChallengeParticipantListRoot = ({ challengeWeVoteId, classes, uniqueExtern
         </LeaderboardTableHeader>
       </TopSection>
       <ChallengeParticipantList
+        challengeWeVoteId={challengeWeVoteId}
         participantList={participantList}
         // participantList={participantListDummyData}
         uniqueExternalId={uniqueExternalId}

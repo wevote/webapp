@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ChallengeParticipantListItem from './ChallengeParticipantListItem';
 import VoterStore from '../../../stores/VoterStore';
 
-const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
+const ChallengeParticipantList = ({ challengeWeVoteId, participantList, uniqueExternalId }) => {
   const [voterWeVoteID, setVoterWeVoteID] = React.useState('');
 
   const handleVoterStoreChange = () => {
@@ -26,6 +26,7 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
     <LeaderboardListContainer>
       {participantList.map((participant) => (
         <ChallengeParticipantListItem
+          challengeWeVoteId={challengeWeVoteId}
           key={`participantKey-${participant.voter_we_vote_id}-${uniqueExternalId}`}
           participant={participant}
           isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
@@ -35,6 +36,7 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId }) => {
   );
 };
 ChallengeParticipantList.propTypes = {
+  challengeWeVoteId: PropTypes.string,
   participantList: PropTypes.array,
   uniqueExternalId: PropTypes.string,
 };
