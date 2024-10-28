@@ -1,11 +1,13 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import speakerDisplayNameToInitials from '../../utils/speakerDisplayNameToInitials';
+import { getChallengeValuesFromIdentifiers } from '../../utils/challengeUtils';
 
-const ChallengeParticipantListItem = ({ participant, isCurrentUser }) => {
+const ChallengeParticipantListItem = ({ challengeWeVoteId, participant, isCurrentUser }) => {
   let avatarJsx;
   if (participant && participant.we_vote_hosted_profile_image_url_medium) {
     avatarJsx = <AvatarStyled src={participant.we_vote_hosted_profile_image_url_medium} alt={participant.participant_name} />;
@@ -13,6 +15,20 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser }) => {
     const { sx, children } = speakerDisplayNameToInitials(participant.participant_name);
     avatarJsx = <AvatarStyled sx={sx}>{children}</AvatarStyled>;
   }
+
+  function getChallengeBasePath () {
+    const {
+      challengeSEOFriendlyPath,
+    } = getChallengeValuesFromIdentifiers('', challengeWeVoteId);
+    let challengeBasePath;
+    if (challengeSEOFriendlyPath) {
+      challengeBasePath = `/${challengeSEOFriendlyPath}/+/`;
+    } else {
+      challengeBasePath = `/+/${challengeWeVoteId}/`;
+    }
+    return challengeBasePath;
+  }
+
   return (
     <ParticipantItem isCurrentUser={isCurrentUser}>
       <ParticipantRow>
@@ -34,11 +50,24 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser }) => {
             {`- ${participant.invitees_who_viewed_plus} total views`}
           </>
         )}
+        {(isCurrentUser && challengeWeVoteId) && (
+          <>
+            {' '}
+            <Link
+              className="u-link-color u-link-underline"
+              id="boostYourScore"
+              to={`${getChallengeBasePath()}invite-friends`}
+            >
+              boost your score
+            </Link>
+          </>
+        )}
       </Details>
     </ParticipantItem>
   );
 };
 ChallengeParticipantListItem.propTypes = {
+  challengeWeVoteId: PropTypes.string,
   isCurrentUser: PropTypes.bool,
   participant: PropTypes.object,
 };
