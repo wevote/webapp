@@ -455,9 +455,6 @@ export default class SignInOptionsPanel extends Component {
                     </span>
                   )}
                 </div>
-
-
-
                 <div className="u-stack--md" style={isAndroid() ? { paddingBottom: '10px', paddingTop: '10px' } : {}}>
                   { !hideFacebookSignInButton && !voterIsSignedInFacebook && isOnFacebookSupportedDomainUrl && webAppConfig.ENABLE_FACEBOOK && (
                     <span>

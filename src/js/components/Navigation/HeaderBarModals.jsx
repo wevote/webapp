@@ -299,7 +299,6 @@ class HeaderBarModals extends Component {
       signInModalHtml = (
         <Suspense fallback={<></>}>
           <SignInModal
-id="SignInOrJoin"
             signInTitle="Sign In or Join"
             signInSubTitle=""
             toggleOnClose={this.closeSignInModal}

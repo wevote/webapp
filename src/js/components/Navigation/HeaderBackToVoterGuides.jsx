@@ -363,7 +363,6 @@ class HeaderBackToVoterGuides extends Component {
         {showSignInModal && (
           <Suspense fallback={<></>}>
             <SignInModal
-
               signInTitle="Sign In or Join"
               signInSubTitle=""
               toggleOnClose={this.closeSignInModal}

@@ -12,7 +12,6 @@ export default function SignInButton (props) {
 
   return (
     <StyledButton
-    id="SignIn"
       className="header-sign-in"
       color="primary"
       onClick={props.toggleSignInModal}
