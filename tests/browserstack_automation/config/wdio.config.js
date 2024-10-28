@@ -46,6 +46,8 @@ module.exports.config = {
     '../specs/TopicsPage.js',
     '../specs/HowItWorks.js',
     '../specs/SignInPage.js',
+   // '../specs/SignInPage.js',
+
 
   ],
 
