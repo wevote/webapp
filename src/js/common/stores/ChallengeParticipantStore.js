@@ -11,7 +11,6 @@ const orderByPoints = (firstEntry, secondEntry) => secondEntry.points - firstEnt
 class ChallengeParticipantStore extends ReduceStore {
   getInitialState () {
     return {
-      // TODO: Not quite right
       allCachedChallengeParticipants: {}, // Dictionary with ChallengeParticipant simple id as key and the ChallengeParticipant as value
       allCachedChallengeParticipantVoterEntries: {}, // Dictionary with challenge_we_vote_id and voter_we_vote_id as keys and the ChallengeParticipant for this voter as value
       allChallengeParticipantLists: {}, // Dict with key challenge_we_vote_id and value of List of Dicts w/ challenge_participant entries, ordered highest rank to lowest
@@ -140,6 +139,20 @@ class ChallengeParticipantStore extends ReduceStore {
     return challengeParticipantGenericList;
   }
 
+  updateVoterRankFromChallengeParticipantList (challengeWeVoteId, challengeParticipantList) {
+    // console.log('updateVoterRankFromChallengeParticipantList, challengeWeVoteId:', challengeWeVoteId, 'challengeParticipantList:', challengeParticipantList);
+    if (challengeWeVoteId && challengeParticipantList) {
+      challengeParticipantList.forEach((participant, index) => {
+        if (index === 0) {
+          AppObservableStore.setChallengeParticipantNameWithHighestRank(challengeWeVoteId, participant.participant_name);
+        }
+        if (VoterStore.getVoterWeVoteId() && participant.voter_we_vote_id === VoterStore.getVoterWeVoteId()) {
+          AppObservableStore.setChallengeParticipantRankOfVoter(challengeWeVoteId, participant.rank);
+        }
+      });
+    }
+  }
+
   reduce (state, action) {
     const {
       allCachedChallengeParticipants, allCachedChallengeParticipantVoterEntries,
@@ -206,14 +219,7 @@ class ChallengeParticipantStore extends ReduceStore {
         challengeParticipantListModified = challengeParticipantListModified.sort(orderByDateJoined);
         challengeParticipantListModified = challengeParticipantListModified.sort(orderByPoints);
         challengeParticipantListModified = challengeParticipantListModified.map((participant, index) => ({ ...participant, rank: index + 1 }));
-        challengeParticipantListModified.forEach((participant, index) => {
-          if (index === 0) {
-            AppObservableStore.setChallengeParticipantNameWithHighestRank(action.res.challenge_we_vote_id, participant.participant_name);
-          }
-          if (VoterStore.getVoterWeVoteId() && participant.voter_we_vote_id === VoterStore.getVoterWeVoteId()) {
-            AppObservableStore.setChallengeParticipantRankOfVoter(action.res.challenge_we_vote_id, participant.rank);
-          }
-        });
+        this.updateVoterRankFromChallengeParticipantList(action.res.challenge_we_vote_id, challengeParticipantListModified);
         challengeParticipantList = challengeParticipantListModified;
         // console.log('challengeParticipantListRetrieve challenge_participant_list:', challengeParticipantList);
         allChallengeParticipantLists[action.res.challenge_we_vote_id] = challengeParticipantList;
@@ -260,13 +266,22 @@ class ChallengeParticipantStore extends ReduceStore {
 
       case 'challengeParticipantRetrieve':
       case 'challengeParticipantSave':
-        // console.log('ChallengeParticipantStore challengeParticipantSave');
+        // console.log('ChallengeParticipantStore challengeParticipantSave, action.res:', action.res);
         if (action.res.challenge_we_vote_id && action.res.success) {
           allCachedChallengeParticipantVoterEntries[action.res.challenge_we_vote_id] = action.res;
+          // console.log('challengeParticipantSave latestChallengeParticipants before:', latestChallengeParticipants);
+          latestChallengeParticipants = this.updateChallengeParticipantGenericList(latestChallengeParticipants, action.res);
+          // console.log('challengeParticipantSave latestChallengeParticipants after:', latestChallengeParticipants);
+
+          // Make sure we update the voter rank for this challenge
+          challengeParticipantList = this.getChallengeParticipantList(action.res.challenge_we_vote_id);
+          if (VoterStore.getVoterWeVoteId() && challengeParticipantList.length > 0) {
+            this.updateVoterRankFromChallengeParticipantList(action.res.challenge_we_vote_id, challengeParticipantList);
+          }
+        } else {
+          // console.log('ChallengeParticipantStore challengeParticipantSave/Retrieve failed or no value found:', action.res);
         }
-        // console.log('challengeParticipantSave latestChallengeParticipants before:', latestChallengeParticipants);
-        latestChallengeParticipants = this.updateChallengeParticipantGenericList(latestChallengeParticipants, action.res);
-        // console.log('challengeParticipantSave latestChallengeParticipants after:', latestChallengeParticipants);
+
         return {
           ...state,
           allCachedChallengeParticipantVoterEntries,

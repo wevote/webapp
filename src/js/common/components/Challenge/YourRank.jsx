@@ -45,6 +45,7 @@ const YourRank = ({ classes, challengeWeVoteId, hasBackgroundColor }) => {
   const onChallengeParticipantStoreChange = () => {
     const sortedParticipantsWithRank = ChallengeParticipantStore.getChallengeParticipantList(challengeWeVoteId);
     setParticipantsCount(sortedParticipantsWithRank.length);
+    setRankOfVoter(AppObservableStore.getChallengeParticipantRankOfVoterByChallengeWeVoteId(challengeWeVoteId));
   };
 
   const handleClick = () => {
@@ -77,13 +78,10 @@ const YourRank = ({ classes, challengeWeVoteId, hasBackgroundColor }) => {
     };
   }, [challengeWeVoteId]);
 
+  // Show confetti when the component mounts
   useEffect(() => {
-    // Show confetti when the component mounts
     triggerConfetti();
-    // Hide confetti after a short duration
-    const timer = setTimeout(() => {
-    }, 5000);
-    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -98,8 +96,9 @@ const YourRank = ({ classes, challengeWeVoteId, hasBackgroundColor }) => {
             onClick={handleClick}
             classes={{ root: classes.buttonDesktop }}
             style={{
-              backgroundColor: clicked ? '#AC5204' : 'white',
-              color: clicked ? '#FFFFFF' : '#AC5204' }}
+              backgroundColor: clicked ? DesignTokenColors.accent500 : DesignTokenColors.whiteUI,
+              color: clicked ? DesignTokenColors.whiteUI : DesignTokenColors.accent500,
+            }}
           >
             #
             {rankOfVoter}
@@ -135,34 +134,34 @@ YourRank.propTypes = {
 const styles = () => ({
   buttonDesktop: {
     boxShadow: 'none !important',
-    color: '#AC5204',
-    height: '34px',
-    border: '1px solid #AC5204',
+    border: `1px solid ${DesignTokenColors.accent500}`,
     borderRadius: '20px 20px 20px 20px',
+    color: DesignTokenColors.accent500,
+    height: '34px',
     transition: 'color 0.3s ease',
     textTransform: 'none',
     width: '105px',
   },
   desktopSimpleLink: {
-    border: '2px solid #AC5204',
+    border: `2px solid ${DesignTokenColors.accent500}`,
     boxShadow: 'none !important',
-    color: '#999',
+    color: DesignTokenColors.neutral500,
     marginTop: 10,
     padding: '0 20px',
     textTransform: 'none',
     width: 250,
   },
   mobileSimpleLink: {
+    '&:hover': {
+      color: DesignTokenColors.primary500,
+      textDecoration: 'underline',
+    },
     boxShadow: 'none !important',
-    color: '#999',
+    color: DesignTokenColors.neutral500,
     marginTop: 10,
     padding: '0 20px',
     textTransform: 'none',
     width: '100%',
-    '&:hover': {
-      color: '#4371cc',
-      textDecoration: 'underline',
-    },
   },
 });
 
@@ -191,8 +190,15 @@ const YourRankButtonWrapper = styled('div', {
   border: 1px solid #AC5204;
   display: flex;
   align-items: center;
+  background-color: ${clicked ? DesignTokenColors.accent500 : DesignTokenColors.whiteUI};
+  border: 1px solid ${DesignTokenColors.accent500};
+  border-radius: 20px;
+  display: flex;
+  gap: 0;
+  height: 34px;
   justify-content: center;
   transition: background-color 0.3s ease, color 0.3s ease;
+  width: 105px;
 `);
 
 const YourRankText = styled('div')`
@@ -200,17 +206,15 @@ const YourRankText = styled('div')`
 `;
 
 const StyledArrowContainer = styled('div')`
-  width: 10.5px;
-  height: 12.5px;
-  top: 2.75px;
-  left: 14.25px;
-  gap: 0;
-  opacity: 0;
-  transform: rotate(-90deg);
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-left: 5px;
 `;
 
 const ArrowImg = styled('img')`
-  width: 10.5px;
-  height: 12.5px;
+  height: 12px;
+  margin-top: -2px;
+  width: 10px;
 `;
 export default withStyles(styles)(YourRank);

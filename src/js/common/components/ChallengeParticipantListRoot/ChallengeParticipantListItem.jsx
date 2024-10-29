@@ -1,12 +1,14 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import speakerDisplayNameToInitials from '../../utils/speakerDisplayNameToInitials';
 import formatParticipantNameForSimpleList from '../../utils/formatParticipantNameForSimpleList';
+import { getChallengeValuesFromIdentifiers } from '../../utils/challengeUtils';
 
-const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleList }) => {
+const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleList, challengeWeVoteId }) => {
   let avatarJsx;
   if (participant && participant.we_vote_hosted_profile_image_url_medium) {
     avatarJsx = <AvatarStyled src={participant.we_vote_hosted_profile_image_url_medium} alt={participant.participant_name} />;
@@ -16,6 +18,18 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleLi
   }
 
   const formattedName = React.useMemo(() => formatParticipantNameForSimpleList(participant.participant_name), [participant.participant_name]);
+  function getChallengeBasePath () {
+    const {
+      challengeSEOFriendlyPath,
+    } = getChallengeValuesFromIdentifiers('', challengeWeVoteId);
+    let challengeBasePath;
+    if (challengeSEOFriendlyPath) {
+      challengeBasePath = `/${challengeSEOFriendlyPath}/+/`;
+    } else {
+      challengeBasePath = `/+/${challengeWeVoteId}/`;
+    }
+    return challengeBasePath;
+  }
 
   return (
     <ParticipantItem showSimpleList={showSimpleList} isCurrentUser={isCurrentUser}>
@@ -42,12 +56,25 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleLi
             {`- ${participant.invitees_who_viewed_plus} total views`}
           </>
         )}
+        {(isCurrentUser && challengeWeVoteId) && (
+          <>
+            {' '}
+            <Link
+              className="u-link-color u-link-underline"
+              id="boostYourScore"
+              to={`${getChallengeBasePath()}invite-friends`}
+            >
+              boost your score
+            </Link>
+          </>
+        )}
       </Details>
       )}
     </ParticipantItem>
   );
 };
 ChallengeParticipantListItem.propTypes = {
+  challengeWeVoteId: PropTypes.string,
   isCurrentUser: PropTypes.bool,
   participant: PropTypes.object,
   showSimpleList: PropTypes.bool,
