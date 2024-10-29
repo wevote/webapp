@@ -128,7 +128,7 @@ const YourRank = ({ classes, challengeWeVoteId, hasBackgroundColor }) => {
 };
 YourRank.propTypes = {
   classes: PropTypes.object.isRequired,
-  challengeWeVoteId: PropTypes.string.isRequired,
+  challengeWeVoteId: PropTypes.string,
   hasBackgroundColor: PropTypes.bool,
 };
 
