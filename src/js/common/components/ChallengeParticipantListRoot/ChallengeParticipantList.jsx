@@ -30,21 +30,17 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId, showSimpl
   if (currentUser) {
     const currentUsersRank = currentUser.rank;
 
-    // Create a list with only the current user, one above, and one below if they exist
     simpleParticipantList = sortedParticipantList.filter((participant) => {
       const { rank } = participant;
 
-      // Always include the current user
       if (rank === currentUsersRank) {
         return true;
       }
 
-      // Include the participant above the current user if it exists
       if (rank === currentUsersRank - 1 && rank > 0) {
         return true;
       }
 
-      // Include the participant below the current user if it exists within bounds
       if (rank === currentUsersRank + 1 && rank <= sortedParticipantList.length) {
         return true;
       }
