@@ -8,7 +8,7 @@ import speakerDisplayNameToInitials from '../../utils/speakerDisplayNameToInitia
 import formatParticipantNameForSimpleList from '../../utils/formatParticipantNameForSimpleList';
 import { getChallengeValuesFromIdentifiers } from '../../utils/challengeUtils';
 
-const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleList, challengeWeVoteId }) => {
+const ChallengeParticipantListItem = ({ challengeWeVoteId, participant, isCurrentUser, showSimpleList }) => {
   let avatarJsx;
   if (participant && participant.we_vote_hosted_profile_image_url_medium) {
     avatarJsx = <AvatarStyled src={participant.we_vote_hosted_profile_image_url_medium} alt={participant.participant_name} />;
@@ -33,7 +33,7 @@ const ChallengeParticipantListItem = ({ participant, isCurrentUser, showSimpleLi
 
   return (
     <ParticipantItem showSimpleList={showSimpleList} isCurrentUser={isCurrentUser}>
-      <ParticipantRow>
+      <ParticipantRow showSimpleList={showSimpleList}>
         <Rank showSimpleList={showSimpleList} isCurrentUser={isCurrentUser}>{`#${participant.rank}`}</Rank>
         <Name showSimpleList={showSimpleList} isCurrentUser={isCurrentUser}>
           {avatarJsx}
@@ -80,10 +80,6 @@ ChallengeParticipantListItem.propTypes = {
   showSimpleList: PropTypes.bool,
 };
 
-ChallengeParticipantListItem.defaultProps = {
-  showSimpleList: false,
-};
-
 const AvatarStyled = styled(Avatar)`
 `;
 
@@ -91,22 +87,18 @@ const Rank = styled('div', {
   shouldForwardProp: (prop) => !['showSimpleList, isCurrentUser'].includes(prop),
 })(({ showSimpleList, isCurrentUser }) => `
   font-weight: ${isCurrentUser ? 'bold' : 'normal'};
-  color: ${DesignTokenColors.neutral900};
   width: ${showSimpleList ? 'fit-content' : '35px'};
 `);
 
-
 const Name = styled('div', {
-  shouldForwardProp: (prop) => !['showSimpleList, isCurrentUser'].includes(prop),
-})(({ showSimpleList, isCurrentUser }) => `
+  shouldForwardProp: (prop) => !['isCurrentUser'].includes(prop),
+})(({ isCurrentUser }) => `
   align-items: center;
   display: flex;
   width: 200px;
   font-weight: ${isCurrentUser ? 'bold' : 'normal'};
   gap: 10px;
 `);
-
-
 
 const Points = styled('div', {
   shouldForwardProp: (prop) => !['showSimpleList, isCurrentUser'].includes(prop),
@@ -139,10 +131,10 @@ const FriendsJoined = styled('div', {
 const ParticipantItem = styled('div', {
   shouldForwardProp: (prop) => !['isCurrentUser, showSimpleList'].includes(prop),
 })(({ isCurrentUser, showSimpleList }) => (`
-  background-color: ${isCurrentUser && !showSimpleList ? '#f9e79f' : '#fff'};
+  background-color: ${isCurrentUser ? '#f9e79f' : '#fff'};
   padding: 15px 0 15px 7px;
-  border-bottom: 1px solid ${DesignTokenColors.neutral100};
   width: 100%;
+  ${!showSimpleList && `border-bottom: 1px solid ${DesignTokenColors.neutral100};`}
 `));
 
 const ParticipantRow = styled('div', {
@@ -151,5 +143,6 @@ const ParticipantRow = styled('div', {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: ${showSimpleList ? '25px;' : ''}
 `));
 export default ChallengeParticipantListItem;

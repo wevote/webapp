@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 import Confetti from 'react-confetti';
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom/cjs/react-router-dom';
 import YourRank from '../Challenge/YourRank';
 import ChallengeParticipantSimpleListRoot from '../ChallengeParticipantListRoot/ChallengeParticipantSimpleListRoot';
+// import { getChallengeValuesFromIdentifiers } from '../../utils/challengeUtils';
 
 
 const ThanksForJoiningChallenge = ({ voterFirstName, challengeTitle, onClose, challengeWeVoteId }) => {
   const [isClosing, setIsClosing] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
-
+  const { challengeSEOFriendlyPath } = useParams();
   useEffect(() => {
     if (isClosing) {
       const timer = setTimeout(() => {
@@ -30,6 +32,10 @@ const ThanksForJoiningChallenge = ({ voterFirstName, challengeTitle, onClose, ch
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
+
+  // const {
+  //   challengeSEOFriendlyPath,
+  // } = getChallengeValuesFromIdentifiers(challengeSEOFriendlyPathFromParams, challengeWeVoteIdFromParams);
 
   return (
     <ThanksForJoiningOuterWrapper isClosing={isClosing}>
@@ -50,7 +56,7 @@ const ThanksForJoiningChallenge = ({ voterFirstName, challengeTitle, onClose, ch
             )}
             !
 
-            <YourRank hasBackgroundColor={false} />
+            <YourRank hasBackgroundColor={false} challengeSEOFriendlyPath={challengeSEOFriendlyPath} challengeWeVoteId={challengeWeVoteId} />
             <ChallengeParticipantSimpleListRoot challengeWeVoteId={challengeWeVoteId} showSimpleList />
           </ThankYouMessage>
           <CloseMessageIconWrapper>
@@ -89,7 +95,7 @@ const CloseMessageIconWrapper = styled.div`
 
 const ThanksForJoiningInnerWrapper = styled.div`
   width: 500px;
-  max-height: ${(props) => (props.isClosing ? '0' : '600px')};
+  max-height: ${(props) => (props.isClosing ? '0' : '360px')};
   border-radius: 20px;
   filter: drop-shadow(4px 4px 10px rgba(222,222,222,2));
   display: flex;
