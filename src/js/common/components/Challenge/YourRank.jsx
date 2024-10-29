@@ -103,9 +103,6 @@ const YourRank = ({ classes, challengeWeVoteId, hasBackgroundColor }) => {
             #
             {rankOfVoter}
             {' '}
-            <span className="arrow">
-              <img src={arrowImage} alt="arrow" />
-            </span>
             <StyledArrowContainer>
               <ArrowImg src={arrowImage} alt="arrow" />
             </StyledArrowContainer>
