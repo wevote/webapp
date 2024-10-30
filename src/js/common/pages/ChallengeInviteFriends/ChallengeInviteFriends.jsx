@@ -1,32 +1,31 @@
 import loadable from '@loadable/component';
-import { Button } from '@mui/material';
+import Chip from '@mui/material/Chip';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React, { Component, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components';
-import VoterActions from '../../../actions/VoterActions';
-import webAppConfig from '../../../config';
-import VoterStore from '../../../stores/VoterStore';
-import ChallengeSupporterActions from '../../actions/ChallengeSupporterActions';
 import ChallengeHeaderSimple from '../../components/Navigation/ChallengeHeaderSimple';
-import { CampaignProcessStepTitle, CampaignProcessStepIntroductionText } from '../../components/Style/CampaignProcessStyles';
-import { CampaignSupportDesktopButtonPanel, CampaignSupportDesktopButtonWrapper, CampaignSupportSection, CampaignSupportSectionWrapper } from '../../components/Style/CampaignSupportStyles';
+import { CampaignProcessStepIntroductionText } from '../../components/Style/CampaignProcessStyles';
+import { CampaignSupportSection, CampaignSupportSectionWrapper } from '../../components/Style/CampaignSupportStyles';
 import commonMuiStyles from '../../components/Style/commonMuiStyles';
 import { ContentInnerWrapperDefault, ContentOuterWrapperDefault, PageWrapperDefault } from '../../components/Style/PageWrapperStyles';
 import AppObservableStore, { messageService } from '../../stores/AppObservableStore';
 import ChallengeStore from '../../stores/ChallengeStore';
-import ChallengeSupporterStore from '../../stores/ChallengeSupporterStore';
 import { getChallengeValuesFromIdentifiers, retrieveChallengeFromIdentifiersIfNeeded } from '../../utils/challengeUtils';
 import historyPush from '../../utils/historyPush';
-import initializejQuery from '../../utils/initializejQuery';
 import { renderLog } from '../../utils/logging';
+import DesignTokenColors from '../../components/Style/DesignTokenColors';
+import ChallengeInviteSteps from '../../components/Navigation/ChallengeInviteSteps';
+import ChallengeInviteeListRoot from '../../components/ChallengeInviteeListRoot/ChallengeInviteeListRoot';
+import InviteFriendToChallengeInput from '../../components/ChallengeInviteFriends/InviteFriendToChallengeInput';
+import YourRank from '../../components/Challenge/YourRank';
 
 const ChallengeRetrieveController = React.lazy(() => import(/* webpackChunkName: 'ChallengeRetrieveController' */ '../../components/Challenge/ChallengeRetrieveController'));
 const VoterFirstRetrieveController = loadable(() => import(/* webpackChunkName: 'VoterFirstRetrieveController' */ '../../components/Settings/VoterFirstRetrieveController'));
 
 
-class ChallengeInviteCopy extends Component {
+class ChallengeInviteFriends extends Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -35,37 +34,30 @@ class ChallengeInviteCopy extends Component {
       challengeTitle: '',
       challengeWeVoteId: '',
       chosenWebsiteName: '',
-      linkedPoliticianWeVoteId: '',
-      payToPromoteStepTurnedOn: true,
-      weVoteHostedProfileImageUrlLarge: '',
     };
   }
 
   componentDidMount () {
-    // console.log('ChallengeInviteCopy componentDidMount');
+    // console.log('ChallengeInviteFriends componentDidMount');
     this.props.setShowHeaderFooter(false);
     this.onAppObservableStoreChange();
     this.appStateSubscription = messageService.getMessage().subscribe(() => this.onAppObservableStoreChange());
     this.onChallengeStoreChange();
     this.challengeStoreListener = ChallengeStore.addListener(this.onChallengeStoreChange.bind(this));
-    this.onVoterStoreChange();
-    this.voterStoreListener = VoterStore.addListener(this.onVoterStoreChange.bind(this));
     const { match: { params } } = this.props;
     const { challengeSEOFriendlyPath: challengeSEOFriendlyPathFromParams, challengeWeVoteId: challengeWeVoteIdFromParams } = params;
     // console.log('componentDidMount challengeSEOFriendlyPathFromParams: ', challengeSEOFriendlyPathFromParams, ', challengeWeVoteIdFromParams: ', challengeWeVoteIdFromParams);
     const {
       challengePhotoLargeUrl,
       challengeSEOFriendlyPath,
-      challengePoliticianList,
+      // challengePoliticianList,
       challengeWeVoteId,
-      linkedPoliticianWeVoteId,
-      weVoteHostedProfileImageUrlLarge,
+      // linkedPoliticianWeVoteId,
     } = getChallengeValuesFromIdentifiers(challengeSEOFriendlyPathFromParams, challengeWeVoteIdFromParams);
     this.setState({
       challengePhotoLargeUrl,
-      challengePoliticianList,
-      linkedPoliticianWeVoteId,
-      weVoteHostedProfileImageUrlLarge,
+      // challengePoliticianList,
+      // linkedPoliticianWeVoteId,
     });
     if (challengeSEOFriendlyPath) {
       this.setState({
@@ -94,17 +86,13 @@ class ChallengeInviteCopy extends Component {
     this.props.setShowHeaderFooter(true);
     this.appStateSubscription.unsubscribe();
     this.challengeStoreListener.remove();
-    this.voterStoreListener.remove();
   }
 
   onAppObservableStoreChange () {
     const chosenWebsiteName = AppObservableStore.getChosenWebsiteName();
-    const inPrivateLabelMode = AppObservableStore.inPrivateLabelMode();
     // For now, we assume that paid sites with chosenSiteLogoUrl will turn off "Chip in"
-    const payToPromoteStepTurnedOn = !inPrivateLabelMode && webAppConfig.ENABLE_PAY_TO_PROMOTE;
     this.setState({
       chosenWebsiteName,
-      payToPromoteStepTurnedOn,
     });
   }
 
@@ -116,17 +104,15 @@ class ChallengeInviteCopy extends Component {
       challengePhotoLargeUrl,
       challengeSEOFriendlyPath,
       challengeTitle,
-      challengePoliticianList,
+      // challengePoliticianList,
       challengeWeVoteId,
-      linkedPoliticianWeVoteId,
-      weVoteHostedProfileImageUrlLarge,
+      // linkedPoliticianWeVoteId,
     } = getChallengeValuesFromIdentifiers(challengeSEOFriendlyPathFromParams, challengeWeVoteIdFromParams);
     this.setState({
       challengePhotoLargeUrl,
       challengeTitle,
-      challengePoliticianList,
-      linkedPoliticianWeVoteId,
-      weVoteHostedProfileImageUrlLarge,
+      // challengePoliticianList,
+      // linkedPoliticianWeVoteId,
     });
     if (challengeSEOFriendlyPath) {
       this.setState({
@@ -148,13 +134,6 @@ class ChallengeInviteCopy extends Component {
     }
   }
 
-  onVoterStoreChange () {
-    const voterPhotoUrlLarge = VoterStore.getVoterPhotoUrlLarge();
-    this.setState({
-      voterPhotoUrlLarge,
-    });
-  }
-
   getChallengeBasePath = () => {
     const { challengeSEOFriendlyPath, challengeWeVoteId } = this.state;
     let challengeBasePath;
@@ -166,80 +145,17 @@ class ChallengeInviteCopy extends Component {
     return challengeBasePath;
   }
 
-  getPoliticianBasePath = () => {
-    const { politicianSEOFriendlyPath, linkedPoliticianWeVoteId } = this.state;
-    let politicianBasePath;
-    if (politicianSEOFriendlyPath) {
-      politicianBasePath = `/${politicianSEOFriendlyPath}/-/`;
-    } else if (linkedPoliticianWeVoteId) {
-      politicianBasePath = `/${linkedPoliticianWeVoteId}/p/`;
-    } else {
-      // console.log('ChallengeRecommendedChallenges getPoliticianBasePath, failed to get politicianBasePath');
-      politicianBasePath = this.getChallengeBasePath();
-    }
-    return politicianBasePath;
-  }
-
-  goToNextStep = () => {
-    const { payToPromoteStepTurnedOn } = this.state;
-    if (payToPromoteStepTurnedOn) {
-      historyPush(`${this.getChallengeBasePath()}pay-to-promote`);
-    } else {
-      historyPush(`${this.getChallengeBasePath()}share-challenge`);
-    }
-  }
-
   goToChallengeHome = () => {
     historyPush(this.getChallengeBasePath());
   }
 
-  submitSkipForNow = () => {
-    initializejQuery(() => {
-      ChallengeSupporterActions.supporterEndorsementQueuedToSave(undefined);
-    });
-    this.goToNextStep();
-  }
-
-  joinChallengeNowSubmit = () => {
-    const { challengeWeVoteId } = this.state;
-    if (challengeWeVoteId) {
-      const supporterEndorsementQueuedToSave = ChallengeSupporterStore.getSupporterEndorsementQueuedToSave();
-      const supporterEndorsementQueuedToSaveSet = ChallengeSupporterStore.getSupporterEndorsementQueuedToSaveSet();
-      let visibleToPublic = ChallengeSupporterStore.getVisibleToPublic();
-      const visibleToPublicChanged = ChallengeSupporterStore.getVisibleToPublicQueuedToSaveSet();
-      if (visibleToPublicChanged) {
-        // If it has changed, use new value
-        visibleToPublic = ChallengeSupporterStore.getVisibleToPublicQueuedToSave();
-      }
-      if (supporterEndorsementQueuedToSaveSet || visibleToPublicChanged) {
-        // console.log('ChallengeInviteCopy, supporterEndorsementQueuedToSave:', supporterEndorsementQueuedToSave);
-        const saveVisibleToPublic = true;
-        initializejQuery(() => {
-          ChallengeSupporterActions.supporterEndorsementSave(challengeWeVoteId, supporterEndorsementQueuedToSave, visibleToPublic, saveVisibleToPublic); // challengeSupporterSave
-          ChallengeSupporterActions.supporterEndorsementQueuedToSave(undefined);
-        });
-      }
-      const voterPhotoQueuedToSave = VoterStore.getVoterPhotoQueuedToSave();
-      const voterPhotoQueuedToSaveSet = VoterStore.getVoterPhotoQueuedToSaveSet();
-      if (voterPhotoQueuedToSaveSet) {
-        initializejQuery(() => {
-          VoterActions.voterPhotoSave(voterPhotoQueuedToSave, voterPhotoQueuedToSaveSet);
-          VoterActions.voterPhotoQueuedToSave(undefined);
-        });
-      }
-      this.goToNextStep();
-    }
-  }
-
   render () {
-    renderLog('ChallengeInviteCopy');  // Set LOG_RENDER_EVENTS to log all renders
-    const { classes } = this.props;
+    renderLog('ChallengeInviteFriends');  // Set LOG_RENDER_EVENTS to log all renders
     const {
-      challengeSEOFriendlyPath, challengeTitle,
+      challengePhotoLargeUrl, challengeSEOFriendlyPath, challengeTitle,
       challengeWeVoteId, chosenWebsiteName,
-      voterPhotoUrlLarge,
     } = this.state;
-    const htmlTitle = `Why do you support ${challengeTitle}? - ${chosenWebsiteName}`;
+    const htmlTitle = `Invite your friends - ${chosenWebsiteName}`;
     return (
       <div>
         <Helmet>
@@ -248,18 +164,23 @@ class ChallengeInviteCopy extends Component {
         </Helmet>
         <ChallengeHeaderSimple
           challengeBasePath={this.getChallengeBasePath()}
+          challengePhotoLargeUrl={challengePhotoLargeUrl}
           challengeTitle={challengeTitle}
           challengeWeVoteId={challengeWeVoteId}
           goToChallengeHome={this.goToChallengeHome}
-          politicianBasePath={this.getPoliticianBasePath()}
         />
+        <ChallengeTabsWrapper>
+          <ChallengeInviteSteps
+            currentStep={1}
+            challengeSEOFriendlyPath={challengeSEOFriendlyPath}
+          />
+        </ChallengeTabsWrapper>
         <PageWrapperDefault>
           <ContentOuterWrapperDefault>
             <ContentInnerWrapperDefault>
-              <CampaignProcessStepTitle>
-                Copy message &amp; link
-              </CampaignProcessStepTitle>
               <CampaignProcessStepIntroductionText>
+                <StyledChip label="TIP" />
+                &nbsp;
                 So we can correctly calculate your boost points,
                 {' '}
                 <strong>
@@ -268,26 +189,18 @@ class ChallengeInviteCopy extends Component {
                 {' '}
                 (a unique link is generated for each friend).
               </CampaignProcessStepIntroductionText>
-              <CampaignSupportSectionWrapper>
-                <CampaignSupportSection>
-                  <CampaignSupportDesktopButtonWrapper>
-                    <CampaignSupportDesktopButtonPanel>
-                      <Button
-                        classes={{ root: classes.buttonDesktop }}
-                        color="primary"
-                        id="joinChallengeNow"
-                        onClick={this.joinChallengeNowSubmit}
-                        variant="contained"
-                      >
-                        Invite friend to challenge
-                      </Button>
-                    </CampaignSupportDesktopButtonPanel>
-                  </CampaignSupportDesktopButtonWrapper>
+              <CampaignSupportSectionWrapper marginTopOff>
+                <CampaignSupportSection marginBottomOff>
+                  <InviteFriendToChallengeInput challengeWeVoteId={challengeWeVoteId} />
                 </CampaignSupportSection>
               </CampaignSupportSectionWrapper>
             </ContentInnerWrapperDefault>
           </ContentOuterWrapperDefault>
         </PageWrapperDefault>
+        <InvitedFriendsWrapper>
+          <YourRank challengeSEOFriendlyPath={challengeSEOFriendlyPath} challengeWeVoteId={challengeWeVoteId} />
+          <ChallengeInviteeListRoot challengeWeVoteId={challengeWeVoteId} />
+        </InvitedFriendsWrapper>
         <Suspense fallback={<span>&nbsp;</span>}>
           <ChallengeRetrieveController challengeSEOFriendlyPath={challengeSEOFriendlyPath} challengeWeVoteId={challengeWeVoteId} />
         </Suspense>
@@ -298,20 +211,31 @@ class ChallengeInviteCopy extends Component {
     );
   }
 }
-ChallengeInviteCopy.propTypes = {
-  classes: PropTypes.object,
+ChallengeInviteFriends.propTypes = {
   match: PropTypes.object,
   setShowHeaderFooter: PropTypes.func,
 };
 
 
-const CenteredDiv = styled('div')`
+const ChallengeTabsWrapper = styled('div')`
+  background-color: ${DesignTokenColors.neutralUI50};
   display: flex;
   justify-content: center;
 `;
 
-const VisibleToPublicCheckboxWrapper = styled('div')`
-  min-height: 25px;
+const InvitedFriendsWrapper = styled('div')`
+  align-items: center;
+  background-color: ${DesignTokenColors.neutralUI50};
+  display: flex;
+  flex-direction: column;
 `;
 
-export default withStyles(commonMuiStyles)(ChallengeInviteCopy);
+const StyledChip = styled(Chip)`
+  background-color: ${DesignTokenColors.confirmation700};
+  color: ${DesignTokenColors.whiteUI};
+  height: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+`;
+
+export default withStyles(commonMuiStyles)(ChallengeInviteFriends);

@@ -98,10 +98,11 @@ class ChallengeTitleInputField extends Component {
                 <TextField
                   // classes={{ root: classes.textField }} // Not working yet
                   id={`challengeTitleTextArea-${externalUniqueId}`}
+                  label={challengeTitlePlaceholder || 'Challenge name'}
                   name="challengeTitle"
                   margin="dense"
                   variant="outlined"
-                  placeholder={challengeTitlePlaceholder || 'Challenge title - the name voters will see'}
+                  placeholder={challengeTitlePlaceholder || 'Challenge name'}
                   value={challengeTitle}
                   onKeyDown={this.handleKeyPress}
                   onChange={this.updateChallengeTitle}
