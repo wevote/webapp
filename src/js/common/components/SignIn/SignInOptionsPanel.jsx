@@ -433,8 +433,8 @@ export default class SignInOptionsPanel extends Component {
                 {voterIsSignedIn ?
                   <div className="u-stack--sm">{yourAccountExplanation}</div> : (
                     <>
-                      <div className="u-f3">{pleaseSignInTitle || pleaseSignInTitleFromState}</div>
-                      <SignInSubtitle className="u-stack--sm" style={{ paddingBottom: `${isCordova() ? '18px' : ''}` }}>{pleaseSignInSubTitle}</SignInSubtitle>
+                      <div className="u-f3" id='pleaseSingInTitle'>{pleaseSignInTitle || pleaseSignInTitleFromState}</div>
+                      <SignInSubtitle className="u-stack--sm" id='singInSubtitle' style={{ paddingBottom: `${isCordova() ? '18px' : ''}` }}>{pleaseSignInSubTitle}</SignInSubtitle>
                     </>
                   )}
               </div>
@@ -624,7 +624,7 @@ export default class SignInOptionsPanel extends Component {
               <br />
             </div>
             )}
-            <TermsWrapper>
+            <TermsWrapper id='terms_Wrapper'>
               By continuing, you accept WeVote.US’s
               {' '}
               <Suspense fallback={<></>}>
