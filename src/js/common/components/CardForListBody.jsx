@@ -87,7 +87,7 @@ function CardForListBody (props) {
 
   // /////////////////////// START OF DISPLAY
   return (
-    <CandidateCardForListWrapper limitCardWidth={limitCardWidth}>
+    <CandidateCardForListWrapper id={`cardForListBodyWrapper-${candidateWeVoteId}`} limitCardWidth={limitCardWidth}>
       <OneCampaignOuterWrapper limitCardWidth={limitCardWidth}>
         <OneCampaignInnerWrapper
           hideCardMargins={hideCardMargins}
@@ -96,7 +96,7 @@ function CardForListBody (props) {
           <OneCampaignTextColumn hideCardMargins={hideCardMargins}>
             <TitleAndTextWrapper hideCardMargins={hideCardMargins}>
               {stateName && (
-                <StateName>
+                <StateName id={`stateName-${stateCode}-${candidateWeVoteId}`}>
                   {stateName}
                 </StateName>
               )}
