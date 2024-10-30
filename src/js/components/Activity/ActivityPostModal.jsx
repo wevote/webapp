@@ -80,7 +80,6 @@ class ActivityPostModal extends Component {
   }
 
   onBlurInput = () => {
-    restoreStylesAfterCordovaKeyboard('ActivityPostModal');
   };
 
   onFocusInput = () => {
@@ -101,6 +100,7 @@ class ActivityPostModal extends Component {
     const visibilitySetting = visibilityIsPublic ? 'SHOW_PUBLIC' : 'FRIENDS_ONLY';
     ActivityActions.activityPostSave(activityTidbitWeVoteId, statementText, visibilitySetting);
     this.props.toggleModal();
+    restoreStylesAfterCordovaKeyboard('ActivityPostModal');
   }
 
   updateStatementTextToBeSaved = (e) => {

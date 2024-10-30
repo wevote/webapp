@@ -160,7 +160,7 @@ class PositionStatementModal extends Component {
   };
 
   onFocusInput = () => {
-    prepareForCordovaKeyboard('ItemPositionStatementActionBar');
+    // prepareForCordovaKeyboard('ItemPositionStatementActionBar');
   };
 
   savePositionStatement = (e) => {
@@ -169,6 +169,7 @@ class PositionStatementModal extends Component {
     const { ballotItemType, voterTextStatement } = this.state;
     // console.log('PositionStatementModal ballotItemWeVoteId:', ballotItemWeVoteId, 'ballotItemType: ', ballotItemType, 'voterTextStatement: ', voterTextStatement);
     SupportActions.voterPositionCommentSave(ballotItemWeVoteId, ballotItemType, voterTextStatement);
+    restoreStylesAfterCordovaKeyboard('PositionStatementModal');
     this.props.toggleModal();
   }
 

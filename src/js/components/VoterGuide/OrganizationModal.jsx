@@ -340,7 +340,8 @@ class OrganizationModal extends Component {
   closeOrganizationModal () {
     this.setState({ modalOpen: false });
     setTimeout(() => {
-      this.props.toggleFunction(normalizedHref());
+      // console.log('In OrganizationModal, toggleFunction fired');
+      this.props.toggleFunction();
     }, 500);
   }
 
