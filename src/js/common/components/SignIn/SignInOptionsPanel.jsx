@@ -447,7 +447,7 @@ export default class SignInOptionsPanel extends Component {
                       {showRecommendedText &&
                         <RecommendedText className="u-tl u-stack--sm">Recommended</RecommendedText>}
                       <TwitterSignIn
-                        buttonText="Sign in with Twitter"
+                        buttonText="Sign in with X"
                         buttonSubmittedText="Signing in..."
                         inModal={inModal}
                         closeSignInModal={this.closeSignInModalLocal}
@@ -480,7 +480,7 @@ export default class SignInOptionsPanel extends Component {
                     <span className="account-edit-action" onKeyDown={this.twitterLogOutOnKeyDown.bind(this)}>
                       <span
                         className="pull-right u-link-color u-cursor--pointer"
-                        onClick={this.signOut.bind(this)}
+                        onClick={this.signOut.bind(this)} id = "signOut_securitySignIn"
                       >
                         sign out
                       </span>
@@ -552,6 +552,7 @@ export default class SignInOptionsPanel extends Component {
               // hideSignInWithPhoneForm={isCordova()}
               showAllSignInOptions={this.showAllSignInOptions}
               showPhoneOnlySignIn={this.showPhoneOnlySignIn}
+              showEmailOnlySignIn={this.showEmailOnlySignIn}
             />
             {/* {isCordova() && ( */}
             {/*  <VoterPhoneEmailCordovaEntryModal */}

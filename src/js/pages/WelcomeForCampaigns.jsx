@@ -75,18 +75,18 @@ class WelcomeForCampaigns extends PureComponent {
     });
   };
 
-  updateVoterEmailAddress = (event) => {
-    const isEmailValid = validateEmail(event.target.value);
-    let submitEnabled = false;
-    if (isEmailValid) {
-      submitEnabled = true;
-    }
+  // updateVoterEmailAddress = (event) => {
+  //   const isEmailValid = validateEmail(event.target.value);
+  //   let submitEnabled = false;
+  //   if (isEmailValid) {
+  //     submitEnabled = true;
+  //   }
 
-    this.setState({
-      voterEmail: event.target.value,
-      submitEnabled,
-    });
-  };
+  //   this.setState({
+  //     voterEmail: event.target.value,
+  //     submitEnabled,
+  //   });
+  // };
 
   voterEmailAddressSignUpSave = (event) => {
     // Only proceed after we have a valid email address, which will enable the submit
@@ -163,7 +163,7 @@ class WelcomeForCampaigns extends PureComponent {
               <Description>
                 Empower your supporters to share your localized, responsive endorsement
                 {' '}
-                experience with their friends and family on Facebook, Twitter, email and SMS.
+                experience with their friends and family on Facebook, X, email and SMS.
               </Description>
               <FeatureStep>
                 <FeatureStepLabel>

@@ -7,7 +7,7 @@ import FirstChallengeInviteeListController from './FirstChallengeInviteeListCont
 import AppObservableStore, { messageService } from '../../stores/AppObservableStore';
 import ChallengeInviteeStore from '../../stores/ChallengeInviteeStore';
 import DesignTokenColors from '../Style/DesignTokenColors';
-import ChallengeParticipantStore from "../../stores/ChallengeParticipantStore";
+import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 
 const ChallengeParticipantFirstRetrieveController = React.lazy(() => import(/* webpackChunkName: 'ChallengeParticipantFirstRetrieveController' */ '../ChallengeParticipant/ChallengeParticipantFirstRetrieveController'));
 
@@ -29,7 +29,7 @@ const inviteeListDummyData = [
   { invitee_id: 15, invitee_name: 'Melina H.', invite_sent: true, invite_viewed: false, challenge_joined: false, messageStatus: 'Message Sent' },
 ];
 
-const ChallengeInviteeListRoot = ({ challengeWeVoteId }) => {
+const ChallengeInviteeListRoot = ({ challengeWeVoteId, hideRank }) => {
   // eslint-disable-next-line no-unused-vars
   const [inviteeList, setInviteeList] = React.useState([]);
   const [participantsCount, setParticipantsCount] = useState(0);
@@ -70,7 +70,7 @@ const ChallengeInviteeListRoot = ({ challengeWeVoteId }) => {
   return (
     <ChallengeInviteeListRootContainer>
       <Heading>
-        {!!(rankOfVoter) && (
+        {!!(rankOfVoter && !hideRank) && (
           <RankContainer>
             <RankText>You&apos;re</RankText>
             {' '}
@@ -87,10 +87,9 @@ const ChallengeInviteeListRoot = ({ challengeWeVoteId }) => {
             </RankDetails>
           </RankContainer>
         )}
-        <FirendsTableHeader>
-          <HeaderItem>FRIENDS NAME</HeaderItem>
-          <HeaderItem>STATUS</HeaderItem>
-        </FirendsTableHeader>
+        <FriendsTableHeader>
+          Invited Friends
+        </FriendsTableHeader>
       </Heading>
       <ChallengeInviteeList
         challengeWeVoteId={challengeWeVoteId}
@@ -109,6 +108,7 @@ const ChallengeInviteeListRoot = ({ challengeWeVoteId }) => {
 ChallengeInviteeListRoot.propTypes = {
   classes: PropTypes.object,
   challengeWeVoteId: PropTypes.string,
+  hideRank: PropTypes.bool,
 };
 
 const styles = () => ({
@@ -129,17 +129,11 @@ const Heading = styled.div`
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 `;
 
-const FirendsTableHeader = styled('div')`
-  display: flex;
-  justify-content: space-between;
+const FriendsTableHeader = styled('div')`
   width: 80%;
-  font-weight: bold;
-  font-size: 12px;
-  color: #333;
-`;
-
-const HeaderItem = styled.p`
-  margin: 0;  /* Reset default margins */
+  font-size: 18px;
+  color: ${DesignTokenColors.neutral900}; /* Default color */
+  padding: 0 10px;
 `;
 
 const RankContainer = styled.p`

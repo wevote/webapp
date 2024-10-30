@@ -4,66 +4,63 @@ import withTheme from '@mui/styles/withTheme';
 import withStyles from '@mui/styles/withStyles';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import React, { Suspense } from 'react';
-// import { Link } from 'react-router-dom';
+import React from 'react';
+import TruncateMarkup from 'react-truncate-markup';
 import { renderLog } from '../../utils/logging';
-import {
-  Candidate,
-  CandidateNameAndPartyWrapper,
-  CandidateNameH4,
-  CandidateTopRow,
-} from '../../../components/Style/BallotStyles';
 import { cordovaBallotFilterTopMargin } from '../../../utils/cordovaOffsets';
 import standardBoxShadow from '../Style/standardBoxShadow';
-import normalizedImagePath from '../../utils/normalizedImagePath';
 import JoinedAndDaysLeft from '../Challenge/JoinedAndDaysLeft';
 
-const ImageHandler = React.lazy(() => import(/* webpackChunkName: 'ImageHandler' */ '../../../components/ImageHandler'));
-
 // React functional component example
-function ChallengeHeaderSimple(props) {
+function ChallengeHeaderSimple (props) {
   renderLog('ChallengeHeaderSimple');  // Set LOG_RENDER_EVENTS to log all renders
-  const { challengeTitle, challengeWeVoteId, classes, challengePhotoLargeUrl, goToChallengeHome } = props;
-
+  const { challengeTitle, challengeWeVoteId, classes, challengePhotoLargeUrl, goToChallengeHome, hideCloseIcon } = props;
   return (
     <ChallengeHeaderSimpleOuterContainer id="politicianHeaderContainer">
       <ChallengeHeaderSimpleInnerContainer>
         <ChallengeHeaderSimpleContentContainer>
           <ChallengeTitleRow>
             <ChallengePhotoAndTitle
-              id={`officeItemCompressedCandidateImageAndName-${challengeWeVoteId}`}
+              id={`challengeHeaderSimpleImageAndName-${challengeWeVoteId}`}
             >
               {/* Challenge Image */}
               {challengePhotoLargeUrl && (
                 <ChallengeImageMedium src={challengePhotoLargeUrl} />
               )}
               {/* Title of the Challenge */}
-              <CandidateNameAndPartyWrapper>
+              <ChallengeTitleAndDaysLeftWrapper>
                 <ChallengeNameH4>
-                  {challengeTitle}
+                  <TruncateMarkup lines={2} ellipsis={<>&hellip;</>} tokenize="words">
+                    <span>
+                      {challengeTitle}
+                    </span>
+                  </TruncateMarkup>
                 </ChallengeNameH4>
                 {/* Joined and Days Left Info */}
-                <JoinedAndDaysLeft style={{ border: 'none' }}
+                <JoinedAndDaysLeft borderSwitcher={false}
+                  padding="5px 0"
                   challengeWeVoteId={challengeWeVoteId}
                   goToChallengeHome={goToChallengeHome}
                 />
-              </CandidateNameAndPartyWrapper>
+              </ChallengeTitleAndDaysLeftWrapper>
             </ChallengePhotoAndTitle>
-            <CloseDrawerIconWrapper>
-              <div>
-                <IconButton
-                  aria-label="Close"
-                  className={classes.closeButton}
-                  id="goToChallengeHome"
-                  onClick={goToChallengeHome}
-                  size="large"
-                >
-                  <span className="u-cursor--pointer">
-                    <Close classes={{ root: classes.closeIcon }} />
-                  </span>
-                </IconButton>
-              </div>
-            </CloseDrawerIconWrapper>
+            {!hideCloseIcon && (
+              <CloseDrawerIconWrapper>
+                <div>
+                  <IconButton
+                    aria-label="Close"
+                    className={classes.closeButton}
+                    id="goToChallengeHome"
+                    onClick={goToChallengeHome}
+                    size="large"
+                  >
+                    <span className="u-cursor--pointer">
+                      <Close classes={{ root: classes.closeIcon }} />
+                    </span>
+                  </IconButton>
+                </div>
+              </CloseDrawerIconWrapper>
+            )}
           </ChallengeTitleRow>
         </ChallengeHeaderSimpleContentContainer>
       </ChallengeHeaderSimpleInnerContainer>
@@ -76,6 +73,7 @@ ChallengeHeaderSimple.propTypes = {
   challengeWeVoteId: PropTypes.string,
   classes: PropTypes.object,
   challengePhotoLargeUrl: PropTypes.string,
+  hideCloseIcon: PropTypes.bool,
 };
 
 const styles = () => ({
@@ -143,6 +141,13 @@ const ChallengeNameH4 = styled('div')`
 const ChallengePhotoAndTitle = styled('div')`
   display: flex;
   flex-grow: 8;
+`;
+
+const ChallengeTitleAndDaysLeftWrapper = styled('div')`
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const ChallengeTitleRow = styled('div')`

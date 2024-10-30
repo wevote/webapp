@@ -8,6 +8,15 @@ export const ChallengeCardForListWrapper = styled('div', {
   white-space: normal;
 `));
 
+export const ChallengeDescription = styled('div')`
+  color: ${DesignTokenColors.neutral500};
+  font-size: 16px;
+  padding-bottom: 18px;
+  padding-top: 12px;
+  text-align: left;
+  white-space: pre-wrap;
+`;
+
 export const ChallengesNotAvailableToShow = styled('div')(({ theme }) => (`
   color: #555;
   // font-size: 18px;
@@ -155,6 +164,7 @@ export const OneChallengeTextColumn = styled('div', {
 `));
 
 export const OneChallengeTitleLink = styled('h1')(({ theme }) => (`
+  color: ${DesignTokenColors.neutralUI900};
   font-size: 22px;
   font-weight: 400;
   margin: 20px 0 4px 0;

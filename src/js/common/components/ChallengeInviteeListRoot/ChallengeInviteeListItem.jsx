@@ -1,19 +1,26 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import withTheme from '@mui/styles/withTheme';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
 import { withStyles } from '@mui/styles';
-import { RemoveRedEye, CheckCircle, Check, MoreHoriz } from '@mui/icons-material';
+import { RemoveRedEye, CheckCircle, Check, InfoOutlined, EditOutlined, MoreHoriz } from '@mui/icons-material';
+import Popover from '@mui/material/Popover';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ConfirmYouSentInviteButton from './ConfirmYouSentInviteButton';
 import InviteAgainButton from './InviteAgainButton';
 import speakerDisplayNameToInitials from '../../utils/speakerDisplayNameToInitials';
+import ViewInviteeDetails from '../ChallengeInviteFriends/ViewInviteeDetails';
 
-const ChallengeInviteeListItem = ({ invitee, classes }) => {
+
+const ChallengeInviteeListItem = ({ invitee }) => {
   // console.log('ChallengeInviteeListItem:', invitee);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [viewInviteeDetails, setViewInviteeDetails] = useState(false);
+
   const { sx, children } = speakerDisplayNameToInitials(invitee.invitee_name);
   let challengeStatusIconJsx = <></>;
-  let challengeStatusMessage = ''
+  let challengeStatusMessage = '';
   if (invitee.challenge_joined) {
     challengeStatusIconJsx = <CheckCircle />;
     challengeStatusMessage = 'Challenge joined';
@@ -24,6 +31,22 @@ const ChallengeInviteeListItem = ({ invitee, classes }) => {
     challengeStatusIconJsx = <Check />;
     challengeStatusMessage = 'Invite sent';
   }
+
+  const onDotButtonClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openViewInviteeDetails = () => {
+    setViewInviteeDetails(true);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
     <InvitedFriendDetails>
       <PrimaryDetails>
@@ -33,9 +56,45 @@ const ChallengeInviteeListItem = ({ invitee, classes }) => {
           <Name>{invitee.invitee_name}</Name>
         </FriendName>
         <VerticalLine />
-        <ActivityCommentEditWrapper>
-          <MoreHoriz />
-        </ActivityCommentEditWrapper>
+        <EditInviteeTripleDotWrapper>
+          <TripleDotButton type="button" aria-label="source" onClick={onDotButtonClick}>
+            <MoreHoriz />
+          </TripleDotButton>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <PopoverWrapper>
+              <PopoverNameAndMessageText>
+                <StyledTypography>
+                  <EditOutlined style={{ fontSize: '14px', cursor: 'pointer', marginRight: '4px' }} />
+                  Edit name & message
+                </StyledTypography>
+              </PopoverNameAndMessageText>
+              <PopoverViewDetailsText>
+                <StyledTypography onClick={openViewInviteeDetails}>
+                  <InfoOutlined style={{ fontSize: '14px', cursor: 'pointer', marginRight: '4px' }} />
+                  View details
+                </StyledTypography>
+              </PopoverViewDetailsText>
+            </PopoverWrapper>
+          </Popover>
+          <ViewInviteeDetails
+            show={viewInviteeDetails}
+            setShow={setViewInviteeDetails}
+            setAnchorEl={setAnchorEl}
+          />
+        </EditInviteeTripleDotWrapper>
       </PrimaryDetails>
       <Options>
         <div>
@@ -66,17 +125,16 @@ const ChallengeInviteeListItem = ({ invitee, classes }) => {
 
 ChallengeInviteeListItem.propTypes = {
   invitee: PropTypes.object,
-  classes: PropTypes.object.isRequired,
 };
 
 const styles = () => ({
   searchButton: {
     borderRadius: 50,
   },
+
 });
 
-
-const InvitedFriendDetails = styled.div`
+const InvitedFriendDetails = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -85,13 +143,13 @@ const InvitedFriendDetails = styled.div`
   border-bottom: 1px solid ${DesignTokenColors.neutral100};
 `;
 
-const PrimaryDetails = styled.div`
+const PrimaryDetails = styled('div')`
   display: flex;
   justify-content: space-between;
   align-items: center;
 `;
 
-const FriendName = styled.div`
+const FriendName = styled('div')`
   display: flex;
   align-items: center;
   gap: 10px;
@@ -104,29 +162,29 @@ const AvatarDetails = styled(Avatar)`
   font-size: 1rem;
 `;
 
-const Name = styled.div`
+const Name = styled('div')`
   font-weight: bold;
   color: ${DesignTokenColors.neutral900};
 `;
 
-const MessageContainer = styled.div`
+const MessageContainer = styled('div')`
   display: flex;
 `;
 
-const MessageStatus = styled.div`
+const MessageStatus = styled('div')`
   text-align: center;
   font-size: 14px;
   color: ${DesignTokenColors.confirmation800};
   margin-right: 10px;
 `;
 
-const VerticalLine = styled.div`
+const VerticalLine = styled('div')`
   border-left: 1px solid ${DesignTokenColors.neutral200};
   height: 30px;
   margin: 0 10px;
 `;
 
-const ActivityCommentEditWrapper = styled('div')`
+const EditInviteeTripleDotWrapper = styled('div')`
   margin-right: 10px;
   color: ${DesignTokenColors.neutral900};
   :hover {
@@ -135,16 +193,34 @@ const ActivityCommentEditWrapper = styled('div')`
   }
 `;
 
-const Options = styled.div`
+const Options = styled('div')`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 14px;
 `;
 
-const Invite = styled.a`
+const PopoverWrapper = styled('div')`
   padding: 5px;
-  color: #4371cc;
 `;
 
-export default withStyles(styles)(ChallengeInviteeListItem);
+const PopoverNameAndMessageText = styled('div')`
+  padding: 6px;
+`;
+
+const PopoverViewDetailsText = styled('div')`
+  padding: 6px;
+  cursor: pointer;
+`;
+
+const StyledTypography = styled('div')`
+  font-size: 12px;
+  font-family: inherit;
+`;
+
+const TripleDotButton = styled('button')`
+  background: transparent;
+  border: 0;
+`;
+
+export default withTheme(withStyles(styles)(ChallengeInviteeListItem));
