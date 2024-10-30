@@ -199,6 +199,7 @@ class OrganizationModal extends Component {
   componentWillUnmount () {
     this.candidateStoreListener.remove();
     this.measureStoreListener.remove();
+    this.appStateSubscription.unsubscribe();
     AppObservableStore.setScrolledDownDrawer(false);
   }
 

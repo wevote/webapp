@@ -213,6 +213,7 @@ class ElectionCountdown extends React.Component {
             electionDateBelow
             toggleSelectBallotModal={this.toggleSelectBallotModal}
             turnOffVoteByBelow
+            allowTextWrap
           />
         </CountdownTitleHeaderWrapper>
       </CardCountdownInternalWrapper>
