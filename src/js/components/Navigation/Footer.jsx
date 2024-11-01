@@ -83,6 +83,7 @@ class Footer extends Component {
       showFooterMain: previousShowFooterMain,
       showShareButtonFooter: previousShowShareButtonFooter,
     } = this.state;
+    // console.log('Footer onAppObservableStoreChange state after update: ', this.state);
     if (previousPathname !== pathname) {
       this.setState({
         previousPathname: pathname,

@@ -158,10 +158,10 @@ export function getIOSSizeString () {
   const isIPhone5p5inMiniPhones = ['iPhone13,1', 'iPhone14,4'];
   //    iPhone:               X             X             XS            11 Pro
   const iPhone5p8inPhones = ['iPhone10,3', 'iPhone10,6', 'iPhone11,2', 'iPhone12,3'];
-  //    iPhone:               XR            11            12 Pro         12             13 Pro           13           14       15 Pro        15
-  const iPhone6p1inPhones = ['iPhone11,8', 'iPhone12,1', 'iPhone13,3', 'iPhone13,2', 'iPhone14,2', 'iPhone14,5', 'iPhone14,7', 'iPhone16,1', 'iPhone15,4'];
-  //    iPhone:               XS Max        XS Max        11 Pro Max   12ProMax(6.7) 13ProMax(6.7)   14 Plus         14 Pro     14 Pro Max   15ProMax(6.7) 15 Plus(6.7)
-  const iPhone6p5inPhones = ['iPhone11,4', 'iPhone11,6', 'iPhone12,5', 'iPhone13,4', 'iPhone14,3', 'iPhone14,8', 'iPhone15,2', 'iPhone15,3', 'iPhone16,2', 'iPhone15,5'];
+  //    iPhone:               XR            11            12 Pro         12             13 Pro           13           14       15 Pro        15             16 (6.1)     16 Pro (6.3)
+  const iPhone6p1inPhones = ['iPhone11,8', 'iPhone12,1', 'iPhone13,3', 'iPhone13,2', 'iPhone14,2', 'iPhone14,5', 'iPhone14,7', 'iPhone16,1', 'iPhone15,4', 'iPhone17,3', 'iPhone17,1'];
+  //    iPhone:               XS Max        XS Max        11 Pro Max   12ProMax(6.7) 13ProMax(6.7)   14 Plus         14 Pro     14 Pro Max   15ProMax(6.7) 15 Plus(6.7)  16 Plus(6.7)  16 Pro Max (6.9)
+  const iPhone6p5inPhones = ['iPhone11,4', 'iPhone11,6', 'iPhone12,5', 'iPhone13,4', 'iPhone14,3', 'iPhone14,8', 'iPhone15,2', 'iPhone15,3', 'iPhone16,2', 'iPhone15,5', 'iPhone17,4', 'iPhone17,2'];
   if (iPhone3p5inPhones.includes(window.device.model)) {
     return 'isIPhone3p5in';
   } else if (iPhone4inPhones.includes(window.device.model)) {

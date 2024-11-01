@@ -10,7 +10,7 @@ import AppObservableStore, { messageService } from '../../stores/AppObservableSt
 import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import FirstChallengeParticipantListController from './FirstChallengeParticipantListController';
 import YourRankOutOf from '../Challenge/YourRankOutOf';
-import ChallengeStore from "../../stores/ChallengeStore";
+import ChallengeStore from '../../stores/ChallengeStore';
 
 // const FirstChallengeParticipantListController = React.lazy(() => import(/* webpackChunkName: 'FirstChallengeParticipantListController' */ './FirstChallengeParticipantListController'));
 const participantListDummyData = [
@@ -130,11 +130,11 @@ const ChallengeParticipantListRoot = ({ challengeWeVoteId, classes, uniqueExtern
           )}
         </LeaderboardInfoWrapper>
         <LeaderboardTableHeader>
-          <HeaderGroup gap="32px">
+          <HeaderGroup gap="70px">
             <HeaderItem>RANK</HeaderItem>
             <HeaderItem>NAME</HeaderItem>
           </HeaderGroup>
-          <HeaderGroup gap="10px">
+          <HeaderGroup gap="75px">
             <HeaderItem>POINTS</HeaderItem>
             <HeaderItem>FRIENDS JOINED</HeaderItem>
           </HeaderGroup>

@@ -39,16 +39,6 @@ const MoreInfoIcon = styled('div')(({ theme }) => ({
   color: DesignTokenColors.neutral600,
   display: 'flex',
   fontSize: 14,
-  marginLeft: '30px',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: '100px',
-  },
-  [theme.breakpoints.up('md')]: {
-    marginLeft: '200px',
-  },
-  [theme.breakpoints.up('lg')]: {
-    marginLeft: '200px',
-  },
 }));
 
 export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFriendlyPath, challengeWeVoteId, hideAboutTab }) {
@@ -184,8 +174,11 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
       >
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <Toolbar disableGutters className={classes.toolbarRoot}>
-              <Tabs value={value} onChange={handleChange} aria-label="Tab menu">
+            <Toolbar disableGutters
+              className={classes.toolbarRoot}
+              style={{ display: 'flex', alignItems: 'center', position: 'relative', width: '100%' }}
+            >
+              <Tabs value={value} onChange={handleChange} aria-label="Tab menu" style={{ flexGrow: 1 }}>
                 {!hideAboutTab && <Tab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} />}
                 <Tab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} />
                 {voterIsChallengeParticipant && <Tab id="challengeLandingTab-2" label="Invited friends" onClick={() => history.push(friendsUrl)} value={3} />}
@@ -194,6 +187,7 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
                 onMouseEnter={handleHover}
                 onMouseLeave={handleLeave}
                 onClick={toggleMoreInfoModal}
+                style={{ position: 'absolute', right: '16px', display: 'flex', alignItems: 'center' }}
               >
                 <InfoOutlined style={{ color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600 }} />
                 <span style={{ marginLeft: 4 }}>More info</span>
