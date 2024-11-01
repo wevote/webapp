@@ -1,20 +1,53 @@
+import React, { useState, useEffect } from 'react';
 import withStyles from '@mui/styles/withStyles';
 import withTheme from '@mui/styles/withTheme';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import React from 'react';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ModalDisplayTemplateA, { templateAStyles, TextFieldWrapper } from '../../../components/Widgets/ModalDisplayTemplateA';
+import ChallengeInviteeStore from '../../stores/ChallengeInviteeStore';
 
 const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
+  const [inviteeData, setInviteeData] = useState(null);
+
+  useEffect(() => {
+    const fetchInviteeData = async () => {
+      const data = await ChallengeInviteeStore.getChallengeInviteeById(inviteeId);
+      setInviteeData(data);
+    };
+      if (inviteeId) {
+        fetchInviteeData();
+        }
+      }, [inviteeId]);
+
   const handleClose = () => {
     setShow(false);
     setAnchorEl(null);
   };
 
-  const dialogTitleText = "Jane's Invitation History";
+  const formatDate = (dateString, customMessage = "Unavailable") => {
+    if (!dateString) return customMessage;
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: 'numeric',
+    });
 
+  // Format the time portion as 'h:mm a' (e.g., '6:50 PM')
+    const formattedTime = date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+
+    return `${formattedDate} - ${formattedTime}`;
+  }
+
+  const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
+
+  console.log(inviteeData)
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
@@ -30,19 +63,19 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
               <StyledTableBodyCellLeft component="th" scope="row">
                 Invitation sent
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">Oct 1, 2024 - 11:06 AM</StyledTableBodyCellRight>
+              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_invite_sent) : null}</StyledTableBodyCellRight>
             </TableRow>
             <TableRow>
               <StyledTableBodyCellLeft component="th" scope="row">
                 Challenge viewed
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">Oct 1, 2024 - 11:06 AM</StyledTableBodyCellRight>
+              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_invite_viewed, 'Invitation has not been viewed') : 'Invitation has not been viewed'}</StyledTableBodyCellRight>
             </TableRow>
             <StyledTableRow>
               <StyledTableBodyCellLeft component="th" scope="row" styled={{fontFamily: 'inherit'}}>
                 Challenge joined
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">Oct 1, 2024 - 11:06 AM</StyledTableBodyCellRight>
+              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_challenge_joined, 'Invitation has not been joined') : 'Invitation has not been joined'}</StyledTableBodyCellRight>
             </StyledTableRow>
           </TableBody>
         </Table>
