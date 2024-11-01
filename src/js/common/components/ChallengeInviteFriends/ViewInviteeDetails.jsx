@@ -46,7 +46,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
 
   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
 
-//   console.log(inviteeData);
+  console.log('inviteeData:', inviteeData);
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
@@ -74,7 +74,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
               <StyledTableBodyCellLeft component="th" scope="row" styled={{ fontFamily: 'inherit' }}>
                 Challenge joined
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_challenge_joined, 'Invitation has not been joined') : 'Invitation has not been joined'}</StyledTableBodyCellRight>
+              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_challenge_joined, 'Challenge has not been joined') : 'Challenge has not been joined'}</StyledTableBodyCellRight>
             </StyledTableRow>
           </TableBody>
         </Table>
