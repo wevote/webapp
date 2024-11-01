@@ -16,17 +16,17 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
       const data = await ChallengeInviteeStore.getChallengeInviteeById(inviteeId);
       setInviteeData(data);
     };
-      if (inviteeId) {
-        fetchInviteeData();
-        }
-      }, [inviteeId]);
+    if (inviteeId) {
+      fetchInviteeData();
+    }
+  }, [inviteeId]);
 
   const handleClose = () => {
     setShow(false);
     setAnchorEl(null);
   };
 
-  const formatDate = (dateString, customMessage = "Unavailable") => {
+  const formatDate = (dateString, customMessage = 'Unavailable') => {
     if (!dateString) return customMessage;
     const date = new Date(dateString);
     const formattedDate = date.toLocaleDateString('en-US', {
@@ -35,7 +35,6 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
       year: 'numeric',
     });
 
-  // Format the time portion as 'h:mm a' (e.g., '6:50 PM')
     const formattedTime = date.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
@@ -43,11 +42,11 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
     });
 
     return `${formattedDate} - ${formattedTime}`;
-  }
+  };
 
   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
 
-  console.log(inviteeData)
+//   console.log(inviteeData);
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
@@ -72,7 +71,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
               <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_invite_viewed, 'Invitation has not been viewed') : 'Invitation has not been viewed'}</StyledTableBodyCellRight>
             </TableRow>
             <StyledTableRow>
-              <StyledTableBodyCellLeft component="th" scope="row" styled={{fontFamily: 'inherit'}}>
+              <StyledTableBodyCellLeft component="th" scope="row" styled={{ fontFamily: 'inherit' }}>
                 Challenge joined
               </StyledTableBodyCellLeft>
               <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_challenge_joined, 'Invitation has not been joined') : 'Invitation has not been joined'}</StyledTableBodyCellRight>
