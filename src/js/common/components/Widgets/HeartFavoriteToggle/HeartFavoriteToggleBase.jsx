@@ -274,7 +274,7 @@ class HeartFavoriteToggleBase extends Component {
     if (!voterOpposesLocalPrevious && !voterSupportsLocalPrevious) {
       return 'Favoriting helps us show you what other candidates match your values.';
     } else if (voterOpposesLocalPrevious) {
-      return 'Favorited by " + supportersCount + " people. Favoriting helps us show you what other candidates match your values.';
+      return `Favorited by ${supportersCount} people. Favoriting helps us show you what other candidates match your values.`;
     } else {
       return 'Remove Favorite';
     }
@@ -290,9 +290,9 @@ class HeartFavoriteToggleBase extends Component {
     const opposersCount = campaignXOpposersCountLocalPrevious ? Number(campaignXOpposersCountLocalPrevious) : 0;
 
     if (!voterOpposesLocalPrevious && !voterSupportsLocalPrevious) {
-      return 'Disliked by " + opposersCount + " people. Disliking helps us show you what other candidates match your values.';
+      return `Disliked by ${opposersCount} people. Disliking helps us show you what other candidates match your values.`;
     } else if (voterSupportsLocalPrevious) {
-      return 'Disliked by " + opposersCount + " people. Disliking helps us show you what other candidates match your values.';
+      return `Disliked by ${opposersCount} people. Disliking helps us show you what other candidates match your values.`;
     } else {
       return 'Remove Dislike';
     }
