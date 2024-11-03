@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
 
+User-agent: *
+Disallow: /verifythisisme/
+
 Sitemap: https://api.wevoteusa.org/apis/v1/googlebotSiteMap/sitemap_index.xml
