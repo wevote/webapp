@@ -19,6 +19,10 @@ class ReadyPage extends Page {
     return $('//*[contains(@id, "HeaderLogoImage")]');
   }
 
+  get wevoteLogoRedirectReadyPage () {
+    return $('#logoHeaderBar');
+  }
+  
   get ballotTitle () {
     return $('//*[contains(@id, "ballotTitleHeader")]');
   }
@@ -100,15 +104,16 @@ class ReadyPage extends Page {
   }
 
   get findNextButtonHowItWorksWindow () {
-    return $('.kMeOcV');
+    // return $('.kMeOcV');
+    return $('//*[contains(@id, "Next")]');
   }
 
   get findBackButtonHowItWorksWindow () {
-    return $('//button[text() = "Back"]');
+    return $('//*[contains(@id, "Back")]');
   }
 
   get getStartedButton () {
-    return $('.cqTvJR>button');
+    return $('#howItWorksGetStartedDesktopButton');
   }
 
   get getTitleSignUpPopUp () {
