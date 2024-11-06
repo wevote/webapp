@@ -36,7 +36,7 @@ module.exports.config = {
     ],
   ],
   specs: [
-   /* '../specs/DiscussPage.js',
+    '../specs/DiscussPage.js',
     '../specs/FAQPage.js',
     '../specs/PrivacyPage.js',
     '../specs/ReadyPage.js',
