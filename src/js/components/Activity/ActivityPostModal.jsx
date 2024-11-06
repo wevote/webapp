@@ -286,7 +286,7 @@ const ActivityPostModal = (props) => {
 
   renderLog('ActivityPostModal'); // Set LOG_RENDER_EVENTS to log all renders
 
-  const dialogTitleText = activityTidbitWeVoteId === '' ? 'Create Post' : 'Edit Post';
+  const dialogTitleText = activityTidbitWeVoteId === '' || activityTidbitWeVoteId === undefined ? 'Create Post' : 'Edit Post';
   const statementPlaceholderText = 'What\'s on your mind?';
   const rowsToShow = isAndroid() ? 4 : 6;
 
@@ -329,7 +329,7 @@ const ActivityPostModal = (props) => {
             type="submit"
             disabled={!statementText}
           >
-            {activityTidbitWeVoteId === '' ? 'Post' : 'Save Changes'}
+            {activityTidbitWeVoteId === '' || activityTidbitWeVoteId === undefined ? 'Post' : 'Save Changes'}
           </Button>
         </PostSaveButton>
       </TextFieldForm>
