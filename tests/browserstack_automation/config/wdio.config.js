@@ -45,6 +45,7 @@ module.exports.config = {
     '../specs/TopNavigation.js',
     '../specs/TopicsPage.js',
     '../specs/HowItWorks.js', 
+    '../specs/FooterLinks.js',
     '../specs/SignInPage.js',
     '../specs/WhosRunningForOffice.js',
   ],

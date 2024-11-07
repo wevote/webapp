@@ -159,33 +159,32 @@ class ReadyPage extends Page {
     return $('#howItWorksGetStartedDesktopButton');
   }
 
-  get getTitleSignUpPopUp () {
-    return $('.u-f3');
-  }
+  async checkFinePrintHeaders()
+  {
+    const text1 = (await this.finePrintStepHeaderText1);
+    console.log("text1: " + text1);
+    const text2 = (await this.finePrintStepHeaderText2);
+    console.log("text2: " + text2);
+    const text3 = (await this.finePrintStepHeaderText3);
+    console.log("text3: " + text3);
+    const text4 = (await this.finePrintStepHeaderText4);
+    console.log("text4: " + text4);
 
-  get elementHowItWorksWindow () {
-    return $('.sc-dcJsrY');
+    await expect(text1).toHaveText('You cannot cast your vote electronically');
+    await expect(text2).toHaveText('WeVote does not represent a government entity');
+    await expect(text3).toHaveText('Please make sure you are registered to vote');
+    await expect(text4).toHaveText('How your data is used & protected');
+
   }
 
   get ballotForAddress () {
       return $('(span[class~="u-link-underline-on-hover"])');
    }
 
-  get getHelpLinkElement () {
-    return $('#footerLinkWeVoteHelp');
-  }
 
-  get getHelpPageTitleElement () {
-    return $('section h1');
-  }
 
-  get getTermsLinkElement () {
-    return $('#footerLinkTermsOfUse');
-  }
-
-  get getTeamLinkElement () {
-    return $('#footerLinkTeam');
-  }
+  get followIssueButtons () {
+    return $$('//*[contains(@id, "issueFollowButton")]');
 
   get getTeamPageTitleElement () {
     return $("//h1[normalize-space()='About WeVote']");
@@ -197,15 +196,19 @@ class ReadyPage extends Page {
 
   get getCreditsAndThanksPageTitleElement () {
     return $("//h1[normalize-space()='Credits & Thanks']");
+
   }
 
-  get getVolunteeringOpportunitiesElement () {
-    return $('#footerLinkVolunteer');
+  get toggleFollowMenuButtons () {
+    return $$('//*[contains(@id, "toggleFollowMenuButton")]');
   }
 
-  get getVolunteeringOpportunitiesPageTitleElement () {
-    return $('.page-title-open');
+  get unfollowIssueButtons () {
+    return $$('//*[contains(@id, "issueUnfollowButton")]');
   }
+
+  get getFollowPopularTopicsElement () {
+    return $('#PopularTopicsHeader');
 
   get getDonateLinkLocator () {
    return $('[href = "/donate"]');
@@ -218,10 +221,11 @@ class ReadyPage extends Page {
 
   get getDonateLinkFooter () {
     return $('#footerMainLinkDonate');
+
   }
 
-  get getAboutLinkElement () {
-    return $('//a[text() = "About & FAQ"]');
+  get selectAddress () {
+    return $('(//div[@class = "pac-item"])[1]');
   }
 
   get getSignInElement () {
@@ -312,14 +316,7 @@ class ReadyPage extends Page {
     await this.getVerifyButtonElement.click();
   } 
   
-
-  async waitAboutLinkAndClick () {
-    await this.getAboutLinkElement.waitForDisplayed({ timeout: 15000 });
-    // await driver.pause(9000);
-    await this.getAboutLinkElement.click();
-  }
-
-  async load () {
+   async load () {
     await super.open('/ready');
   }
 
@@ -367,64 +364,5 @@ class ReadyPage extends Page {
   async toggleFinePrint () {
     await this.toggleFinePrintButton.findAndClick();
   }
-
-  async clickHowItWorksLink () {
-    await this.howItWorksLink.click();
-  }
-
-  async closeHowItWorksModalWindow () {
-    await this.howItWorksCloseIcon.click();
-  }
-
-  async clickNextButtonHowItWorksWindow () {
-    let num = Math.floor(Math.random() * 5);
-    if (num === 0) {
-      num += 1;
-    }
-
-    for (let i = 1; i <= num; i++) {
-      this.findNextButtonHowItWorksWindow.click();
-    }
-    return num;
-  }
-
-  async checkTitleOfHowItWorksWindow () {
-    const num = await this.clickNextButtonHowItWorksWindow();
-    if (num === 1) {
-      return '2. Follow organizations and people you trust';
-    } else if (num === 2) {
-      return '3. See who endorsed each choice on your ballot';
-    } else if (num === 3) {
-      return '4. Complete your ballot with confidence';
-    } else {
-      return '5. Share with friends who could use a guide';
-    }
-  }
-
-  async getTitleOfHowItWorksWindowAfterBackButton () {
-    const num = await this.clickNextButtonHowItWorksWindow();
-    await this.findBackButtonHowItWorksWindow.click();
-
-    if (num === 1) {
-      return '1. Choose your interests';
-    } else if (num === 2) {
-      return '2. Follow organizations and people you trust';
-    } else if (num === 3) {
-      return '3. See who endorsed each choice on your ballot';
-    } else {
-      return '4. Complete your ballot with confidence';
-    }
-  }
-
-  async clickGetStartedButton () {
-    await this.getStartedButton.click();
-  }
-
-  async clickNextButtonFourTimes () {
-    for (let i = 1; i <= 4; i++) {
-      this.findNextButtonHowItWorksWindow.click();
-    }
-  }
-}
-
+}     
 export default new ReadyPage();
