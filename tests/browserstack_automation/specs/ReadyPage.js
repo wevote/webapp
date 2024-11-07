@@ -111,6 +111,97 @@ describe('ReadyPage', function() {
 
   // Ready_021
   it('verifyAlertMsg_FollowTopic', async () => {
+  // Ready_008 - signin testcases - moved to signin module
+
+  // Ready_009 and Ready_016
+  it('verifyPrivacyLinkRedirected', async () => {
+    console.log('Tcs : Ready_009 && Ready_016');
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await ReadyPage.findPrivacyLink.click();
+    await driver.pause(waitTime);
+    await expect(driver).toHaveUrl(expect.stringContaining('privacy'));
+    await driver.pause(waitTime);
+    await expect(browser).toHaveTitle('Privacy Policy - WeVote');
+    console.log('Verified Privacy link on the ready page');
+    await ReadyPage.wevoteLogo.findAndClick();
+    await driver.pause(waitTime);
+    await ReadyPage.getTermsLinkElement.click();
+    await driver.pause(waitTime);
+    await expect(browser).toHaveTitle('Terms of Service - WeVote');
+  });
+
+  // Ready_010 and Ready_011
+  it('verifyHowItWorksModalWindowOpen and verifyHowItWorksModalWindowClosed', async () => {
+    console.log('Tcs : Ready_010 & Ready_011');
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await ReadyPage.clickHowItWorksLink();
+    await driver.pause(waitTime);
+    await expect(ReadyPage.howItWorksTitle).toHaveText('1. Choose your interests');
+    await ReadyPage.closeHowItWorksModalWindow();
+    await driver.pause();
+    await expect(ReadyPage.elementHowItWorksWindow).not.toBeDisplayed();
+  });
+
+  // Ready_012 deprecated as it is covered as part of Ready_013
+
+  // Testcase 13 & 14 covered under HowItWorksModalWindow testcases
+
+  // Ready_015
+  it('verifyHelpLink', async () => {
+    console.log('Tcs : Ready_015');
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await ReadyPage.getHelpLinkElement.click();
+    await driver.pause(waitTime);
+    await driver.switchWindow('https://help.wevote.us/hc/en-us');
+    await driver.pause(waitTime);
+    await expect(ReadyPage.getHelpPageTitleElement).toHaveText('Frequently Asked Questions');
+  });
+
+  // Ready_016 merged with Ready_009
+
+  // Ready_017
+  it('verifyTeamLink', async () => {
+    console.log('Tcs : Ready_017');
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await ReadyPage.getTeamLinkElement.click();
+    await driver.pause(waitTime);
+    await driver.switchWindow(`${webAppConfig.WE_VOTE_URL_PROTOCOL + webAppConfig.WE_VOTE_HOSTNAME}/more/about`);
+    await driver.pause(waitTime);
+    await expect(ReadyPage.getTeamPageTitleElement).toHaveText('About WeVote');
+    await expect(browser).toHaveTitle('About WeVote');
+  });
+
+  // Ready_018
+  it('verifyCreditsAndThanksLink', async () => {
+    console.log('Tcs : Ready_018');
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await ReadyPage.getCreditsAndThanksElement.click();
+    await driver.pause(waitTime);
+    await driver.switchWindow(`${webAppConfig.WE_VOTE_URL_PROTOCOL + webAppConfig.WE_VOTE_HOSTNAME}/more/credits`);
+    await driver.pause(waitTime);
+    await expect(ReadyPage.getCreditsAndThanksPageTitleElement).toHaveText('Credits & Thanks');
+    await expect(browser).toHaveTitle('Credits - WeVote');
+  });
+
+  // Ready_019
+  it('verifyVolunteeringOpportunitiesLink', async () => {
+    console.log('Tcs : Ready_019');
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await ReadyPage.getVolunteeringOpportunitiesElement.click();
+    await driver.pause(waitTime);
+    await driver.switchWindow('wevote.applytojob.com/apply');
+    await driver.pause(waitTime);
+    await expect(ReadyPage.getVolunteeringOpportunitiesPageTitleElement).toHaveText('Current Openings');
+  });
+
+  // Ready_020
+  it('verifyDonateLinkRedirected', async () => {
     console.log('Tcs : Ready_020');
     await ReadyPage.load();
     await driver.pause(waitTime + 2000);
@@ -124,10 +215,4 @@ describe('ReadyPage', function() {
     await driver.pause(waitTime);
     await expect(DonatePage.getDonatePageContentTitleElement).toHaveText('Want more Americans to vote?');
     await expect(browser).toHaveTitle('Donate - WeVote');
-  }); */
-
-
-
-
-
-});
+  }); 

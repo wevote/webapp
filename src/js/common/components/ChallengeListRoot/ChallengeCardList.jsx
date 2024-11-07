@@ -199,7 +199,11 @@ class ChallengeCardList extends Component {
                   <ChallengeAbout challengeWeVoteId={oneChallenge.challenge_we_vote_id} />
                 </Link>
                 {pigsCanFly && (
-                  <JoinChallengeAndLearnMoreButtons />
+                  <JoinedButtonsOuterWrapper>
+                    <JoinedButtonsInnerWrapper>
+                      <JoinChallengeAndLearnMoreButtons />
+                    </JoinedButtonsInnerWrapper>
+                  </JoinedButtonsOuterWrapper>
                 )}
               </ChallengeCardForListVerticalWrapper>
             );
@@ -298,21 +302,34 @@ const ChallengeCardForListVerticalWrapper = styled('div')`
   display: flex;
   flex-direction: column;
   // height: ${isWebApp() ? '100%' : 'unset'};
+  height: 440px;
+  position: relative;
   width: 80%;
   max-width: 300px;
 `;
 
-const Wrapper = styled('div')`
-  min-height: 30px;
+const JoinedButtonsInnerWrapper = styled('div')`
+  width: 95%;
+`;
+
+const JoinedButtonsOuterWrapper = styled('div')`
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  position: absolute;
 `;
 
 const JoinedAndDaysForChallengePage = styled('div')`
-left: 10px;
-position: absolute;
-top: 130px;
-@media (max-width: 600px) {
+  left: 10px;
+  position: absolute;
+  top: 130px;
+  @media (max-width: 600px) {
     top: 140px;
   }
+`;
+
+const Wrapper = styled('div')`
+  min-height: 30px;
 `;
 
 export default withStyles(styles)(ChallengeCardList);

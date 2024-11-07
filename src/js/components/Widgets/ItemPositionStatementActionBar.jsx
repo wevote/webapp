@@ -98,6 +98,7 @@ class ItemPositionStatementActionBar extends Component {
   componentWillUnmount () {
     this.supportStoreListener.remove();
     this.voterStoreListener.remove();
+    restoreStylesAfterCordovaKeyboard('ItemPositionStatementActionBar');
   }
 
   // See https://reactjs.org/docs/error-boundaries.html

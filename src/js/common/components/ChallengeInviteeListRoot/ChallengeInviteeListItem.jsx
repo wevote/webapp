@@ -1,16 +1,24 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import withTheme from '@mui/styles/withTheme';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Avatar } from '@mui/material';
 import { withStyles } from '@mui/styles';
-import { RemoveRedEye, CheckCircle, Check, MoreHoriz } from '@mui/icons-material';
+import { RemoveRedEye, CheckCircle, Check, InfoOutlined, EditOutlined, MoreHoriz } from '@mui/icons-material';
+import Popover from '@mui/material/Popover';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ConfirmYouSentInviteButton from './ConfirmYouSentInviteButton';
 import InviteAgainButton from './InviteAgainButton';
 import speakerDisplayNameToInitials from '../../utils/speakerDisplayNameToInitials';
+import ViewInviteeDetails from '../ChallengeInviteFriends/ViewInviteeDetails';
 
-const ChallengeInviteeListItem = ({ invitee, classes }) => {
-  // console.log('ChallengeInviteeListItem:', invitee);
+
+const ChallengeInviteeListItem = ({ invitee }) => {
+//   console.log('ChallengeInviteeListItem:', invitee);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [viewInviteeDetails, setViewInviteeDetails] = useState(false);
+
+  const { sx, children } = speakerDisplayNameToInitials(invitee.invitee_name);
   let challengeStatusIconJsx = <></>;
   let challengeStatusMessage = '';
   if (invitee.challenge_joined) {
@@ -24,56 +32,92 @@ const ChallengeInviteeListItem = ({ invitee, classes }) => {
     challengeStatusMessage = 'Invite sent';
   }
 
-  let underNameJsx = <></>;
-  if (invitee.challenge_joined || invitee.invite_viewed || invitee.invite_sent === true) {
-    underNameJsx = (
-      <MessageContainer>
-        <MessageStatus>
-          {challengeStatusIconJsx}
-        </MessageStatus>
-        <MessageText>
-          {challengeStatusMessage}
-        </MessageText>
-      </MessageContainer>
-    );
-  } else if (invitee.invite_sent === false) {
-    underNameJsx = (
-      <ConfirmYouSentInviteButton
-        challengeInviteeId={invitee.invitee_id}
-        challengeWeVoteId={invitee.challenge_we_vote_id}
-      />
-    );
-  }
-  const inviteeName = invitee.invitee_voter_name || invitee.invitee_name;
-  const { sx, children } = speakerDisplayNameToInitials(inviteeName);
+  const onDotButtonClick = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const openViewInviteeDetails = () => {
+    setViewInviteeDetails(true);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
   return (
     <InvitedFriendDetails>
       <PrimaryDetails>
         <FriendName>
-          {invitee.we_vote_hosted_profile_image_url_medium !== '' ? (
-            <AvatarDetails src={invitee.we_vote_hosted_profile_image_url_medium} alt={inviteeName} />
-          ) : (
-            <AvatarDetails sx={sx}>{children}</AvatarDetails>
-          )}
+          <AvatarDetails sx={sx}>{children}</AvatarDetails>
           {' '}
-          <Name>{inviteeName}</Name>
+          <Name>{invitee.invitee_name}</Name>
         </FriendName>
         <VerticalLine />
-        <ActivityCommentEditWrapper>
-          <MoreHoriz />
-        </ActivityCommentEditWrapper>
+        <EditInviteeTripleDotWrapper>
+          <TripleDotButton type="button" aria-label="source" onClick={onDotButtonClick}>
+            <MoreHoriz />
+          </TripleDotButton>
+          <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handlePopoverClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
+            }}
+          >
+            <PopoverWrapper>
+              <PopoverNameAndMessageText>
+                <StyledTypography>
+                  <EditOutlined style={{ fontSize: '14px', cursor: 'pointer', marginRight: '4px' }} />
+                  Edit name & message
+                </StyledTypography>
+              </PopoverNameAndMessageText>
+              <PopoverViewDetailsText>
+                <StyledTypography onClick={openViewInviteeDetails}>
+                  <InfoOutlined style={{ fontSize: '14px', cursor: 'pointer', marginRight: '4px' }} />
+                  View details
+                </StyledTypography>
+              </PopoverViewDetailsText>
+            </PopoverWrapper>
+          </Popover>
+          <ViewInviteeDetails
+            show={viewInviteeDetails}
+            setShow={setViewInviteeDetails}
+            setAnchorEl={setAnchorEl}
+            inviteeId={invitee.invitee_id}
+          />
+        </EditInviteeTripleDotWrapper>
       </PrimaryDetails>
       <Options>
         <div>
-          {underNameJsx}
+          {invitee.invite_sent === false ? (
+            <ConfirmYouSentInviteButton
+              challengeInviteeId={invitee.invitee_id}
+              challengeWeVoteId={invitee.challenge_we_vote_id}
+            />
+          ) : (
+            <MessageContainer>
+              <MessageStatus>
+                {challengeStatusIconJsx}
+              </MessageStatus>
+              {challengeStatusMessage}
+            </MessageContainer>
+          )}
         </div>
-        {!(invitee.challenge_joined) ? (
+        {invitee.messageStatus !== 'Challenge Joined' && (
           <InviteAgainButton
             challengeInviteeId={invitee.invitee_id}
             challengeWeVoteId={invitee.challenge_we_vote_id}
           />
-        ) : (
-          <div>&nbsp;</div>
         )}
       </Options>
     </InvitedFriendDetails>
@@ -82,15 +126,14 @@ const ChallengeInviteeListItem = ({ invitee, classes }) => {
 
 ChallengeInviteeListItem.propTypes = {
   invitee: PropTypes.object,
-  classes: PropTypes.object.isRequired,
 };
 
 const styles = () => ({
   searchButton: {
     borderRadius: 50,
   },
-});
 
+});
 
 const InvitedFriendDetails = styled('div')`
   display: flex;
@@ -126,9 +169,7 @@ const Name = styled('div')`
 `;
 
 const MessageContainer = styled('div')`
-  align-items: center;
   display: flex;
-  margin-left: 45px;
 `;
 
 const MessageStatus = styled('div')`
@@ -138,17 +179,13 @@ const MessageStatus = styled('div')`
   margin-right: 10px;
 `;
 
-const MessageText = styled('div')`
-  margin-top: 3px;
-`;
-
 const VerticalLine = styled('div')`
   border-left: 1px solid ${DesignTokenColors.neutral200};
   height: 30px;
   margin: 0 10px;
 `;
 
-const ActivityCommentEditWrapper = styled('div')`
+const EditInviteeTripleDotWrapper = styled('div')`
   margin-right: 10px;
   color: ${DesignTokenColors.neutral900};
   :hover {
@@ -164,4 +201,27 @@ const Options = styled('div')`
   font-size: 14px;
 `;
 
-export default withStyles(styles)(ChallengeInviteeListItem);
+const PopoverWrapper = styled('div')`
+  padding: 5px;
+`;
+
+const PopoverNameAndMessageText = styled('div')`
+  padding: 6px;
+`;
+
+const PopoverViewDetailsText = styled('div')`
+  padding: 6px;
+  cursor: pointer;
+`;
+
+const StyledTypography = styled('div')`
+  font-size: 12px;
+  font-family: inherit;
+`;
+
+const TripleDotButton = styled('button')`
+  background: transparent;
+  border: 0;
+`;
+
+export default withTheme(withStyles(styles)(ChallengeInviteeListItem));

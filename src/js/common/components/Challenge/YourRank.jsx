@@ -3,6 +3,7 @@ import withStyles from '@mui/styles/withStyles';
 import React, { Suspense, useEffect, useState } from 'react';
 import { useReward } from 'react-rewards'; // react-rewards is a library for rewarding users with confetti
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import arrow from '../../../../img/global/icons/ph_arrow-up-bold.png';
 import arrow1 from '../../../../img/global/icons/ph_arrow-up-bold_1.png';
@@ -11,7 +12,7 @@ import AppObservableStore, { messageService } from '../../stores/AppObservableSt
 import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import FirstChallengeParticipantListController from '../ChallengeParticipantListRoot/FirstChallengeParticipantListController';
 
-const YourRank = ({ classes, challengeWeVoteId }) => {
+const YourRank = ({ classes, challengeWeVoteId, hasBackgroundColor }) => {
   const [clicked, setClicked] = useState(false);
   const [participantsCount, setParticipantsCount] = useState(0);
   const [points, setPoints] = useState(0);
@@ -44,6 +45,7 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
   const onChallengeParticipantStoreChange = () => {
     const sortedParticipantsWithRank = ChallengeParticipantStore.getChallengeParticipantList(challengeWeVoteId);
     setParticipantsCount(sortedParticipantsWithRank.length);
+    setRankOfVoter(AppObservableStore.getChallengeParticipantRankOfVoterByChallengeWeVoteId(challengeWeVoteId));
   };
 
   const handleClick = () => {
@@ -76,17 +78,14 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
     };
   }, [challengeWeVoteId]);
 
+  // Show confetti when the component mounts
   useEffect(() => {
-    // Show confetti when the component mounts
     triggerConfetti();
-    // Hide confetti after a short duration
-    const timer = setTimeout(() => {
-    }, 5000);
-    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <YourRankOuterWrapper>
+    <YourRankOuterWrapper hasBackgroundColor={hasBackgroundColor}>
       <YourRankInnerWrapper>
         <YourRankText>
           Your rank in the challenge:
@@ -96,14 +95,17 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
             id="confettiReward"
             onClick={handleClick}
             classes={{ root: classes.buttonDesktop }}
-            style={{ color: clicked ? '#FFFFFF' : '#AC5204'}}
+            style={{
+              backgroundColor: clicked ? DesignTokenColors.accent500 : DesignTokenColors.whiteUI,
+              color: clicked ? DesignTokenColors.whiteUI : DesignTokenColors.accent500,
+            }}
           >
             #
             {rankOfVoter}
             {' '}
-            <span className="arrow">
-              <img src={arrowImage} alt="arrow" classes={{ root: classes.arrow }} />
-            </span>
+            <StyledArrowContainer>
+              <ArrowImg src={arrowImage} alt="arrow" />
+            </StyledArrowContainer>
           </Button>
         </YourRankButtonWrapper>
       </YourRankInnerWrapper>
@@ -120,46 +122,43 @@ const YourRank = ({ classes, challengeWeVoteId }) => {
     </YourRankOuterWrapper>
   );
 };
-const styles = (theme) => ({
+YourRank.propTypes = {
+  classes: PropTypes.object.isRequired,
+  challengeWeVoteId: PropTypes.string,
+  hasBackgroundColor: PropTypes.bool,
+};
+
+const styles = () => ({
   buttonDesktop: {
     boxShadow: 'none !important',
-    color: '#AC5204',
-    height: '34px',
-    border: '1px solid #AC5204',
+    border: `1px solid ${DesignTokenColors.accent500}`,
     borderRadius: '20px 20px 20px 20px',
+    color: DesignTokenColors.accent500,
+    height: '34px',
     transition: 'color 0.3s ease',
     textTransform: 'none',
     width: '105px',
   },
   desktopSimpleLink: {
-    border: '2px solid #AC5204',
+    border: `2px solid ${DesignTokenColors.accent500}`,
     boxShadow: 'none !important',
-    color: '#999',
+    color: DesignTokenColors.neutral500,
     marginTop: 10,
     padding: '0 20px',
     textTransform: 'none',
     width: 250,
   },
   mobileSimpleLink: {
+    '&:hover': {
+      color: DesignTokenColors.primary500,
+      textDecoration: 'underline',
+    },
     boxShadow: 'none !important',
-    color: '#999',
+    color: DesignTokenColors.neutral500,
     marginTop: 10,
     padding: '0 20px',
     textTransform: 'none',
     width: '100%',
-    '&:hover': {
-      color: '#4371cc',
-      textDecoration: 'underline',
-    },
-  },
-  arrow: {
-    width: '10.5px',
-    height: '12.5px',
-    top: '2.75px',
-    left: '14.25px',
-    gap: '0px',
-    opacity: '0px',
-    angle: '-90 deg',
   },
 });
 
@@ -170,28 +169,49 @@ const YourRankInnerWrapper = styled('div')`
   justify-content: center;
 `;
 
-const YourRankOuterWrapper = styled('div')`
-  background-color: ${DesignTokenColors.neutralUI50};
+const YourRankOuterWrapper = styled('div', {
+  shouldForwardProp: (prop) => !['hasBackgroundColor'].includes(prop),
+})(({ hasBackgroundColor }) => `
+  background-color: ${hasBackgroundColor ? DesignTokenColors.neutralUI50 : DesignTokenColors.white};
   z-index: 100;
-`;
+`);
 
-const YourRankButtonWrapper = styled('div')`
-  background-color: ${(props) => (props.clicked ? '#AC5204' : '#FFFFFF')};
+const YourRankButtonWrapper = styled('div', {
+  shouldForwardProp: (prop) => !['clicked'].includes(prop),
+})(({ clicked }) => `
+  background-color: ${clicked ? DesignTokenColors.orange500 : DesignTokenColors.white};
   width: 105px;
   height: 34px;
-  //top: 443px;
-  //left: 234px;
-  gap: 0px;
+  gap: 0;
   border-radius: 20px;
   border: 1px solid #AC5204;
   display: flex;
   align-items: center;
+  background-color: ${clicked ? DesignTokenColors.accent500 : DesignTokenColors.whiteUI};
+  border: 1px solid ${DesignTokenColors.accent500};
+  border-radius: 20px;
+  display: flex;
+  gap: 0;
+  height: 34px;
   justify-content: center;
   transition: background-color 0.3s ease, color 0.3s ease;
-`;
+  width: 105px;
+`);
 
 const YourRankText = styled('div')`
   margin-right: 10px;
 `;
 
+const StyledArrowContainer = styled('div')`
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin-left: 5px;
+`;
+
+const ArrowImg = styled('img')`
+  height: 12px;
+  margin-top: -2px;
+  width: 10px;
+`;
 export default withStyles(styles)(YourRank);

@@ -101,12 +101,11 @@ const InviteAgainButton = ({ classes, challengeWeVoteId, challengeInviteeId }) =
       // console.log('inviteeName: ', inviteeName, ', inviterName: ', inviterName);
       let inviteTextToSendTemp1 = inviteeFirstName ? `Hi ${inviteeFirstName}` : 'Hi';
       inviteTextToSendTemp1 += inviterFirstName ? `, this is ${inviterFirstName}. ` : ', ';
-      let inviteTextToSendTemp2 = challengeInviteTextDefault;
-      if (inviteTextForFriends && inviteTextForFriends.trim() !== '') {
-        inviteTextToSendTemp2 = inviteTextForFriends;
-      }
-      if (inviteTextForFriends && inviteTextFromInviter.trim() !== '') {
-        inviteTextToSendTemp2 = inviteTextFromInviter;
+      let inviteTextToSendTemp2 = challengeInviteTextDefault; // Default text for the challenge
+      if (inviteTextFromInviter && inviteTextFromInviter.trim() !== '') {
+        inviteTextToSendTemp2 = inviteTextFromInviter; // Text specific to this friend
+      } else if (inviteTextForFriends && inviteTextForFriends.trim() !== '') {
+        inviteTextToSendTemp2 = inviteTextForFriends; // Text customized for all friends
       }
       // console.log('challengeInviteTextDefault: ', challengeInviteTextDefault);
       const invitee = ChallengeInviteeStore.getChallengeInviteeById(challengeInviteeId);

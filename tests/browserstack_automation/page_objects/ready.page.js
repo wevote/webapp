@@ -19,6 +19,10 @@ class ReadyPage extends Page {
     return $('//*[contains(@id, "HeaderLogoImage")]');
   }
 
+  get wevoteLogoRedirectReadyPage () {
+    return $('#logoHeaderBar');
+  }
+  
   get ballotTitle () {
     return $('//*[contains(@id, "ballotTitleHeader")]');
   }
@@ -103,7 +107,6 @@ class ReadyPage extends Page {
 
   }
 
-
   get followIssueButtons () {
     return $$('//*[contains(@id, "issueFollowButton")]');
   }
@@ -118,6 +121,107 @@ class ReadyPage extends Page {
 
   get getFollowPopularTopicsElement () {
     return $('#PopularTopicsHeader');
+  }
+
+  get selectAddress () {
+    return $('(//div[@class = "pac-item"])[1]');
+  }
+
+  get howItWorksLink () {
+    return $('#footerLinkHowItWorks');
+  }
+
+  get howItWorksTitle () {
+    //return $('div>h3[class~="gNNNpeadyFinePrintStepTextX"]');
+    return $('//h3[text()="1. Choose your interests"]');
+  }
+
+  get howItWorksCloseIcon () {
+    return $('[data-testid = "CloseIcon"] > path');
+  }
+
+  get findPrivacyLink () {
+    return $('#footerLinkPrivacy');
+  }
+
+ 
+
+  get findNextButtonHowItWorksWindow () {
+    // return $('.kMeOcV');
+    return $('//*[contains(@id, "Next")]');
+  }
+
+  get findBackButtonHowItWorksWindow () {
+    return $('//*[contains(@id, "Back")]');
+  }
+
+  get getStartedButton () {
+    return $('#howItWorksGetStartedDesktopButton');
+  }
+
+  async checkFinePrintHeaders()
+  {
+    const text1 = (await this.finePrintStepHeaderText1);
+    console.log("text1: " + text1);
+    const text2 = (await this.finePrintStepHeaderText2);
+    console.log("text2: " + text2);
+    const text3 = (await this.finePrintStepHeaderText3);
+    console.log("text3: " + text3);
+    const text4 = (await this.finePrintStepHeaderText4);
+    console.log("text4: " + text4);
+
+    await expect(text1).toHaveText('You cannot cast your vote electronically');
+    await expect(text2).toHaveText('WeVote does not represent a government entity');
+    await expect(text3).toHaveText('Please make sure you are registered to vote');
+    await expect(text4).toHaveText('How your data is used & protected');
+
+  }
+
+  get ballotForAddress () {
+      return $('(span[class~="u-link-underline-on-hover"])');
+   }
+
+
+
+  get followIssueButtons () {
+    return $$('//*[contains(@id, "issueFollowButton")]');
+
+  get getTeamPageTitleElement () {
+    return $("//h1[normalize-space()='About WeVote']");
+  }
+
+  get getCreditsAndThanksElement () {
+    return $('#footerLinkCredits');
+  }
+
+  get getCreditsAndThanksPageTitleElement () {
+    return $("//h1[normalize-space()='Credits & Thanks']");
+
+  }
+
+  get toggleFollowMenuButtons () {
+    return $$('//*[contains(@id, "toggleFollowMenuButton")]');
+  }
+
+  get unfollowIssueButtons () {
+    return $$('//*[contains(@id, "issueUnfollowButton")]');
+  }
+
+  get getFollowPopularTopicsElement () {
+    return $('#PopularTopicsHeader');
+
+  get getDonateLinkLocator () {
+   return $('[href = "/donate"]');
+   
+  }
+
+  get getDonateLinkHeader () {
+    return $('#donateTabHeaderBar');
+  }
+
+  get getDonateLinkFooter () {
+    return $('#footerMainLinkDonate');
+
   }
 
   get selectAddress () {
