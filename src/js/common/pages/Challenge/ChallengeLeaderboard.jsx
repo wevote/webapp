@@ -75,7 +75,10 @@ const ChallengeLeaderboard = ({ classes, challengeWeVoteId, clearSearchFunction,
           </div>
         </LeaderboardTableHeader>
       </TopSection>
-      <ChallengeParticipantList currentVoterWeVoteId={'wv02voter123'}/>
+      <ChallengeParticipantList
+        challengeWeVoteId={challengeWeVoteId}
+        currentVoterWeVoteId={'wv02voter123'}
+      />
     </LeaderboardContainer>
   );
 };

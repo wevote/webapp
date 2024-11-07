@@ -23,7 +23,7 @@ import { validateEmail } from '../../utils/regex-checks';
 const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenExternalWebSite' */ '../../common/components/Widgets/OpenExternalWebSite'));
 
 /* global $ */
-
+let shiftTabKeyPressed = false
 class VoterEmailAddressEntry extends Component {
   constructor (props) {
     super(props);
@@ -242,12 +242,14 @@ class VoterEmailAddressEntry extends Component {
       this.setState({
         displayEmailVerificationButton: false,
       });
-      const TermsOfServiceLink = document.getElementById("openTermsOfService");
-      if (TermsOfServiceLink) {
-        TermsOfServiceLink.focus(); 
+      if(!shiftTabKeyPressed){
+        const TermsOfServiceLink = document.getElementById("openTermsOfService");
+        if (TermsOfServiceLink) {
+          TermsOfServiceLink.focus(); 
+        }
       }
       blurTextFieldAndroid();
-    } 
+    }
   };
 
   onCancel = () => {
@@ -271,9 +273,9 @@ class VoterEmailAddressEntry extends Component {
         this.props.showAllSignInOptions();
       }
     }
-    const TermsOfServiceLink = document.getElementById("openTermsOfService");
+    const TermsOfServiceLink = document.getElementById('openTermsOfService');
     if (TermsOfServiceLink) {
-      TermsOfServiceLink.focus(); 
+      TermsOfServiceLink.focus();
     }
   };
 
@@ -308,6 +310,11 @@ class VoterEmailAddressEntry extends Component {
     const ENTER_KEY_CODE = 13;
     const SPACE_KEY_CODE = 32;
     const keyCodesToBlock = [ENTER_KEY_CODE, SPACE_KEY_CODE];
+    if (event.key === "Tab" && event.shiftKey) {
+      shiftTabKeyPressed = true;
+    } else {
+      shiftTabKeyPressed = false;
+    }
     if (keyCodesToBlock.includes(event.keyCode)) {
       event.preventDefault();
     }
@@ -613,6 +620,7 @@ class VoterEmailAddressEntry extends Component {
                       <span
                         className="u-link-color u-cursor--pointer u-no-break"
                         onClick={() => this.reSendSignInCodeEmail(voterEmailAddressFromList.normalized_email_address)}
+                        id = "sendVerificationCodeAgain"
                       >
                         Send verification again
                       </span>
@@ -661,7 +669,7 @@ class VoterEmailAddressEntry extends Component {
             )}
             {unverifiedEmailsFound && (
               <EmailSection isWeb={isWebApp()}>
-                <span className="h3">Emails to Verify</span>
+                <span className="h3" id = "emailVerifyTitle">Emails to Verify</span>
                 {toVerifyEmailListHtml}
               </EmailSection>
             )}

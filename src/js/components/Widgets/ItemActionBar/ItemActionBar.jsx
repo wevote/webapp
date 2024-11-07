@@ -1,29 +1,34 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/newline-after-import */
+/* eslint-disable import/order */
+/* eslint-disable react/jsx-indent */
 import { Comment, Done, NotInterested, ThumbDown, ThumbUp } from '@mui/icons-material';
 import { Button } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React, { PureComponent, Suspense } from 'react';
-import styled from 'styled-components';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import styled from 'styled-components';
 import SupportActions from '../../../actions/SupportActions';
 import VoterActions from '../../../actions/VoterActions';
+import DesignTokenColors from '../../../common/components/Style/DesignTokenColors';
+import { openSnackbar } from '../../../common/components/Widgets/SnackNotifier';
+import AppObservableStore from '../../../common/stores/AppObservableStore';
+import { isWebApp } from '../../../common/utils/isCordovaOrWebApp';
 import isMobileScreenSize from '../../../common/utils/isMobileScreenSize';
 import Cookies from '../../../common/utils/js-cookie/Cookies';
-import { convertToInteger } from '../../../common/utils/textFormat';
 import { renderLog } from '../../../common/utils/logging';
 import normalizedImagePath from '../../../common/utils/normalizedImagePath';
 import stringContains from '../../../common/utils/stringContains';
+import { convertToInteger } from '../../../common/utils/textFormat';
 import webAppConfig from '../../../config';
 import VoterConstants from '../../../constants/VoterConstants';
-import AppObservableStore from '../../../common/stores/AppObservableStore';
 import SupportStore from '../../../stores/SupportStore';
 import VoterStore from '../../../stores/VoterStore';
 import PositionPublicToggle from '../../PositionItem/PositionPublicToggle';
-import ShareButtonDropDown from '../ShareButtonDropdown';
-import { openSnackbar } from '../../../common/components/Widgets/SnackNotifier';
-import DesignTokenColors from '../../../common/components/Style/DesignTokenColors';
 import PositionStatementModal from '../PositionStatementModal'; // eslint-disable-line import/no-cycle
+import ShareButtonDropDown from '../ShareButtonDropdown';
 
 const HelpWinOrDefeatModal = React.lazy(() => import(/* webpackChunkName: 'HelpWinOrDefeatModal' */ '../../../common/components/CampaignSupport/HelpWinOrDefeatModal')); // eslint-disable-line import/no-cycle
 
@@ -284,39 +289,53 @@ class ItemActionBar extends PureComponent {
     const { classes, externalUniqueId } = this.props;
     // const buttonRootClass = inCard ? classes.buttonRootForCard : classes.buttonRoot;
     const buttonRootClass = classes.buttonHelpRoot;
-    return (
-      <Button
-        classes={{ root: buttonRootClass, outlinedPrimary: classes.buttonOutlinedPrimary }}
-        color="primary"
-        id={`itemActionBarHelpThemWinButton-${externalUniqueId}-${localUniqueId}`}
-        onClick={() => this.openHelpWinOrDefeatModal()}
-        variant="contained"
-      >
-        <HelpButtonLabel>
-          &nbsp;Help Win with $1&nbsp;
-        </HelpButtonLabel>
-      </Button>
-    );
+    if (isWebApp()) {
+      return (
+        <Button
+          classes={{
+            root: buttonRootClass,
+            outlinedPrimary: classes.buttonOutlinedPrimary,
+          }}
+          color="primary"
+          id={`itemActionBarHelpThemWinButton-${externalUniqueId}-${localUniqueId}`}
+          onClick={() => this.openHelpWinOrDefeatModal()}
+          variant="contained"
+        >
+          <HelpButtonLabel>
+            &nbsp;Help Win with $1&nbsp;
+          </HelpButtonLabel>
+        </Button>
+      );
+    } else {
+      return null;
+    }
   };
 
   helpDefeatThemButton = (localUniqueId) => {
     const { classes, externalUniqueId, opposeHideInMobile } = this.props;
     // const buttonRootClass = inCard ? classes.buttonRootForCard : classes.buttonRoot;
     const buttonRootClass = classes.buttonHelpRoot;
-    return (
-      <Button
-        classes={{ root: buttonRootClass, outlinedPrimary: classes.buttonOutlinedPrimary }}
-        className={`${opposeHideInMobile ? 'd-none d-sm-block ' : ''}`}
-        color="primary"
-        id={`itemActionBarHelpDefeatButton-${externalUniqueId}-${localUniqueId}`}
-        onClick={() => this.openHelpWinOrDefeatModal()}
-        variant="contained"
-      >
-        <HelpButtonLabel>
-          $1 to Help Defeat
-        </HelpButtonLabel>
-      </Button>
-    );
+    if (isWebApp()) {
+      return (
+        <Button
+          classes={{
+            root: buttonRootClass,
+            outlinedPrimary: classes.buttonOutlinedPrimary,
+          }}
+          className={`${opposeHideInMobile ? 'd-none d-sm-block ' : ''}`}
+          color="primary"
+          id={`itemActionBarHelpDefeatButton-${externalUniqueId}-${localUniqueId}`}
+          onClick={() => this.openHelpWinOrDefeatModal()}
+          variant="contained"
+        >
+          <HelpButtonLabel>
+            $1 to Help Defeat
+          </HelpButtonLabel>
+        </Button>
+      );
+    } else {
+      return null;
+    }
   };
 
   opposeButton = (localUniqueId) => {
@@ -418,11 +437,11 @@ class ItemActionBar extends PureComponent {
     const { classes, externalUniqueId } = this.props;
     return (
       <Button
-       classes={{ root: classes.buttonNoTextRoot, outlinedPrimary: classes.buttonOutlinedPrimary }}
-       color={this.isSupportCalculated() ? 'secondary' : 'primary'}
-       id={`itemActionBarSupportButtonNoText-${externalUniqueId}-${localUniqueId}`}
-       onClick={() => this.supportItem()}
-       variant={this.isSupportCalculated() ? 'contained' : 'outlined'}
+        classes={{ root: classes.buttonNoTextRoot, outlinedPrimary: classes.buttonOutlinedPrimary }}
+        color={this.isSupportCalculated() ? 'secondary' : 'primary'}
+        id={`itemActionBarSupportButtonNoText-${externalUniqueId}-${localUniqueId}`}
+        onClick={() => this.supportItem()}
+        variant={this.isSupportCalculated() ? 'contained' : 'outlined'}
       >
         <Done classes={{ root: classes.buttonIconDone }} />
       </Button>

@@ -584,7 +584,7 @@ class ChallengeHomePage extends Component {
                 ) : (
                   <AboutSectionWrapper>
                     <CampaignDescriptionWrapper hideCardMargins>
-                      <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} />
+                      <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} showDaysLeft />
                       {challengeDescription && (
                         <DelayedLoad waitBeforeShow={250}>
                           <ChallengeDescription>
@@ -630,7 +630,7 @@ class ChallengeHomePage extends Component {
                   useVerticalCard
                   voterWeVoteId={voterWeVoteId}
                 />
-                <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} />
+                <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} showDaysLeft />
                 <JoinChallengeButtonWrapper>
                   <Suspense fallback={<></>}>
                     <JoinChallengeButton
