@@ -134,7 +134,7 @@ class FooterLinksPage extends Page {
     for (let i = 1; i <= 4; i++) {
       this.findNextButtonHowItWorksWindow.click();
     }
-  } */
+  }
 }
 
 export default new FooterLinksPage();
