@@ -10,8 +10,8 @@ const waitTime = 8000;
 // We don't need those warnings, because describe() and it() are available at runtime
 // https://webdriver.io/docs/pageobjects
 
-describe('ReadyPage', function() {
-  this.timeout(9999999);
+describe('ReadyPage', () => {
+  // this.timeout(9999999);
   // Ready_001 and Ready_003
   it('verifyElectionCountDownRedirect and verifyViewYourBallotRedirect', async () => {
     console.log('Tcs : Ready_001 and Ready_003');
@@ -109,10 +109,6 @@ describe('ReadyPage', function() {
   // Ready_016 merged with Ready_009
   // Ready_020 */
 
-  // Ready_021
-  it('verifyAlertMsg_FollowTopic', async () => {
-  // Ready_008 - signin testcases - moved to signin module
-
   // Ready_009 and Ready_016
   it('verifyPrivacyLinkRedirected', async () => {
     console.log('Tcs : Ready_009 && Ready_016');
@@ -207,12 +203,11 @@ describe('ReadyPage', function() {
     await driver.pause(waitTime + 2000);
     await browser.scroll(0, 200);
     await driver.pause(waitTime);
-
-     
     await ReadyPage.getDonateLinkLocator.click();
     await driver.pause(waitTime);
     await expect(driver).toHaveUrl(expect.stringContaining('donate'));
     await driver.pause(waitTime);
     await expect(DonatePage.getDonatePageContentTitleElement).toHaveText('Want more Americans to vote?');
     await expect(browser).toHaveTitle('Donate - WeVote');
-  }); 
+  });
+});

@@ -1,6 +1,5 @@
-import { $, $$ , expect} from '@wdio/globals';
+import { $, $$, expect, driver } from '@wdio/globals';
 import Page from './page';
-import { driver } from '@wdio/globals';
 
 class ReadyPage extends Page {
   constructor () {
@@ -22,15 +21,14 @@ class ReadyPage extends Page {
   get wevoteLogoRedirectReadyPage () {
     return $('#logoHeaderBar');
   }
-  
+
   get ballotTitle () {
     return $('//*[contains(@id, "ballotTitleHeader")]');
   }
 
   get ballotAddress () {
-    //return $('#ballotTitleBallotAddress');
+    // return $('#ballotTitleBallotAddress');
     return $('//span[@class ="u-cursor--pointer u-link-color u-link-underline-on-hover"]');
-
   }
 
   get ballotAddressInput () {
@@ -69,42 +67,36 @@ class ReadyPage extends Page {
     return $$('//*[contains(@id, "readyFinePrintStepText")]');
   }
 
-  get finePrintStepHeaderText1()
-  {
+  get finePrintStepHeaderText1 () {
     return $("(//div[@class='StepTitle-sc-lvvjo6-10 iKrjzD'][normalize-space()='You cannot cast your vote electronically'])[1]");
   }
 
-  get finePrintStepHeaderText2()
-  {
+  get finePrintStepHeaderText2 () {
     return $('//div[text() = "WeVote does not represent a government entity"]');
   }
 
-  get finePrintStepHeaderText3()
-  {
+  get finePrintStepHeaderText3 () {
     return $('//div[text() = "Please make sure you are registered to vote"]');
   }
 
-  get finePrintStepHeaderText4()
-  {
+  get finePrintStepHeaderText4 () {
     return $('//div[text() = "How your data is used & protected"]');
   }
 
-  async checkFinePrintHeaders()
-  {
+  async checkFinePrintHeaders () {
     const text1 = (await this.finePrintStepHeaderText1);
-    console.log("text1: " + text1);
+    console.log(`text1: ${text1}`);
     const text2 = (await this.finePrintStepHeaderText2);
-    console.log("text2: " + text2);
+    console.log(`text2: ${text2}`);
     const text3 = (await this.finePrintStepHeaderText3);
-    console.log("text3: " + text3);
+    console.log(`text3: ${text3}`);
     const text4 = (await this.finePrintStepHeaderText4);
-    console.log("text4: " + text4);
+    console.log(`text4: ${text4}`);
 
     await expect(text1).toHaveText('You cannot cast your vote electronically');
     await expect(text2).toHaveText('WeVote does not represent a government entity');
     await expect(text3).toHaveText('Please make sure you are registered to vote');
     await expect(text4).toHaveText('How your data is used & protected');
-
   }
 
   get followIssueButtons () {
@@ -132,7 +124,7 @@ class ReadyPage extends Page {
   }
 
   get howItWorksTitle () {
-    //return $('div>h3[class~="gNNNpeadyFinePrintStepTextX"]');
+    // return $('div>h3[class~="gNNNpeadyFinePrintStepTextX"]');
     return $('//h3[text()="1. Choose your interests"]');
   }
 
@@ -144,7 +136,7 @@ class ReadyPage extends Page {
     return $('#footerLinkPrivacy');
   }
 
- 
+
 
   get findNextButtonHowItWorksWindow () {
     // return $('.kMeOcV');
@@ -159,32 +151,10 @@ class ReadyPage extends Page {
     return $('#howItWorksGetStartedDesktopButton');
   }
 
-  async checkFinePrintHeaders()
-  {
-    const text1 = (await this.finePrintStepHeaderText1);
-    console.log("text1: " + text1);
-    const text2 = (await this.finePrintStepHeaderText2);
-    console.log("text2: " + text2);
-    const text3 = (await this.finePrintStepHeaderText3);
-    console.log("text3: " + text3);
-    const text4 = (await this.finePrintStepHeaderText4);
-    console.log("text4: " + text4);
-
-    await expect(text1).toHaveText('You cannot cast your vote electronically');
-    await expect(text2).toHaveText('WeVote does not represent a government entity');
-    await expect(text3).toHaveText('Please make sure you are registered to vote');
-    await expect(text4).toHaveText('How your data is used & protected');
-
-  }
 
   get ballotForAddress () {
-      return $('(span[class~="u-link-underline-on-hover"])');
-   }
-
-
-
-  get followIssueButtons () {
-    return $$('//*[contains(@id, "issueFollowButton")]');
+    return $('(span[class~="u-link-underline-on-hover"])');
+  }
 
   get getTeamPageTitleElement () {
     return $("//h1[normalize-space()='About WeVote']");
@@ -196,23 +166,10 @@ class ReadyPage extends Page {
 
   get getCreditsAndThanksPageTitleElement () {
     return $("//h1[normalize-space()='Credits & Thanks']");
-
   }
-
-  get toggleFollowMenuButtons () {
-    return $$('//*[contains(@id, "toggleFollowMenuButton")]');
-  }
-
-  get unfollowIssueButtons () {
-    return $$('//*[contains(@id, "issueUnfollowButton")]');
-  }
-
-  get getFollowPopularTopicsElement () {
-    return $('#PopularTopicsHeader');
 
   get getDonateLinkLocator () {
-   return $('[href = "/donate"]');
-   
+    return $('[href = "/donate"]');
   }
 
   get getDonateLinkHeader () {
@@ -221,11 +178,6 @@ class ReadyPage extends Page {
 
   get getDonateLinkFooter () {
     return $('#footerMainLinkDonate');
-
-  }
-
-  get selectAddress () {
-    return $('(//div[@class = "pac-item"])[1]');
   }
 
   get getSignInElement () {
@@ -272,11 +224,11 @@ class ReadyPage extends Page {
     return $('a[href="/value/pro-choice"]');
   }
 
-  get getDemocraticClubsLinkElement() {
-    return $('a[href="/value/democratic_clubs"]')
+  get getDemocraticClubsLinkElement () {
+    return $('a[href="/value/democratic_clubs"]');
   }
 
-  get getProfileIconElement() {
+  get getProfileIconElement () {
     return $('#profileAvatarHeaderBar');
   }
 
@@ -287,36 +239,36 @@ class ReadyPage extends Page {
     await driver.pause(waitTime);
     await driver.waitUntil(async () => (this.getSignInElement.isClickable()));
     await this.getSignInElement.click();
-   
+
     await driver.waitUntil(async () => (this.getMobilePhoneNumberElement.isClickable()));
-    await this.getMobilePhoneNumberElement.setValue("8089358555");
+    await this.getMobilePhoneNumberElement.setValue('8089358555');
 
     await driver.waitUntil(async () => (this.getSendCodeElement.isClickable()));
     await this.getSendCodeElement.click();
 
     await driver.waitUntil(async () => (this.getCodeVerificationDigit1Element.isClickable()));
-    await this.getCodeVerificationDigit1Element.setValue("1");
+    await this.getCodeVerificationDigit1Element.setValue('1');
 
     await driver.waitUntil(async () => (this.getCodeVerificationDigit2Element.isClickable()));
-    await this.getCodeVerificationDigit2Element.setValue("2");
+    await this.getCodeVerificationDigit2Element.setValue('2');
 
     await driver.waitUntil(async () => (this.getCodeVerificationDigit3Element.isClickable()));
-    await this.getCodeVerificationDigit3Element.setValue("3");
+    await this.getCodeVerificationDigit3Element.setValue('3');
 
     await driver.waitUntil(async () => (this.getCodeVerificationDigit4Element.isClickable()));
-    await this.getCodeVerificationDigit4Element.setValue("4");
+    await this.getCodeVerificationDigit4Element.setValue('4');
 
     await driver.waitUntil(async () => (this.getCodeVerificationDigit5Element.isClickable()));
-    await this.getCodeVerificationDigit5Element.setValue("5");
+    await this.getCodeVerificationDigit5Element.setValue('5');
 
     await driver.waitUntil(async () => (this.getCodeVerificationDigit6Element.isClickable()));
-    await this.getCodeVerificationDigit6Element.setValue("6");
+    await this.getCodeVerificationDigit6Element.setValue('6');
 
     await driver.waitUntil(async () => (this.getVerifyButtonElement.isClickable()));
     await this.getVerifyButtonElement.click();
-  } 
-  
-   async load () {
+  }
+
+  async load () {
     await super.open('/ready');
   }
 
@@ -364,5 +316,5 @@ class ReadyPage extends Page {
   async toggleFinePrint () {
     await this.toggleFinePrintButton.findAndClick();
   }
-}     
+}
 export default new ReadyPage();
