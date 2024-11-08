@@ -177,6 +177,7 @@ class AppleSignIn extends Component {
       return (
         <AppleSignInContainer enabled={enabled}>
           <AppleSignInButton type="submit"
+                             id="appleSignInButton"
                              isWeb={isWeb}
                              tinyScreen={tinyScreen}
                              onClick={() => this.signInClicked(enabled)}

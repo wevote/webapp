@@ -297,6 +297,16 @@ class VoterPhoneVerificationEntry extends Component {
               nextField.focus();
             }
         }
+      } else if (isCordova() || isMobileScreenSize()) {
+        if (this.props.showAllSignInOptions) {
+          this.props.showAllSignInOptions();
+          setTimeout(() => {
+            const nextField = document.getElementById('appleSignInButton');  
+            if (nextField) {
+              nextField.focus();
+            }
+          }, 50);
+        }
       }
     }
     blurTextFieldAndroid();
