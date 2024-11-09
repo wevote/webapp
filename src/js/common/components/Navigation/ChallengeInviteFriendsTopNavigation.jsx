@@ -1,8 +1,8 @@
 import React, { useState, Suspense } from 'react';
-import { AppBar, Tab, Tabs, Toolbar } from '@mui/material';
+import { AppBar, Tab, Tabs, Toolbar, useMediaQuery } from '@mui/material';
 import { createTheme, StyledEngineProvider, ThemeProvider, styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
-import { InfoOutlined, More } from '@mui/icons-material';
+import { InfoOutlined } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import { renderLog } from '../../utils/logging';
@@ -14,6 +14,62 @@ import DesignTokenColors from '../Style/DesignTokenColors';
 
 // Lazy-load the PointsExplanationModal
 const PointsExplanationModal = React.lazy(() => import('../Challenge/PointsExplanationModal'));
+
+const theme = createTheme({
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+    fontFamily: 'Poppins, sans-serif', // Set font family for the theme
+  },
+  components: {
+    MuiButtonBase: {
+      root: {
+        '&:hover': {
+          color: '#4371cc',
+        },
+      },
+    },
+  },
+});
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  alignItems: 'center',
+  display: 'flex',
+  minHeight: 48,
+  position: 'relative',
+  width: '100%',
+}));
+
+const StyledTabs = styled(Tabs)({
+  flexGrow: 1,
+});
+
+// More info icon
+const MoreInfoIconWrapper = styled('div')(({ hovered }) => ({
+  alignItems: 'center',
+  color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600,
+  cursor: 'pointer',
+  display: 'flex',
+  fontFamily: 'Poppins, sans-serif',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  lineHeight: 1.25,
+  position: 'absolute',
+  right: 16,
+}));
+
+const MoreInfoText = styled('span')({
+  marginLeft: 4,
+});
+
+const StyledTab = styled(Tab)(({ isSmallScreen }) => ({
+  padding: isSmallScreen ? '12px 10px' : '12px 16px',
+  minWidth: isSmallScreen ? '0' : 'auto',
+  marginRight: '16px',
+  '&:last-child': {
+    marginRight: 0,
+  },
+}));
 
 // TODO: Mar 23, 2022, makeStyles is legacy in MUI 5, replace instance with styled-components or sx if there are issues
 const useStyles = makeStyles((theme) => ({
@@ -33,14 +89,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MoreInfoIcon = styled('div')(({ theme }) => ({
-  alignItems: 'center',
-  cursor: 'pointer',
-  color: DesignTokenColors.neutral600,
-  display: 'flex',
-  fontSize: 14,
-}));
-
 export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFriendlyPath, challengeWeVoteId, hideAboutTab }) {
   const [value, setValue] = React.useState(0);
   const [voterIsChallengeParticipant, setVoterIsChallengeParticipant] = React.useState(false);
@@ -52,35 +100,7 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
 
   const classes = useStyles();
   const history = useHistory();
-
-  const defaultTheme = createTheme();
-
-  const theme = createTheme({
-    typography: {
-      button: {
-        textTransform: 'none',
-      },
-      fontFamily: 'Poppins, sans-serif', // Set font family for the theme
-    },
-    components: {
-      MuiButtonBase: {
-        root: {
-          '&:hover': {
-            color: '#4371cc',
-          },
-        },
-      },
-      MuiTab: {
-        root: {
-          fontFamily: 'Poppins, sans-serif',
-          minWidth: 0,
-          [defaultTheme.breakpoints.up('xs')]: {
-            minWidth: 0,
-          },
-        },
-      },
-    },
-  });
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm') || window.innerWidth <= 600);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -89,14 +109,6 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
   // Functions to toggle modal and handle hover
   const toggleMoreInfoModal = () => {
     setIsMoreInfoOpen(!isMoreInfoOpen);
-  };
-
-  const handleHover = () => {
-    setHovered(true);
-  };
-
-  const handleLeave = () => {
-    setHovered(false);
   };
 
   const { location: { pathname } } = window;
@@ -174,25 +186,25 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
       >
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <Toolbar disableGutters
+            <StyledToolbar disableGutters
               className={classes.toolbarRoot}
-              style={{ display: 'flex', alignItems: 'center', position: 'relative', width: '100%' }}
+              component={StyledToolbar}
             >
-              <Tabs value={value} onChange={handleChange} aria-label="Tab menu" style={{ flexGrow: 1 }}>
-                {!hideAboutTab && <Tab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} />}
-                <Tab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} />
-                {voterIsChallengeParticipant && <Tab id="challengeLandingTab-2" label="Invited friends" onClick={() => history.push(friendsUrl)} value={3} />}
-              </Tabs>
-              <MoreInfoIcon
-                onMouseEnter={handleHover}
-                onMouseLeave={handleLeave}
+              <StyledTabs value={value} onChange={handleChange} aria-label="Tab menu">
+                {!hideAboutTab && <StyledTab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} isSmallScreen={isSmallScreen} />}
+                <StyledTab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} isSmallScreen={isSmallScreen} />
+                {voterIsChallengeParticipant && <StyledTab id="challengeLandingTab-2" label="Invited friends" onClick={() => history.push(friendsUrl)} value={3} isSmallScreen={isSmallScreen} />}
+              </StyledTabs>
+              <MoreInfoIconWrapper
+                hovered={hovered}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
                 onClick={toggleMoreInfoModal}
-                style={{ position: 'absolute', right: '16px', display: 'flex', alignItems: 'center' }}
               >
-                <InfoOutlined style={{ color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600 }} />
-                <span style={{ marginLeft: 4 }}>More info</span>
-              </MoreInfoIcon>
-            </Toolbar>
+                <InfoOutlined />
+                {!isSmallScreen && <MoreInfoText>More info</MoreInfoText>}
+              </MoreInfoIconWrapper>
+            </StyledToolbar>
           </ThemeProvider>
         </StyledEngineProvider>
       </AppBar>
