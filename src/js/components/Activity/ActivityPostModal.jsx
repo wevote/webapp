@@ -65,8 +65,8 @@ const ActivityPostModal = (props) => {
     }
   }, [initialFocusSet]);
 
-  onBlurInput = () => {
-  };
+  // onBlurInput = () => {
+  // };
 
   const onFocusInput = () => {
     prepareForCordovaKeyboard('ActivityPostModal');
@@ -88,9 +88,11 @@ const ActivityPostModal = (props) => {
     setStatementText(e.target.value);
   };
 
+  const activityTidbitIdCheck = activityTidbitWeVoteId === '' || activityTidbitWeVoteId === undefined;
+
   renderLog('ActivityPostModal'); // Set LOG_RENDER_EVENTS to log all renders
 
-  const dialogTitleText = activityTidbitWeVoteId === '' ? 'Create Post' : 'Edit Post';
+  const dialogTitleText = activityTidbitIdCheck ? 'Create Post' : 'Edit Post';
   const statementPlaceholderText = 'What\'s on your mind?';
   const rowsToShow = isAndroid() ? 4 : 6;
 
@@ -98,7 +100,7 @@ const ActivityPostModal = (props) => {
     <TextFieldWrapper>
       <TextFieldForm
         className={classes.formStyles}
-        onBlur={onBlurInput}
+        // onBlur={onBlurInput}
         onFocus={onFocusInput}
         onSubmit={saveActivityPost}
       >
@@ -133,7 +135,7 @@ const ActivityPostModal = (props) => {
             type="submit"
             disabled={!statementText}
           >
-            {activityTidbitWeVoteId === '' ? 'Post' : 'Save Changes'}
+            {activityTidbitIdCheck ? 'Post' : 'Save Changes'}
           </Button>
         </PostSaveButton>
       </TextFieldForm>
