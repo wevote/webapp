@@ -2,7 +2,6 @@ const fs = require('fs-extra');
 const { exec } = require('child_process');
 
 // DEBUG:   WebApp % node --inspect-brk ./node/buildSrcCordova.js
-
 function addUShowStylesImport (fileTxt, path) {
   // Don't add import to exporting file
   if (path.includes('cordovaFriendlyUShowStyles')) return fileTxt;
@@ -161,10 +160,31 @@ function fileRewriterForCordova (path, versions) {
     newValue = newValue.replace(/window\.iosBundleVersion/, versions.iosBundleVersion);
     newValue = newValue.replace(/window\.androidBundleVersion/, versions.androidBundleVersion);
 
-    fs.writeFile(path, newValue, 'utf-8', (err2) => {
-      if (err2) throw err2;
-      // console.log('Done! with ', path);
-    });
+    const deleteFiles = [
+      './srcCordova/js/common/components/Donation/InjectedCheckoutForm.jsx',
+      './srcCordova/js/common/components/Donation/CheckoutForm.jsx',
+    ];
+    const dummySubstituteFiles = [
+      './srcCordova/js/common/components/CampaignSupport/PayToPromoteProcess.jsx',
+      './srcCordova/js/pages/More/Donate.jsx',
+    ];
+
+    if (deleteFiles.includes(path)) {
+      fs.remove(path);
+      console.log(`rm file ${path}`);
+    } else if (dummySubstituteFiles.includes(path)) {
+      const cordovaPath = path.replace('.jsx', 'Cordova.jsx');
+      fs.rename(cordovaPath, path, (err2) => {
+        if (err2) console.log(`remame file ERROR: ${err}`);
+      });
+      fs.remove(cordovaPath);
+    } else {
+      fs.writeFile(path, newValue, 'utf-8', (err2) => {
+        if (err2) throw err2;
+        // console.log('Done! with ', path);
+      });
+
+    }
   });
 }
 
