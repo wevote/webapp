@@ -44,32 +44,35 @@ const StyledTabs = styled(Tabs)({
   flexGrow: 1,
 });
 
-// More info icon
-const MoreInfoIconWrapper = styled('div')(({ hovered }) => ({
-  alignItems: 'center',
-  color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600,
-  cursor: 'pointer',
-  display: 'flex',
-  fontFamily: 'Poppins, sans-serif',
-  fontSize: '0.875rem',
-  fontWeight: 500,
-  lineHeight: 1.25,
-  position: 'absolute',
-  right: 16,
-}));
+const MoreInfoIconWrapper = styled('div', {
+  shouldForwardProp: (prop) => !['hovered'].includes(prop),
+})(({ hovered }) => (`
+  align-items: center;
+  color: ${hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600};
+  cursor: pointer;
+  display: flex;
+  // font-family: 'Poppins, sans-serif';
+  font-size: '0.875rem';
+  font-weight: 500;
+  line-height: 1.25;
+  position: 'absolute';
+  right: 16;
+`));
 
 const MoreInfoText = styled('span')({
   marginLeft: 4,
 });
 
-const StyledTab = styled(Tab)(({ isSmallScreen }) => ({
-  padding: isSmallScreen ? '12px 10px' : '12px 16px',
-  minWidth: isSmallScreen ? '0' : 'auto',
-  marginRight: '16px',
-  '&:last-child': {
-    marginRight: 0,
-  },
-}));
+const StyledTab = styled(Tab, {
+  shouldForwardProp: (prop) => !['isSmallScreen'].includes(prop),
+})(({ isSmallScreen }) => (`
+  margin-right: 16px;
+  min-width: ${isSmallScreen ? '0' : 'auto'};
+  padding: ${isSmallScreen ? '12px 10px' : '12px 16px'};
+  &:last-child {
+    margin-right: 0;
+  }
+`));
 
 // TODO: Mar 23, 2022, makeStyles is legacy in MUI 5, replace instance with styled-components or sx if there are issues
 const useStyles = makeStyles((theme) => ({
