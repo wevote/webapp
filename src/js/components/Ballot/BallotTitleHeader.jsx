@@ -52,8 +52,8 @@ class BallotTitleHeader extends Component {
     const electionDayText = BallotStore.currentBallotElectionDate;
     const electionDayTextFormatted = electionDayText && window.moment ? window.moment(electionDayText).format('MMM Do, YYYY') : '';
     const electionDayTextObject = electionDayText && window.moment ? <span>{electionDayTextFormatted}</span> : null;
-    const nextNationalElectionDayText = `${BallotStore.nextNationalElectionDayText || '2024-11-05'}`;
-    // console.log('nextNationalElectionDayText:', nextNationalElectionDayText);
+    const nextNationalElectionDayText = `${BallotStore.nextNationalElectionDayText || '2026-11-03'}`;
+    console.log('nextNationalElectionDayText:', nextNationalElectionDayText);
     initializeMoment(() => {
       const { moment } = window;
       // this.setNextNationalElectionDateFromDayText(nextNationalElectionDayText);
@@ -116,7 +116,7 @@ class BallotTitleHeader extends Component {
       electionName, nextNationalElectionDateMDY, originalTextAddress, originalTextState,
       substitutedAddress, substitutedState, textForMapSearch,
     } = this.state;
-
+    console.log('BallotTitleHeader daysUntilElection:', daysUntilElection);
     const electionNameContainsWordElection = stringContains('election', electionName.toLowerCase());
     const stateTextUsed = substitutedState || originalTextState || '';
     const electionNameContainsState = stringContains(stateTextUsed.toLowerCase(), electionName.toLowerCase());
