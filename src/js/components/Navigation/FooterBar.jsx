@@ -225,7 +225,7 @@ class FooterBar extends React.Component {
     let discussVisible;
     let donateVisible;
     const friendsVisible = false; // 2023-09-04 Dale We are turning off Friends footer icon for now
-    const squadsVisible = isWebApp();
+    const squadsVisible = isWebApp();  // Icon label for Squads is now Challenges
     // const squadsVisible = false;
     // let howItWorksVisible;
     const howItWorksVisible = false;
@@ -243,6 +243,7 @@ class FooterBar extends React.Component {
       donateVisible = true; // 2022-12 Donate not used for now
       // howItWorksVisible = true;
     }
+    // console.log('--------- Footer bar donateVisible ', donateVisible, 'squadsVisible', squadsVisible);
     return (
       <FooterBarWrapper>
         <FooterContainer

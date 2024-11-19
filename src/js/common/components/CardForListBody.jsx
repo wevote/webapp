@@ -1,46 +1,22 @@
-import withStyles from '@mui/styles/withStyles';
 import { HowToVote, Launch } from '@mui/icons-material';
+import withStyles from '@mui/styles/withStyles';
 import PropTypes from 'prop-types';
 import React, { Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import TruncateMarkup from 'react-truncate-markup';
 import styled from 'styled-components';
-import { renderLog } from '../utils/logging';
-import {
-  // BottomActionButtonEmptyWrapper,
-  // BottomActionButtonWrapper,
-  CampaignActionButtonsWrapper,
-  CampaignImageDesktop,
-  CampaignImageDesktopPlaceholder,
-  CampaignImageMobile,
-  CampaignImageMobilePlaceholder,
-  CampaignImagePlaceholderText,
-  CandidateCardForListWrapper,
-  CardForListRow, CardRowsWrapper,
-  ElectionYear,
-  OneCampaignDescription,
-  OneCampaignInnerWrapper,
-  OneCampaignOuterWrapper,
-  OneCampaignPhotoDesktopColumn,
-  OneCampaignPhotoWrapperMobile,
-  OneCampaignTextColumn,
-  OneCampaignTitle,
-  OneCampaignTitleLink,
-  StateName,
-  // SupportersActionLink,
-  // SupportersCount,
-  // SupportersWrapper,
-  TitleAndTextWrapper,
-} from './Style/CampaignCardStyles';
-// import CampaignStore from '../stores/CampaignStore';
+import webAppConfig from '../../config';
+import AppObservableStore from '../stores/AppObservableStore';
 import { convertStateCodeToStateText } from '../utils/addressFunctions';
 import { getYearFromUltimateElectionDate } from '../utils/dateFormat';
 import historyPush from '../utils/historyPush';
+import { isCordova, isWebApp } from '../utils/isCordovaOrWebApp';
 import isMobileScreenSize from '../utils/isMobileScreenSize';
+import { renderLog } from '../utils/logging';
+import { CampaignActionButtonsWrapper, CampaignImageDesktop, CampaignImageDesktopPlaceholder, CampaignImageMobile, CampaignImageMobilePlaceholder, CampaignImagePlaceholderText, CandidateCardForListWrapper, CardForListRow, CardRowsWrapper, ElectionYear, OneCampaignDescription, OneCampaignInnerWrapper, OneCampaignOuterWrapper, OneCampaignPhotoDesktopColumn, OneCampaignPhotoWrapperMobile, OneCampaignTextColumn, OneCampaignTitle, OneCampaignTitleLink, StateName, TitleAndTextWrapper, } from './Style/CampaignCardStyles';
 import DesignTokenColors from './Style/DesignTokenColors';
 import HeartFavoriteToggleLoader from './Widgets/HeartFavoriteToggle/HeartFavoriteToggleLoader';
 import SvgImage from './Widgets/SvgImage';
-import webAppConfig from '../../config';
 
 const CampaignSupportThermometer = React.lazy(() => import(/* webpackChunkName: 'CampaignSupportThermometer' */ './CampaignSupport/CampaignSupportThermometer'));
 const ItemActionBar = React.lazy(() => import(/* webpackChunkName: 'ItemActionBar' */ '../../components/Widgets/ItemActionBar/ItemActionBar'));
@@ -52,12 +28,12 @@ const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenEx
 function CardForListBody (props) {
   renderLog('CardForListBody');  // Set LOG_RENDER_EVENTS to log all renders
   const {
-    ballotItemDisplayName, // campaignSupported,
+    ballotItemDisplayName,
     candidateWeVoteId, classes, districtName, finalElectionDateInPast, hideCardMargins,
     hideItemActionBar, limitCardWidth, linkedCampaignXWeVoteId, officeName,
-    photoLargeUrl, politicalParty, politicianBaseBath,  // pathToUseToKeepHelping
+    photoLargeUrl, politicalParty, politicianBaseBath,
     politicianDescription, politicianWeVoteId, profileImageBackgroundColor,
-    showPoliticianOpenInNewWindow, stateCode, tagIdBaseName, // supportersCount, supportersCountNextGoalRaw,
+    showPoliticianOpenInNewWindow, stateCode, tagIdBaseName,
     ultimateElectionDate,
     useCampaignSupportThermometer, useOfficeHeld,
     usePoliticianWeVoteIdForBallotItem, useVerticalCard,
@@ -100,7 +76,7 @@ function CardForListBody (props) {
                   {stateName}
                 </StateName>
               )}
-              {hideCardMargins ? (
+              {hideCardMargins && isWebApp() ? (
                 <OneCampaignTitle>
                   {ballotItemDisplayName}
                   {showPoliticianOpenInNewWindow && (
@@ -131,9 +107,10 @@ function CardForListBody (props) {
               ) : (
                 <OneCampaignTitleLink>
                   <Link
-                    // className="u-link-color u-link-underline"
+                    className={isCordova() ? 'u-link-color u-link-underline' : ''}
                     id={`${tagIdBaseName}DisplayName`}
                     to={politicianBaseBath}
+                    onClick={() => (isCordova() ? AppObservableStore.setShowOrganizationModal(false) : null)}
                   >
                     {ballotItemDisplayName}
                   </Link>

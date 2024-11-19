@@ -75,7 +75,7 @@ class ElectionCountdown extends React.Component {
         }, delay);
       }
     }
-    const nextNationalElectionDayText = `${BallotStore.nextNationalElectionDayText || '2024-11-05'}`;
+    const nextNationalElectionDayText = `${BallotStore.nextNationalElectionDayText || '2026-11-03'}`;
     // console.log('nextNationalElectionDayText:', nextNationalElectionDayText);
     initializeMoment(() => {
       const { moment } = window;

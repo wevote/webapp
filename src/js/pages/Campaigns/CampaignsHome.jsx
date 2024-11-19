@@ -9,7 +9,7 @@ import CampaignStore from '../../common/stores/CampaignStore';
 import { convertStateCodeToStateText, convertStateTextToStateCode } from '../../common/utils/addressFunctions';
 import apiCalming from '../../common/utils/apiCalming';
 import arrayContains from '../../common/utils/arrayContains';
-import { getTodayAsInteger } from '../../common/utils/dateFormat'; // getYearFromUltimateElectionDate
+import { getTodayAsInteger } from '../../common/utils/dateFormat';
 import extractAttributeValueListFromObjectList from '../../common/utils/extractAttributeValueListFromObjectList';
 import historyPush from '../../common/utils/historyPush';
 import { isAndroid } from '../../common/utils/isCordovaOrWebApp';
@@ -262,6 +262,7 @@ class CampaignsHome extends Component {
   onCandidateStoreChange () {
     const candidateList = CandidateStore.getCandidateList();
     const { battlegroundDataFoundByStateDict } = this.state;
+    // console.log('onCandidateStoreChange candidateList', candidateList);
     // Note: sorting is being done in CandidateListRoot
     const { candidateListOnYourBallot, candidateListIsBattleground, candidateListOther, stateCode } = this.splitUpCandidateList(candidateList);
     const battlegroundDataFound = !!(candidateListIsBattleground && candidateListIsBattleground.length > 0);
@@ -355,6 +356,9 @@ class CampaignsHome extends Component {
     const weVoteIdsIsBattlegroundRace = extractAttributeValueListFromObjectList('we_vote_id', candidateListIsBattleground);
     const candidateMinusBattleground = candidateListRemaining.filter((oneCandidate) => !arrayContains(oneCandidate.we_vote_id, weVoteIdsIsBattlegroundRace));
     const candidateListOther = candidateMinusBattleground.filter((oneCandidate) => !arrayContains(oneCandidate.politician_we_vote_id, politicianWeVoteIdsAlreadyShown));
+
+    // console.log('------ candidateList.length: ', candidateList.length);
+    // console.log('------ candidateListOther.length: ', candidateListOther.length);
 
     // Ok to remove once https://wevoteusa.atlassian.net/jira/software/projects/WV/issues/WV-282 is fixed
     // console.log('------ candidateList biden: ', candidateList.find((x) => x.ballot_item_display_name === 'Joe Biden'));
@@ -450,15 +454,16 @@ class CampaignsHome extends Component {
     // // if (upcomingEndorsementsAvailable) {
     // // We still want to show this filter option
     // filterCount += 1;
-    listModeFiltersAvailable.push({
-      // WV314 Temporary Fix Changed from displayAsChip to true to false to hide the "Upcoming" button on Candidates Page
-      displayAsChip: false,
-      filterDisplayName: 'Upcoming',
-      filterName: 'showUpcomingEndorsements',
-      filterOrder: 1,
-      filterSelected: listModeShown === 'showUpcomingEndorsements',
-      filterType: 'showUpcomingEndorsements',
-    });
+    // This filter prevents candidates from the past from being shown on the Candidates page
+    // listModeFiltersAvailable.push({
+    //   // WV314 Temporary Fix Changed from displayAsChip to true to false to hide the "Upcoming" button on Candidates Page
+    //   displayAsChip: false,
+    //   filterDisplayName: 'Upcoming',
+    //   filterName: 'showUpcomingEndorsements',
+    //   filterOrder: 1,
+    //   filterSelected: listModeShown === 'showUpcomingEndorsements',
+    //   filterType: 'showUpcomingEndorsements',
+    // });
     // // }
     // if (filterCount > 1) {
     if (listModeShown === 'showAllEndorsements') {
