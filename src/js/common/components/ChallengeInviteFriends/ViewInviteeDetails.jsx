@@ -46,7 +46,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
 
   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
 
-  console.log('inviteeData:', inviteeData);
+  // console.log('inviteeData:', inviteeData);
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
@@ -93,7 +93,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   );
 };
 ViewInviteeDetails.propTypes = {
-  inviteeId: PropTypes.string,
+  inviteeId: PropTypes.number,
   setShow: PropTypes.func,
   setAnchorEl: PropTypes.func,
   show: PropTypes.bool,

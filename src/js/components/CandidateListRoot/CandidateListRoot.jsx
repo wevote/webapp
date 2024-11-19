@@ -128,7 +128,7 @@ class CandidateListRoot extends Component {
           filteredList.push(oneEntry);
         }
       });
-      // console.log('candidateList:', candidateList);
+      // console.log('onIncomingListChange filteredList:', filteredList);
       this.setState({
         candidateList: filteredList,
       }, () => this.onFilterOrListChange());
@@ -174,7 +174,7 @@ class CandidateListRoot extends Component {
     let alreadyFoundThisYear = false;
     const displayedThisYear = {};
     let filteredList = candidateList;
-    // console.log('filteredList:', filteredList);
+    // console.log('onFilterOrListChange at START filteredList:', filteredList);
     // //////////////////////////////////////////
     // For now require all candidates to have a politician_we_vote_id in order to be displayed
     filteredList = filteredList.filter((oneEntry) => (oneEntry.politician_we_vote_id));
@@ -308,7 +308,9 @@ class CandidateListRoot extends Component {
     } else if (filteredList.length > 0) {
       // Only allow the first politician entry to be displayed (when there are multiple candidate entries for the same politician)
       // Revisit this if we start to all filtering by year again
+      // console.log('FIRST_POLITICIAN: onFilterOrListChange, filteredList.length BEFORE:', filteredList.length);
       filteredList = filterListToRemoveEntriesWithDuplicateValue(filteredList, 'politician_we_vote_id', true);
+      // console.log('FIRST_POLITICIAN: filteredList.length AFTER:', filteredList.length);
     }
     // console.log('onFilterOrListChange, searchResults:', searchResults);
     // console.log('onFilterOrListChange, filteredList:', filteredList);
@@ -333,6 +335,7 @@ class CandidateListRoot extends Component {
         hideRightArrow: false,
       });
     }
+    // console.log('onFilterOrListChange at end, filteredList:', filteredList);
     this.setState({
       candidateSearchResults: searchResults,
       filteredList,

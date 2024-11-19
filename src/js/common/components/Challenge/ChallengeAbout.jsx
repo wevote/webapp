@@ -69,9 +69,7 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
             {' '}
             ·
             {' '}
-            {daysLeft}
-            {' '}
-            days left
+            {daysLeft > 0 ? `${daysLeft} days left` : 'Challenge Ended'}
           </ShowDaysLeftText>
         </>
       )}

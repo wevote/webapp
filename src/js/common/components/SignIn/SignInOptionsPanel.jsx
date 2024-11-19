@@ -1,4 +1,4 @@
-import { Facebook, Twitter } from '@mui/icons-material';
+import { Facebook, X as Twitter } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import React, { Component, Suspense } from 'react';
 import Button from 'react-bootstrap/Button';
@@ -575,6 +575,7 @@ export default class SignInOptionsPanel extends Component {
               // hideSignInWithEmailForm={isCordova()}
               showAllSignInOptions={this.showAllSignInOptions}
               // toggleOtherSignInOptions={this.toggleNonEmailSignInOptions}
+              showPhoneOnlySignIn={this.showPhoneOnlySignIn}
               showEmailOnlySignIn={this.showEmailOnlySignIn}
             />
             {/* {isCordova() && ( */}
