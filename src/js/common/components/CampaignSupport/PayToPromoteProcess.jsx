@@ -419,11 +419,7 @@ PayToPromoteProcess.propTypes = {
 };
 
 const ButtonContainer = styled('div')`
-  width: 100%; 
-  max-width: 500px; // Limiting the max-width to avoid it expanding too far
-  @media (max-width: 600px) {
-    max-width: 300px; // Adjust max-width for small screens
-  }
+  margin-top: 10px;
 `;
 
 const ButtonInsideWrapper = styled('div')`
