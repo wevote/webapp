@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Divider, IconButton } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import withTheme from '@mui/styles/withTheme';
 import PropTypes from 'prop-types';
@@ -51,6 +51,7 @@ class ModalDisplayTemplateA extends Component {
               <Close />
             </IconButton>
           </DialogTitleInnerWrapper>
+          <Divider />
         </DialogTitle>
         <DialogContent classes={{ root: classes.dialogContent }}>
           <DialogContentInnerWrapper>
@@ -112,7 +113,7 @@ export const templateAStyles = (theme) => ({
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
-    top: isAndroid() ? '-4px' : theme.spacing(1),
+    top: isAndroid() ? '-4px' : theme.spacing(2.6),
   },
   saveButtonRoot: {
     width: '100%',
@@ -157,6 +158,7 @@ const DialogContentInnerWrapper = styled('div')`
 const DialogTitleInnerWrapper = styled('div')`
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   min-height: 28px;
 `;
 
@@ -193,7 +195,6 @@ const Title = styled('div')`
   font-size: 16px;
   font-weight: bold;
   margin: 0;
-  margin-top: 2px;
   text-align: left;
   padding-left: 16px;
 `;

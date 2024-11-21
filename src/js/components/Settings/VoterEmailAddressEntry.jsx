@@ -247,6 +247,16 @@ class VoterEmailAddressEntry extends Component {
         if (TermsOfServiceLink) {
           TermsOfServiceLink.focus(); 
         }
+      } else if (isCordova() || isMobileScreenSize()) {
+        if (this.props.showPhoneOnlySignIn) {
+          this.props.showPhoneOnlySignIn();
+          setTimeout(() => {
+            const nextField = document.getElementById("enterVoterPhone");   
+            if (nextField) {
+              nextField.focus();
+            }
+          }, 100);
+        }
       }
       blurTextFieldAndroid();
     }
@@ -702,6 +712,7 @@ VoterEmailAddressEntry.propTypes = {
   hideSignInWithEmailForm: PropTypes.bool,
   lockOpenEmailVerificationButton: PropTypes.bool,
   showAllSignInOptions: PropTypes.func,
+  showPhoneOnlySignIn: PropTypes.func,
   showEmailOnlySignIn: PropTypes.func,
 };
 

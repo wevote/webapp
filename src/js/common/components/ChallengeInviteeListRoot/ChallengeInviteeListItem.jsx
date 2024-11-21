@@ -14,7 +14,7 @@ import ViewInviteeDetails from '../ChallengeInviteFriends/ViewInviteeDetails';
 
 
 const ChallengeInviteeListItem = ({ invitee }) => {
-  // console.log('ChallengeInviteeListItem:', invitee);
+//   console.log('ChallengeInviteeListItem:', invitee);
   const [anchorEl, setAnchorEl] = useState(null);
   const [viewInviteeDetails, setViewInviteeDetails] = useState(false);
 
@@ -93,6 +93,7 @@ const ChallengeInviteeListItem = ({ invitee }) => {
             show={viewInviteeDetails}
             setShow={setViewInviteeDetails}
             setAnchorEl={setAnchorEl}
+            inviteeId={invitee.invitee_id}
           />
         </EditInviteeTripleDotWrapper>
       </PrimaryDetails>

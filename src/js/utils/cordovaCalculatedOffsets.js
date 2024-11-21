@@ -177,7 +177,7 @@ function getCordovaSimplePageContainerTopOffsetValue (isSignedIn = false) {
   return topOffsets[normalizedHrefPage()] || 0;
 }
 
-export function headroomWrapperOffset (includePosition) {
+export function headroomWrapperOffset (includePosition, pageNameOverride = null) {
   let offset = 0;
   if (isCordova()) {
     const { $ } = window;
@@ -185,8 +185,10 @@ export function headroomWrapperOffset (includePosition) {
     const outerHeight = headroomWrapper.outerHeight();
     const position = includePosition ? headroomWrapper.position().top : 0;
     offset = outerHeight + position;
-    const page = pageEnumeration();
-    if (page === 'candidatelist' || page === 'values') {
+    const page = pageNameOverride || pageEnumeration();
+    if (page === 'PoliticianDetailsPage' && isCordova()) {
+      offset = -44;
+    } else if (page === 'candidatelist' || page === 'values') {
       if (isIOS()) {
         if (page === 'values') {
           offset /= 3 / 2;
