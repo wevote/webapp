@@ -1,32 +1,19 @@
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Tooltip } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import DesignTokenColors from '../../common/components/Style/DesignTokenColors';
 import ModalDisplayTemplateA from '../Widgets/ModalDisplayTemplateA';
 
-const VoterPositionEditModal = (props) => {
+const VoterPositionEditModal = ({ showVoterEdit, setShowVoterEdit, candidateName, voter, classes }) => {
   const [opinionVisibility, setOpinionVisibility] = useState('Everyone');
   const [endorseOption, setEndorseOption] = useState('Neutral');
   const [opinionText, setOpinionText] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
-  const { showVoterEdit, setShowVoterEdit, candidateName, voter } = props;
+  const [disableToolTip, setDisableToolTip] = useState(false);
   const {voter_photo_url_medium, first_name, last_name, full_name} = voter;
-
-  const visibilityOptions = ['My friends', 'Everyone'];
-  const endorsesOptions = ['Endorsing', 'Opposing', 'Neutral'];
-
-  const handleChangeVisibility = (e) => {
-    setOpinionVisibility(e.target.value);
-  };
-
-  const handleChangeEndorses = (e) => {
-    setEndorseOption(e.target.value);
-  };
-
-  const handleChangeOpinionText = (e) => {
-    setOpinionText(e.target.value);
-  };
 
   useEffect(() => {
     const checkIsFormValid = () => {
@@ -43,7 +30,24 @@ const VoterPositionEditModal = (props) => {
     checkIsFormValid();
   }, [endorseOption, opinionText]);
 
+  const visibilityOptions = ['My friends', 'Everyone'];
+  const endorsesOptions = ['Endorsing', 'Opposing', 'Neutral'];
 
+  const handleChangeVisibility = (e) => {
+    setOpinionVisibility(e.target.value);
+  };
+
+  const handleChangeEndorses = (e) => {
+    setEndorseOption(e.target.value);
+  };
+
+  const handleChangeOpinionText = (e) => {
+    setOpinionText(e.target.value);
+  };
+
+  const handleDisableToolTipClick = () => {
+    setDisableToolTip(true);
+  };
 
   const visibilityOptionsMap = visibilityOptions.map((option) => <OptionSelect key={option} value={option}>{option}</OptionSelect>);
 
@@ -68,6 +72,18 @@ const VoterPositionEditModal = (props) => {
       {' '}
       {candidateName || 'Candidate'}
     </VoterPositionTitle>
+  );
+
+  const handleToolTipMessage = () => (
+    <>
+      <TooltipMessage>
+        Change your default opinion visibility
+        <ProfileLink> in your profile</ProfileLink>
+      </TooltipMessage>
+      <DisableToolTipContainer>
+        <DisableToolTip type="button" onClick={handleDisableToolTipClick}>Got It</DisableToolTip>
+      </DisableToolTipContainer>
+    </>
   );
 
   const textFieldJSX = (
@@ -102,13 +118,20 @@ const VoterPositionEditModal = (props) => {
             >
               Opinion visibile to:
             </OpinionOptionDescription>
-            <OpinionVisibility
-              onChange={handleChangeVisibility}
-              value={opinionVisibility}
-              id="visibility_option"
+            <Tooltip
+              placement="bottom"
+              title={handleToolTipMessage()}
+              classes={{ tooltip: classes.toolTip, arrow: classes.arrow }}
+              arrow
             >
-              {visibilityOptionsMap}
-            </OpinionVisibility>
+              <OpinionVisibility
+                onChange={handleChangeVisibility}
+                value={opinionVisibility}
+                id="visibility_option"
+              >
+                {visibilityOptionsMap}
+              </OpinionVisibility>
+            </Tooltip>
           </VoterVisibilityWrapper>
         </VoterNameVisibilityWrapper>
       </VoterPositionAvatarVisibilityWrapper>
@@ -138,6 +161,14 @@ const VoterPositionEditModal = (props) => {
       tallMode
     />
   );
+};
+
+VoterPositionEditModal.propTypes = {
+  showVoterEdit: PropTypes.bool,
+  setShowVoterEdit: PropTypes.func,
+  candidateName: PropTypes.string,
+  voter: PropTypes.object,
+  classes: PropTypes.object,
 };
 
 const VoterPositionTitle = styled('div')`
@@ -297,11 +328,44 @@ const VoterPostionSubmit = styled('button')`
   color: ${DesignTokenColors.whiteUI};
 `;
 
-VoterPositionEditModal.propTypes = {
-  showVoterEdit: PropTypes.bool,
-  setShowVoterEdit: PropTypes.func,
-  candidateName: PropTypes.string,
-  voter: PropTypes.object,
-};
+const TooltipMessage = styled('p')`
+  font-size: 13px;
+  color: ${DesignTokenColors.whiteUI},
+  margin: 5px,
+  padding: 5px,
+`;
 
-export default VoterPositionEditModal;
+const ProfileLink = styled('a')`
+  font-weight: bold;
+  color: ${DesignTokenColors.primary200};
+  
+  &:hover {
+    text-decoration: none;
+  }
+`;
+
+const DisableToolTipContainer = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const DisableToolTip = styled('button')`
+  background: transparent;
+  border: none;
+  color: ${DesignTokenColors.primary200};
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+`;
+
+const styles = () => ({
+  toolTip: {
+    backgroundColor: `${DesignTokenColors.neutral900}`,
+    width: '214px',
+  },
+  arrow: {
+    color: `${DesignTokenColors.neutral900}`,
+  },
+});
+
+export default withStyles(styles)(VoterPositionEditModal);
