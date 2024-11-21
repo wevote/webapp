@@ -404,7 +404,7 @@ class CandidateListRoot extends Component {
               titleTextForList.length &&
               candidateList) &&
           (
-            <WhatIsHappeningTitle>
+            <WhatIsHappeningTitle id='WhatIsHappeningTitle'>
               {titleTextForList}
             </WhatIsHappeningTitle>
           )}
