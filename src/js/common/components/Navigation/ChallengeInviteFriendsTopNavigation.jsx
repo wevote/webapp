@@ -44,35 +44,47 @@ const StyledTabs = styled(Tabs)({
   flexGrow: 1,
 });
 
-const MoreInfoIconWrapper = styled('div', {
-  shouldForwardProp: (prop) => !['hovered'].includes(prop),
-})(({ hovered }) => (`
-  align-items: center;
-  color: ${hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600};
-  cursor: pointer;
-  display: flex;
-  // font-family: 'Poppins, sans-serif';
-  font-size: '0.875rem';
-  font-weight: 500;
-  line-height: 1.25;
-  position: 'absolute';
-  right: 16;
-`));
+const MoreInfoIconWrapper = ({ hovered, isSmallScreen, onMouseEnter, onMouseLeave, onClick, children }) => {
+  const styles = {
+    alignItems: 'center',
+    color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600,
+    cursor: 'pointer',
+    display: 'flex',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    lineHeight: 1.25,
+    position: 'absolute',
+    right: isSmallScreen ? 12 : 16,
+  };
+
+  return (
+    <div
+      style={styles}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onClick={onClick}
+    >
+      {children}
+    </div>
+  );
+};
 
 const MoreInfoText = styled('span')({
   marginLeft: 4,
 });
 
-const StyledTab = styled(Tab, {
-  shouldForwardProp: (prop) => !['isSmallScreen'].includes(prop),
-})(({ isSmallScreen }) => (`
-  margin-right: 16px;
-  min-width: ${isSmallScreen ? '0' : 'auto'};
-  padding: ${isSmallScreen ? '12px 10px' : '12px 16px'};
-  &:last-child {
-    margin-right: 0;
-  }
-`));
+const StyledTab = styled(Tab)(({ theme }) => ({
+  marginRight: 16,
+  minWidth: 'auto',
+  padding: '12px 16px',
+  [theme.breakpoints.down('sm')]: {
+    minWidth: '0',
+    padding: '12px 10px',
+  },
+  '&:last-child': {
+    marginRight: 0,
+  },
+}));
 
 // TODO: Mar 23, 2022, makeStyles is legacy in MUI 5, replace instance with styled-components or sx if there are issues
 const useStyles = makeStyles((theme) => ({
@@ -103,16 +115,16 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
 
   const classes = useStyles();
   const history = useHistory();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm') || window.innerWidth <= 600);
+  const isSmallScreen = useMediaQuery('(max-width:500px)'); // 500px is for smallest screen size, that are smaller then xs size in MUI
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   // Functions to toggle modal and handle hover
-  const toggleMoreInfoModal = () => {
-    setIsMoreInfoOpen(!isMoreInfoOpen);
-  };
+  const toggleMoreInfoModal = React.useCallback(() => {
+    setIsMoreInfoOpen((prev) => !prev);
+  }, []);
 
   const { location: { pathname } } = window;
   if (endsWith('/about', pathname)) {
@@ -196,13 +208,13 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
               <StyledTabs value={value} onChange={handleChange} aria-label="Tab menu">
                 {!hideAboutTab && <StyledTab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} isSmallScreen={isSmallScreen} />}
                 <StyledTab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} isSmallScreen={isSmallScreen} />
-                {voterIsChallengeParticipant && <StyledTab id="challengeLandingTab-2" label="Invited friends" onClick={() => history.push(friendsUrl)} value={3} isSmallScreen={isSmallScreen} />}
+                {voterIsChallengeParticipant && <StyledTab id="challengeLandingTab-2" label={isSmallScreen ? 'Invited' : 'Invited friends'} isSmallScreen={isSmallScreen} onClick={() => history.push(friendsUrl)} value={3} isSmallScreen={isSmallScreen} />}
               </StyledTabs>
               <MoreInfoIconWrapper
                 hovered={hovered}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
-                onClick={toggleMoreInfoModal}
+                onClick={() => setIsMoreInfoOpen(!isMoreInfoOpen)}
               >
                 <InfoOutlined />
                 {!isSmallScreen && <MoreInfoText>More info</MoreInfoText>}
