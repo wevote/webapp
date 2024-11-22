@@ -1,21 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Button } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import JoinChallengeButton from './JoinChallengeButton'
+// import JoinChallengeButton from './JoinChallengeButton';
+
+const JoinChallengeButton = React.lazy(() => import(/* webpackChunkName: 'JoinChallengeButton' */ '../../components/Challenge/JoinChallengeButton'));
 
 const JoinChallengeAndLearnMoreButtons = ({ challengeWeVoteId, classes }) => {
   return (
     <JoinChallengeButtonWrapper>
-      <Button
-        classes={{ root: classes.joinChallengeButton }}
-        color="primary"
-        id={`challengeLearnMore-${challengeWeVoteId}`}
-        variant="contained"
-      >
-       Join Challenge
-      </Button>
+      <Suspense fallback={<></>}>
+        <JoinChallengeButton
+          // challengeSEOFriendlyPath={challengeSEOFriendlyPathForDisplay}
+          challengeWeVoteId={challengeWeVoteId}
+        />
+      </Suspense>
       <Button
         classes={{ root: classes.learnMoreButton }}
         color="secondary"
