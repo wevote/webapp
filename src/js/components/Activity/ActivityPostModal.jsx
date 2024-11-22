@@ -65,8 +65,10 @@ const ActivityPostModal = (props) => {
     }
   }, [initialFocusSet]);
 
-  // onBlurInput = () => {
-  // };
+  const onBlurInput = () => {
+    restoreStylesAfterCordovaKeyboard('ActivityPostModal');
+  };
+
 
   const onFocusInput = () => {
     prepareForCordovaKeyboard('ActivityPostModal');
@@ -81,7 +83,6 @@ const ActivityPostModal = (props) => {
     const visibilitySetting = visibilityIsPublic ? 'SHOW_PUBLIC' : 'FRIENDS_ONLY';
     ActivityActions.activityPostSave(activityTidbitWeVoteId, statementText, visibilitySetting);
     toggleModal();
-    restoreStylesAfterCordovaKeyboard('ActivityPostModal');
   };
 
   const updateStatementTextToBeSaved = (e) => {
