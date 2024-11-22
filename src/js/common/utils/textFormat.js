@@ -33,7 +33,7 @@ export function calculateBallotBaseUrl (incomingBallotBaseUrl, incomingPathname)
     ballotBaseUrl = `${temp4}/ballot`;
     // console.log("ballotBaseUrl:", ballotBaseUrl);
   } else {
-    ballotBaseUrl = incomingBallotBaseUrl || '/ballot';
+    ballotBaseUrl = incomingPathname || '/ballot';
   }
   return ballotBaseUrl;
 }
