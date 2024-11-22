@@ -13,16 +13,14 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
-    // await ReadyPage.findPrivacyLink.click();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#wevote');
-      electionCountDownTitle.click();
+      const weVoteUSLink = document.querySelector('#wevote');
+      weVoteUSLink.click();
     });
-    //  await PrivacyPage.weVoteUSLink.click();
     await driver.pause(waitTime);
     await driver.switchWindow('https://wevote.us/');
     await driver.pause(waitTime);
@@ -37,13 +35,13 @@ describe('Privacy Page', () => {
     await driver.waitUntil(async () => (ReadyPage.findPrivacyLink.isClickable()));
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#weVoteCampaigns');
-      electionCountDownTitle.click();
+      const weVoteCampaignsLink = document.querySelector('#weVoteCampaigns');
+      weVoteCampaignsLink.click();
     });
     await driver.pause(waitTime);
     await driver.switchWindow('https://campaigns.wevote.us/');
@@ -56,13 +54,13 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#wevotePrivacy');
-      electionCountDownTitle.click();
+      const helpCenterLink = document.querySelector('#wevotePrivacy');
+      helpCenterLink.click();
     });
     await driver.pause(waitTime);
     await driver.switchWindow('https://help.wevote.us/hc/en-us/sections/115000140987-Security-Technology');
@@ -75,8 +73,8 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await PrivacyPage.deleteYourAccountLink.click();
@@ -91,8 +89,8 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await PrivacyPage.deleteYourAccountLink.click();
@@ -109,13 +107,13 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#googleLimitedUse');
-      electionCountDownTitle.click();
+      const googleApiUserDataPolicyLink= document.querySelector('#googleLimitedUse');
+      googleApiUserDataPolicyLink.click();
     });
     await driver.switchWindow('https://developers.google.com/terms/api-services-user-data-policy#additional_requirements_for_specific_api_scopes');
     await expect(driver).toHaveTitle('Google API Services User Data Policy  |  Google for Developers');
@@ -126,13 +124,13 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#googleAnalytics');
-      electionCountDownTitle.click();
+      const googleAnalyticsLink = document.querySelector('#googleAnalytics');
+      googleAnalyticsLink.click();
     });
     await driver.pause(waitTime);
     await driver.switchWindow('https://policies.google.com/privacy');
@@ -145,17 +143,16 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(waitTime);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#openReplayPrivacy');
-      electionCountDownTitle.click();
+      const openReplayPrivacyLink = document.querySelector('#openReplayPrivacy');
+      openReplayPrivacyLink.click();
     });
     await driver.pause(waitTime);
     await driver.waitUntil(async () => {
-      // Add condition to check for the expected URL
       await driver.switchWindow('https://openreplay.com/legal/privacy.html');
       const currentUrl = await driver.getUrl();
       return currentUrl === 'https://openreplay.com/legal/privacy.html';
@@ -172,8 +169,8 @@ describe('Privacy Page', () => {
     await ReadyPage.load();
     await driver.pause(3000);
     await driver.execute(() => {
-      const electionCountDownTitle = document.querySelector('#footerLinkPrivacy');
-      electionCountDownTitle.click();
+      const privacyLink = document.querySelector('#footerLinkPrivacy');
+      privacyLink.click();
     });
     await driver.pause(3000);
     await expect(PrivacyPage.emailLink).toBeElementsArrayOfSize(2);
