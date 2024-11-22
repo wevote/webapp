@@ -63,7 +63,7 @@ function CardForListBody (props) {
 
   // /////////////////////// START OF DISPLAY
   return (
-    <CandidateCardForListWrapper id={`cardForListBodyWrapper-${candidateWeVoteId}`} limitCardWidth={limitCardWidth}>
+    <CandidateCardForListWrapper id={`cardForListBodyWrapper-${candidateWeVoteId || politicianWeVoteId}`} limitCardWidth={limitCardWidth}>
       <OneCampaignOuterWrapper limitCardWidth={limitCardWidth}>
         <OneCampaignInnerWrapper
           hideCardMargins={hideCardMargins}
