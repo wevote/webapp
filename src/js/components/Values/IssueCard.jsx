@@ -197,7 +197,7 @@ class IssueCard extends Component {
 
     const issueTooltip = isMobileScreenSize() ? (<span />) : (
       <Tooltip className="u-z-index-9020" id="issueTooltip">
-        <div>
+        <div id="topictooltipmsg">
           Follow
           {' '}
           {issueDisplayName}
@@ -267,7 +267,7 @@ class IssueCard extends Component {
     );
 
     const issueNameAndCount = (
-      <IssueName>
+      <IssueName id={`${issueDisplayName}_topicName`}>
         {`${issueDisplayName} `}
         {!hideAdvocatesCount && (
           <IssueAdvocatesCount>
@@ -305,7 +305,7 @@ class IssueCard extends Component {
           </IssueAdvocatesImages>
         )}
         {!!(linkedOrganizationCount) && (
-          <LinkedOrganizationCountWrapper>
+          <LinkedOrganizationCountWrapper id="numberofendorsements">
             {numberAbbreviate(linkedOrganizationCount)}
             <CheckWrapper>
               <Check />
@@ -342,7 +342,8 @@ class IssueCard extends Component {
                   {!turnOffIssueImage && (
                     <span>
                       {includeLinkToIssue ? (
-                        <Link to={this.getIssueLink}
+                        <Link
+                              to={this.getIssueLink}
                               className="u-no-underline"
                               tabIndex={-1}
                         >
@@ -416,7 +417,7 @@ class IssueCard extends Component {
           </OverlayTrigger>
           <OverlayTrigger overlay={followersTooltip} placement="top">
             <span>
-              <FollowersWrapper>
+              <FollowersWrapper id="followers">
                 {!!(issueFollowersCount) && (
                   <>
                     {numberAbbreviate(issueFollowersCount)}
