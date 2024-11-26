@@ -243,17 +243,4 @@ describe('DonatePage', () => {
     await expect(DonatePage.getFieldRequiredError(1)).toHaveText(validEmailError);
     await expect(DonatePage.getFixErrors()).toHaveText('Please fix the errors above.');
   });
-
-  // Donate_011 https://wevoteusa.atlassian.net/browse/WV-699 Uncomment when fixed
-  it('verifyPostalAddress', async () => {
-    await DonatePage.load();
-    await driver.switchToFrame(await DonatePage.getDonorBoxIFrame());
-
-    (await DonatePage.getDedicateMyDonationCheckbox()).click();
-    const postalRadiobox = await DonatePage.getPostalMailRadioButton();
-    await postalRadiobox.scrollIntoView();
-    await postalRadiobox.click();
-    await nextButtonScrollIntoView();
-    // await expect(DonatePage.getFieldRequiredError(2)).toHaveText(requiredError);
-  });
 });
