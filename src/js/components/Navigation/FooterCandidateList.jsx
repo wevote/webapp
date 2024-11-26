@@ -11,7 +11,7 @@ export default function FooterCandidateList () {
   let stateNamePhraseLowerCase;
   return (
     <FooterCandidateListWrapper>
-      <SimpleModeTitle>
+      <SimpleModeTitle id="whosrunningforofficesectiontitle">
         Who&apos;s running for office?
       </SimpleModeTitle>
       {stateNameList.map((stateName) => {
@@ -21,7 +21,7 @@ export default function FooterCandidateList () {
         // console.log('tempStateCode:', tempStateCode, ', stateAlreadySelected:', stateAlreadySelected);
         return (
           <SimpleModeItemWrapper key={stateCode}>
-            <Link className="u-link-color" to={`/${stateNamePhraseLowerCase}/cs/`}>
+            <Link id={`${stateNamePhraseLowerCase}_Link`} className="u-link-color" to={`/${stateNamePhraseLowerCase}/cs/`}>
               {stateName}
               {' '}
               candidates
