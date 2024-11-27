@@ -1639,6 +1639,7 @@ class Ballot extends Component {
                                         ballotItemDisplayName={item.ballot_item_display_name}
                                         candidateList={item.candidate_list}
                                         candidatesToShowForSearchResults={item.candidatesToShowForSearchResults}
+                                        foundInSearchWords={item.foundInSearchWords}
                                         id={chipLabelText(item.ballot_item_display_name)}
                                         isFirstBallotItem={isFirstBallotItem}
                                         isMeasure={item.kind_of_ballot_item === TYPES.MEASURE}
