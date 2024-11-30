@@ -44,30 +44,19 @@ const StyledTabs = styled(Tabs)({
   flexGrow: 1,
 });
 
-const MoreInfoIconWrapper = ({ hovered, isSmallScreen, onMouseEnter, onMouseLeave, onClick, children }) => {
-  const styles = {
-    alignItems: 'center',
-    color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600,
-    cursor: 'pointer',
-    display: 'flex',
-    fontSize: '0.875rem',
-    fontWeight: 500,
-    lineHeight: 1.25,
-    position: 'absolute',
-    right: isSmallScreen ? 12 : 16,
-  };
-
-  return (
-    <div
-      style={styles}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onClick={onClick}
-    >
-      {children}
-    </div>
-  );
-};
+const MoreInfoIconWrapper = styled('div', {
+  shouldForwardProp: (prop) => !['hovered', 'isSmallScreen'].includes(prop),
+})(({ hovered, isSmallScreen }) => ({
+  alignItems: 'center',
+  color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600,
+  cursor: 'pointer',
+  display: 'flex',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  lineHeight: 1.25,
+  position: 'absolute',
+  right: isSmallScreen ? '12px' : '16px',
+}));
 
 const MoreInfoText = styled('span')({
   marginLeft: 4,
@@ -115,7 +104,7 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
 
   const classes = useStyles();
   const history = useHistory();
-  const isSmallScreen = useMediaQuery('(max-width:500px)'); // 500px is for smallest screen size, that are smaller then xs size in MUI
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('xs'));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -212,6 +201,7 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
               </StyledTabs>
               <MoreInfoIconWrapper
                 hovered={hovered}
+                isSmallScreen={isSmallScreen}
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 onClick={() => setIsMoreInfoOpen(!isMoreInfoOpen)}
