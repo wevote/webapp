@@ -11,7 +11,7 @@ export default function FooterCandidateList () {
   let stateNamePhraseLowerCase;
   return (
     <FooterCandidateListWrapper>
-      <SimpleModeTitle id="whosrunningforofficesectiontitle">
+      <SimpleModeTitle id="whosRunningForOfficeSectionTitle">
         Who&apos;s running for office?
       </SimpleModeTitle>
       {stateNameList.map((stateName) => {

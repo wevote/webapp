@@ -153,7 +153,7 @@ class FriendInvitationOnboardingIntro extends Component {
             </>
           )}
         </FriendInvitationTopHeader>
-        <FriendInvitationIntroHeader id="WeVotehelpsyouListHeaderText" className="FriendInvitationIntroHeader">
+        <FriendInvitationIntroHeader id="weVoteHelpsYouListHeaderText" className="FriendInvitationIntroHeader">
           WeVote helps you:
         </FriendInvitationIntroHeader>
         <FriendInvitationListWrapper>
@@ -184,7 +184,7 @@ class FriendInvitationOnboardingIntro extends Component {
                   Make a plan for casting your vote. See your entire ballot. Find your polling location.
                 </StepText>
               ) : (
-                <StepText id="BeconfidentinyourchoicesHeader" onClick={this.onClickShowAllStepOne}>
+                <StepText id="beConfidentInYourChoicesHeader" onClick={this.onClickShowAllStepOne}>
                   {showCountDownDays ? (
                     <>
                       There are
