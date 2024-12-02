@@ -752,8 +752,8 @@ const WeVoteBody = styled('div')`
   //font-family: "Poppins", "Helvetica Neue Light", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
   //line-height: 1.4;
   // margin: 0 auto;
-
   display: block;
+  min-height: 100vh;
   position: relative;
   z-index: 0;
   // this debug technique works!  ${() => console.log('-----------------------------')}
