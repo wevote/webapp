@@ -1,5 +1,6 @@
 import VoterActions from './actions/VoterActions';
 import { getCordovaScreenHeight, isIOS, isIOSAppOnMac, isIPad, isSimulator, prepareForCordovaKeyboard, restoreStylesAfterCordovaKeyboard } from './common/utils/cordovaUtils';
+import initializejQuery from './common/utils/initializejQuery';
 import { isCordova } from './common/utils/isCordovaOrWebApp';
 import Cookies from './common/utils/js-cookie/Cookies';
 import { httpLog } from './common/utils/logging';
@@ -107,12 +108,15 @@ export function initializationForCordova (startReact) {
       document.querySelector('body').style.height = getCordovaScreenHeight();
       console.log('Cordova: Initial "body" height for iPad = calcualation disabled '); // , result.height / result.scale);
     }
-    const { $ } = window;
-    console.log('Cordova:   Startup sequence 3: Wait for an initial voterRetrieve');
+    initializejQuery(() => {
+      const { $ } = window;
+      console.log('Cordova:   Startup sequence 3: Wait for an initial voterRetrieve, found jQuery $.fn.jquery = ', $.fn.jquery);
+    });
     const cookie = Cookies.get('voter_device_id');
     const idPathComponent = (cookie && cookie.length > 10) ? `/?voter_device_id=${cookie}` : '';
     const initialAjaxUrl = `${webAppConfig.WE_VOTE_SERVER_API_ROOT_URL}voterRetrieve${idPathComponent}`;
     httpLog(`AJAX URL (Initial): ${initialAjaxUrl}`);
+    const { $ } = window;
     $.ajax({
       url: initialAjaxUrl,
       context: document.body,

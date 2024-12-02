@@ -49,25 +49,23 @@ const ChallengeParticipantList = ({ participantList, uniqueExternalId, showSimpl
     });
   }
 
-  console.log(simpleParticipantList);
-
-
   return (
     <LeaderboardListContainer>
       {showSimpleList && simpleParticipantList.map((participant) => (
         <ChallengeParticipantListItem
           challengeWeVoteId={challengeWeVoteId}
+          isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
           key={`participantKey-${participant.voter_we_vote_id}-${uniqueExternalId}`}
           participant={participant}
-          isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
           showSimpleList={showSimpleList}
         />
       ))}
       {!showSimpleList && participantList.map((participant) => (
         <ChallengeParticipantListItem
+          challengeWeVoteId={challengeWeVoteId}
+          isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
           key={`participantKey-${participant.voter_we_vote_id}-${uniqueExternalId}`}
           participant={participant}
-          isCurrentUser={participant.voter_we_vote_id === voterWeVoteID}
           showSimpleList={showSimpleList}
         />
       ))}

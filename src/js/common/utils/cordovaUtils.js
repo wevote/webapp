@@ -447,7 +447,7 @@ export function getAndroidSize () {
   }
   androidSizeString = 'default';
   const { visualViewport: { height, width, scale } } = window;
-  const diameter = Math.sqrt(((width * scale) ** 2) + ((height * scale) ** 2));
+  const diameter = Math.sqrt(((width * scale) ** 2) + ((height * scale) ** 2)).toFixed(2);
   // console.log('CALCULATED screen diameter: ', diameter);
 
   androidPixels = width * height;
@@ -467,7 +467,7 @@ export function getAndroidSize () {
     androidSizeString = '--xl';
   }
 
-  console.log(`Cordova:   getAndroidSize(): ${androidSizeString}, reported diagonal: ${diameter} `);
+  console.log(`Cordova:   getAndroidSize(): ${androidSizeString}, calculated diagonal: ${diameter} `);
 
   return androidSizeString;
 }
