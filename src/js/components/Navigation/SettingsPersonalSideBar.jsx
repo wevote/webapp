@@ -82,10 +82,11 @@ export default class SettingsPersonalSideBar extends Component {
     renderLog('SettingsPersonalSideBar');  // Set LOG_RENDER_EVENTS to log all renders
     // console.log("SettingsPersonalSideBar, isOrganization: ", this.state.isOrganization);
     const { editMode } = this.props;
-        const { isOnPartnerUrl, isSignedIn, isOrganization, showPremiumFeatures, voterIsAdminForThisUrl } = this.state;
+    const { isOnPartnerUrl, isSignedIn, isOrganization, showPremiumFeatures, voterIsAdminForThisUrl } = this.state;
     const showSettingsInDevelopment = false; // If developing any of the new settings, change this to true
     const isOnPartnerUrlAndNotAdmin = isOnPartnerUrl && !voterIsAdminForThisUrl;
     const alwaysTrue = true; // A temp fix for https://wevoteusa.atlassian.net/browse/WV-168
+    const pigsCanFly = false;
 
     return (
       <div className="card">
@@ -110,7 +111,7 @@ export default class SettingsPersonalSideBar extends Component {
             </div>
           )}
 
-          {(isSignedIn) && (
+          {(isSignedIn && pigsCanFly) && ( // Turning this off until we can work on it more
             <div className={String(editMode) === 'address' ?
               'SettingsItem__summary__item-container SettingsItem__summary__item-container--selected' :
               'SettingsItem__summary__item-container'}

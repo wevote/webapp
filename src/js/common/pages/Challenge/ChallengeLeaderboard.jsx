@@ -61,8 +61,8 @@ const ChallengeLeaderboard = ({ classes, challengeWeVoteId, clearSearchFunction,
         </ButtonAndSearchWrapper>
         <LeaderboardInfoWrapper>
           {!!(rankOfVoter) && (
-              <YourRankOutOf rankOfVoter={rankOfVoter} participantsCount={participantsCount} />
-            )}
+            <YourRankOutOf rankOfVoter={rankOfVoter} participantsCount={participantsCount} />
+          )}
         </LeaderboardInfoWrapper>
         <LeaderboardTableHeader>
           <div style={{display: 'flex', gap: '32px'}}>
