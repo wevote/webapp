@@ -198,13 +198,16 @@ class ChallengeCardList extends Component {
                 >
                   <ChallengeAbout challengeWeVoteId={oneChallenge.challenge_we_vote_id} />
                 </Link>
-                {pigsCanFly && (
+{/*                 {pigsCanFly && ( */}
                   <JoinedButtonsOuterWrapper>
                     <JoinedButtonsInnerWrapper>
-                      <JoinChallengeAndLearnMoreButtons />
+                      <JoinChallengeAndLearnMoreButtons
+                        challengeWeVoteId={oneChallenge.challenge_we_vote_id}
+                        challengeSEOFriendlyPath={oneChallenge.seo_friendly_path}
+                      />
                     </JoinedButtonsInnerWrapper>
                   </JoinedButtonsOuterWrapper>
-                )}
+{/*                 )} */}
               </ChallengeCardForListVerticalWrapper>
             );
           })}

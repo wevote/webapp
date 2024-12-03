@@ -239,6 +239,7 @@ export const CurrentLeaderDiv = styled('div')`
 `;
 
 export const FriendsInvitedDiv = styled('div')`
+  margin-bottom: 15px;
 `;
 
 const ShowDaysLeftText = styled('span')`

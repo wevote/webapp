@@ -203,8 +203,9 @@ JoinChallengeButton.propTypes = {
 const styles = () => ({
   buttonDesktop: {
     borderRadius: 45,
-    minWidth: '300px',
-    width: '100%',
+    maxWidth: 250,
+    marginRight: '10px',
+    marginTop: '10px',
   },
 });
 
