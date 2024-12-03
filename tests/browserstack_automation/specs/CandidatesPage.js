@@ -1,182 +1,155 @@
-import { browser, driver, expect } from '@wdio/globals';
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-use-before-define */
+import { driver } from '@wdio/globals';
 import CandidatesPage from '../page_objects/candidates.page';
-import { Key } from 'webdriverio';
 
-const testDataPath="tests/browserstack_automation/capabilities/";
-const fs=require('fs');
+const testDataPath = 'tests/browserstack_automation/testDataForScripts/';
+const fs = require('fs');
 const assert = require('assert');
-const titleStr=" Candiates - weVote";
+
 const waitTime = 8000;
 
+/* eslint-disable no-undef */
+// This eslint-disable turns off warnings for describe() and it()
+
 describe('Candidates Page', () => {
-  
+  // Candidates_001
   it('verifyAllStateNamesPresentforChooseState', async () => {
     await CandidatesPage.load();
     await driver.pause(waitTime);
     await CandidatesPage.stateSelect.click();
-    const options=await CandidatesPage.stateSelectOptions;
-    const expectedStates=readTestData_States(0,"all");
-    console.log("Expected: "+expectedStates);
-    let actualStates=[];
-    await options.forEach(async (option)=>{
-      let stateName=await option.getText();
-      if (! stateName.includes("Choose state")){
-          actualStates.push(stateName);
-        }
+    const options = await CandidatesPage.stateSelectOptions;
+    const expectedStates = readTestDataStates('all');
+    const actualStates = [];
+    await options.forEach(async (option) => {
+      const stateName = await option.getText();
+      if (!stateName.includes('Choose state')) {
+        actualStates.push(stateName);
+      }
     });
-    await expectedStates.forEach((state)=>{
-          assert(actualStates.includes(state),"State -> '"+state +"'  .. not found on the Choose state Dropdown Options .");
-          });
+    await expectedStates.forEach((state) => {
+      assert(actualStates.includes(state), `State -> '${state}'  .. not found on the Choose state Dropdown Options .`);
+    });
   });
 
-   //Candidates_001
-    let stateNames=readTestData_States(3,"random");
-    console.log("verifyTitleWhenStateSelected -> "+ stateNames);
-    stateNames.forEach((stateText) => {
+  // Candidates_002
+  const stateNamesRandomTC2 = readTestDataStates('random', 3);
+  stateNamesRandomTC2.forEach((state) => {
     it('verifyTitleWhenStateSelected', async () => {
-        await CandidatesPage.load();
-        await CandidatesPage.stateSelect.selectByVisibleText(stateText);
-        const expectedTitle=stateText+titleStr;
-        let actualTitle=await driver.getTitle();
-        expect(actualTitle.match(expectedTitle));
-    });
-  });
-
-
-    //Candidates_007
-    const stateNamesRandomTC7=readTestData_States(3,"random");
-    const possibleHeaders=readTestData_AllPossibleHeaders();
-    stateNamesRandomTC7.forEach((stateText) => {
-    it('verifyHeadersMatchPossibleHeaders', async () => {
-        console.log("Running verifyHeadersMatchPossibleHeaders -> Using sate: "+stateText);
-        CandidatesPage.load();
-        await driver.pause(waitTime);
-        await CandidatesPage.stateSelect.selectByVisibleText(stateText);
-        await driver.pause(waitTime);
-        let actualHeaders=await CandidatesPage.pageHeaders;
-        await actualHeaders.forEach(async (header)=>{
-                let headerText=await header.getText();
-                assert(possibleHeaders.includes(headerText),"Header section -> '"+headerText +"'  .. does not match with any of the expected Headers."); 
-                });      
-        });
-    });
-
-    //Candidates_008
-    const stateNamesRandomTC8=readTestData_States(3,"random");
-    const MandatoryHeaders=readTestData_MandatoryHeaders();
-    stateNamesRandomTC8.forEach((stateText) => {
-    it('verifyMandatoryHeaderPresent', async () => {
-        console.log("Running verifyMandatoryHeaderPresent -> Using sate: "+stateText);
-        CandidatesPage.load();
-        await driver.pause(waitTime);
-        await CandidatesPage.stateSelect.selectByVisibleText(stateText);
-        await driver.pause(waitTime);
-        const actualHeaders=await CandidatesPage.pageHeaders;
-        const actualHeadersText=[];
-        await actualHeaders.forEach(async (header)=>{
-            actualHeadersText.push(await header.getText());
-        });
-        console.log(actualHeaders);
-        MandatoryHeaders.forEach((mandatoryHeader)=>{
-                assert(actualHeadersText.includes(mandatoryHeader),"Mandatory Header section -> '"+mandatoryHeader +"'  .. not found on the page..");            
-                });  
-        });
-    });
-
-
-    //verfiy Candidate cards have Candidate Name displayed
-   it('verifycandidateCardHasNameDisplayed', async () => {
+      const titleStr = ' Candidates - WeVote';
+      console.log(`Running verifyTitleWhenStateSelected -> Using sate: ${state}`);
       await CandidatesPage.load();
+      await CandidatesPage.stateSelect.selectByVisibleText(state);
       await driver.pause(waitTime);
-      /*remove this after defect 371 fix
-      await CandidatesPage.searchBox.setValue("Kevin");
-      await driver.pause(waitTime);
-      // end */
-      let candidateCards=await CandidatesPage.CandidateCardList;
-       console.log("Total cards: "+candidateCards.length);
-      await candidateCards.forEach(async (card) => {
-        let cardId=await card.getAttribute('id');
-         console.log("Card id: "+cardId);
-       let state=await CandidatesPage.getCandidateCardCandidateName(cardId);
-        console.log("Name Text: "+state);
-        });
-
+      const expectedTitle = state + titleStr;
+      const actualTitle = await driver.getTitle();
+      assert.equal(actualTitle, expectedTitle);
     });
+  });
 
-
-
-        //verfiy text in Candidate cards have state displayed
-   it('verifycandidateCardHasStateDisplayed', async () => {
-    await CandidatesPage.load();
-    await driver.pause(waitTime);
-    let candidateCards=await CandidatesPage.CandidateCardList;
-     console.log("Total cards: "+candidateCards.length);
-    await candidateCards.forEach(async (card) => {
-      let cardId=await card.getAttribute('id');
-       console.log("Card id: "+cardId);
-     let state=await CandidatesPage.getCandidateCardState(cardId);
-      console.log("State Text: "+state);
+  // Candidates_003
+  const stateNamesRandomTC3 = readTestDataStates('random', 3);
+  const possibleHeaders = readTestDataAllPossibleHeaders();
+  stateNamesRandomTC3.forEach((state) => {
+    it('verifyHeadersMatchPossibleHeaders', async () => {
+      console.log(`Running verifyHeadersMatchPossibleHeaders -> Using sate: ${state}`);
+      CandidatesPage.load();
+      await driver.pause(waitTime);
+      await CandidatesPage.stateSelect.selectByVisibleText(state);
+      await driver.pause(waitTime);
+      const actualHeaders = await CandidatesPage.pageHeaders;
+      await actualHeaders.forEach(async (header) => {
+        const headerText = await header.getText();
+        console.log(`Checking if Header found on page: '${headerText}' is one of the expected headers.`);
+        assert(possibleHeaders.includes(headerText), `Header section -> '${headerText}'  .. does not match with any of the expected Headers -> [${possibleHeaders}]`);
       });
+    });
   });
 
-        //verfiy text in Candidate cards have Party Name displayed
-        it('verifycandidateCardHasPartyNameDisplayed', async () => {
-          await CandidatesPage.load();
-          await driver.pause(waitTime);
-          let candidateCards=await CandidatesPage.CandidateCardList;
-           console.log("Total cards: "+candidateCards.length);
-          await candidateCards.forEach(async (card) => {
-            let cardId=await card.getAttribute('id');
-             console.log("Card id: "+cardId);
-           let state=await CandidatesPage.getCandidateCardPartyName(cardId);
-            console.log("party Text: "+state);
-            });
-        });
+  // Candidates_004
+  const stateNamesRandomTC4 = readTestDataStates('random', 3);
+  const MandatoryHeaders = readTestDataMandatoryHeaders();
+  stateNamesRandomTC4.forEach((state) => {
+    it('verifyMandatoryHeaderPresent', async () => {
+      console.log(`Running verifyMandatoryHeaderPresent -> Using sate: ${state}`);
+      CandidatesPage.load();
+      await driver.pause(waitTime);
+      await CandidatesPage.stateSelect.selectByVisibleText(state);
+      await driver.pause(waitTime);
+      const actualHeaders = await CandidatesPage.pageHeaders;
+      const actualHeadersText = [];
+      await actualHeaders.forEach(async (header) => {
+        actualHeadersText.push(await header.getText());
+      });
+      MandatoryHeaders.forEach((mandatoryHeader) => {
+        console.log(`Checking if mandatory header '${mandatoryHeader}' is found on the page.`);
+        assert(actualHeadersText.includes(mandatoryHeader), `Mandatory Header section -> '${mandatoryHeader}'  .. not found on the page..`);
+      });
+    });
+  });
 
-   //verfiy text in Candidate cards have Party Name displayed
-   it('verifycandidateCardHasOfficeDisplayed', async () => {
-    await CandidatesPage.load();
-    await driver.pause(waitTime);
-    let candidateCards=await CandidatesPage.CandidateCardList;
-     console.log("Total cards: "+candidateCards.length);
-    for await (const card of candidateCards ){
-      let cardId=await card.getAttribute('id');
-      // console.log("Card id: "+cardId);
-     let office=(await CandidatesPage.getCandidateCardOffice(cardId));
-      await console.log("C: "+cardId+" Office Text: "+office);
-      };
+  // Candidates_005, Candidates_006, Candidates_007, Candidates_008
+  const stateNamesRandomTC5 = readTestDataStates('random', 3);
+  stateNamesRandomTC5.forEach((state) => {
+    const errors = [];
+    it('verifyCandidateCardHasSectionsDisplayed', async () => {
+      console.log(`Running verifyCandidateCardHasSectionsDisplayed -> Using sate: ${state}`);
+      CandidatesPage.load();
+      await driver.pause(waitTime);
+      await CandidatesPage.stateSelect.selectByVisibleText(state);
+      await driver.pause(waitTime);
+      const candidateCards = await CandidatesPage.CandidateCardList;
+      for (let i = 0; i < candidateCards.length; i++) {
+        const card = candidateCards[i];
+        const cardId = await card.getAttribute('id');
+        const candidateNameDisplayed = await CandidatesPage.getCandidateCardCandidateName(cardId);
+        const stateNameDisplayed = await CandidatesPage.getCandidateCardState(cardId);
+        const partyNameDisplayed = await CandidatesPage.getCandidateCardPartyName(cardId);
+        const officeNameDisplayed = (await CandidatesPage.getCandidateCardOffice(cardId));
+        const errMsgNoCandidateName = `Candidate Name not displayed for candidate card: ${cardId}`;
+        const errMsgNoStateName = `State not displayed for candidate: ${candidateNameDisplayed}`;
+        const errMsgNoPartyName = `Party not displayed for candidate: ${candidateNameDisplayed}`;
+        const errMsgNoOfficeName = `Office not displayed for candidate: ${candidateNameDisplayed}`;
+        if (candidateNameDisplayed === null) errors.push(errMsgNoCandidateName);
+        if (stateNameDisplayed === null) errors.push(errMsgNoStateName);
+        if (partyNameDisplayed === null) errors.push(errMsgNoPartyName);
+        if (officeNameDisplayed === null) errors.push(errMsgNoOfficeName);
+      }
+      if (errors.length > 0) {
+        let errorsAll = '';
+        for (let i = 0; i < errors.length; i++) {
+          errorsAll += `${errors[i]}\n`;
+        }
+        throw new Error(errorsAll);
+      }
+    });
   });
 
 
-
-    //read All Possible Headers from candidatesPage_TC001.json
-    function readTestData_AllPossibleHeaders(){
-            let jsonObjH=JSON.parse(fs.readFileSync(testDataPath+'candidatesPage_TC001.json'));
-            let possibleHeaders=jsonObjH.map(i=> i.HeaderText);
-            return possibleHeaders;
-   }
-   //read Mandatory Headers from candidatesPage_TC001.json
-   function readTestData_MandatoryHeaders(){
-            let jsonObjH=JSON.parse(fs.readFileSync(testDataPath+'candidatesPage_TC001.json'));
-            let MandatoryHeaders=(jsonObjH.filter(header => header.Mandatory=='Y')).map(i=> i.HeaderText);
-            return MandatoryHeaders;
-   }  
-   //read stateNames from candidatesPage_TC002.json, return 5 random states for test run
-    function readTestData_States(count,type){
-            let jsonObjSt=JSON.parse(fs.readFileSync(testDataPath+'candidatesPage_TC002.json'));
-            const allStateNames=(jsonObjSt[0])["States"];
-            if (type=="all"){
-                return allStateNames;
-            }
-            else if (type=="random"){
-                let states=[];
-                for (let cnt=0;cnt<count;cnt++){
-                    states.push(allStateNames[Math.floor(Math.random()*allStateNames.length)]);
-                    
-            }
-               // console.log("X:: "+states);
-                return states; 
-                                 }   
+  // read All Possible Headers from candidatesPage_TC001.json
+  function readTestDataAllPossibleHeaders () {
+    const jsonObjH = JSON.parse(fs.readFileSync(`${testDataPath}candidatesPage_TDHeaders.json`));
+    const possibleHeadersData = jsonObjH.map((i) => i.HeaderText);
+    return possibleHeadersData;
+  }
+  // read Mandatory Headers from candidatesPage_TC001.json
+  function readTestDataMandatoryHeaders () {
+    const jsonObjH = JSON.parse(fs.readFileSync(`${testDataPath}candidatesPage_TDHeaders.json`));
+    const MandatoryHeadersData = (jsonObjH.filter((header) => header.Mandatory === 'Y')).map((i) => i.HeaderText);
+    return MandatoryHeadersData;
+  }
+  // read stateNames from candidatesPage_TDStates.json, return n random states for test run
+  function readTestDataStates (type, count) {
+    const jsonObjSt = JSON.parse(fs.readFileSync(`${testDataPath}candidatesPage_TDStates.json`));
+    const allStateNames = (jsonObjSt[0]).States;
+    let testStates = [];
+    if (type === 'all') {
+      testStates = allStateNames;
+    } else if (type === 'random') {
+      for (let cnt = 0; cnt < count; cnt++) {
+        testStates.push(allStateNames[Math.floor(Math.random() * allStateNames.length)]);
+      }
     }
-
+    return testStates;
+  }
 });
