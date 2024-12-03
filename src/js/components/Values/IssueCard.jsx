@@ -197,7 +197,7 @@ class IssueCard extends Component {
 
     const issueTooltip = isMobileScreenSize() ? (<span />) : (
       <Tooltip className="u-z-index-9020" id="issueTooltip">
-        <div id="topictooltipmsg">
+        <div id="topicToolTipMsg">
           Follow
           {' '}
           {issueDisplayName}
@@ -253,7 +253,7 @@ class IssueCard extends Component {
     }
 
     const followersTooltip = isMobileScreenSize() ? (<span />) : (
-      <Tooltip className="u-z-index-9020" id="followersTooltip">
+      <Tooltip className="u-z-index-9020" id="followersToolTip">
         <div>
           {numberAbbreviate(issueFollowersCount)}
           {' '}
@@ -305,7 +305,7 @@ class IssueCard extends Component {
           </IssueAdvocatesImages>
         )}
         {!!(linkedOrganizationCount) && (
-          <LinkedOrganizationCountWrapper id="numberofendorsements">
+          <LinkedOrganizationCountWrapper id="numberOfEndorsements">
             {numberAbbreviate(linkedOrganizationCount)}
             <CheckWrapper>
               <Check />

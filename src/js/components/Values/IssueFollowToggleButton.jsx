@@ -177,7 +177,7 @@ class IssueFollowToggleButton extends Component {
         {isFollowing ? (
           <>
             <Button
-              id="checkcircleiconfollowtopic"
+              id="checkCircleIconFollowTopic"
               type="button"
               className="issues-follow-btn issues-follow-btn__main issues-follow-btn__icon issues-follow-btn--white issues-followed-btn--disabled"
               disabled
@@ -198,7 +198,7 @@ class IssueFollowToggleButton extends Component {
               id={`toggleFollowMenuButton-${issueWeVoteId}`}
             >
               <ArrowDropDown />
-              <span id="arrowiconfollowtopic" className="sr-only">Toggle Dropdown</span>
+              <span id="arrowIconFollowTopic" className="sr-only">Toggle Dropdown</span>
             </Button>
             <Menu
               id="follow-menu"
