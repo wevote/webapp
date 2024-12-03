@@ -10,19 +10,30 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import DesignTokenColors from '../Style/DesignTokenColors';
 
-const ExplanationContent = () => (
+const ExplanationContent = ({
+  unfurlInviteFriends,
+  unfurlEarnPoints,
+  unfurlMission,
+  unfurlContestTerms,
+}) => (
   <PointsWrapper>
     <TitleSection>
       <Paragraph>
         At the end of a challenge, the participant who has the most points is ranked as #1 and wins the challenge.
       </Paragraph>
     </TitleSection>
-    <AccordionSection title="Invite friends to strengthen our democracy">
+    <AccordionSection
+      title="Invite friends to strengthen our democracy"
+      isOpen={unfurlInviteFriends}
+    >
       <Typography>
         Invite your friends to join you in this challenge and earn points together!
       </Typography>
     </AccordionSection>
-    <AccordionSection title="How to earn points to improve your ranking">
+    <AccordionSection
+      title="How to earn points to improve your ranking"
+      isOpen={unfurlEarnPoints}
+    >
       <StyledTable>
         <thead>
           <tr>
@@ -54,12 +65,18 @@ const ExplanationContent = () => (
         </tbody>
       </StyledTable>
     </AccordionSection>
-    <AccordionSection title="WeVote’s mission">
+    <AccordionSection
+      title="WeVote’s mission"
+      isOpen={unfurlMission}
+    >
       <Typography>
         WeVote is committed to increasing voter engagement and participation by providing tools that encourage people to join in our democracy.
       </Typography>
     </AccordionSection>
-    <AccordionSection title="Contest terms">
+    <AccordionSection
+      title="Contest terms"
+      isOpen={unfurlContestTerms}
+    >
       <StyledUnorderedList>
         <li>Sponsor: We Vote USA</li>
         <li>Eligibility: Open to residents of the USA who are 18 years or older.</li>
@@ -75,8 +92,8 @@ const ExplanationContent = () => (
   </PointsWrapper>
 );
 
-const AccordionSection = ({ title, children }) => (
-  <StyledAccordion>
+const AccordionSection = ({ title, children, isOpen }) => (
+  <StyledAccordion defaultExpanded={isOpen}>
     <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography variant="subtitle1">{title}</Typography>
     </StyledAccordionSummary>
@@ -87,9 +104,10 @@ const AccordionSection = ({ title, children }) => (
 AccordionSection.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  isOpen: PropTypes.bool,
 };
 
-// Styled Components
+
 const PointsWrapper = styled('div')`
   display: flex;
   flex-direction: column;
