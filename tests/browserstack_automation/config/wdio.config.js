@@ -13,8 +13,8 @@ try {
   // Run `npm run wdio:setup`
 }
 
-const capabilities = [...browserCapabilities, ...mobileCapabilities];
-
+//const capabilities = [...browserCapabilities, ...mobileCapabilities];
+const capabilities = [...browserCapabilities];
 const date = new Date();
 
 const dateForDisplay = date.toDateString();
@@ -46,7 +46,7 @@ module.exports.config = {
     '../specs/TopicsPage.js',
     '../specs/HowItWorks.js',
     '../specs/SignInPage.js',
-
+    '../specs/BallotPage.js'
   ],
 
   capabilities,
