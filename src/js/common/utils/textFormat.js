@@ -33,7 +33,8 @@ export function calculateBallotBaseUrl (incomingBallotBaseUrl, incomingPathname)
     ballotBaseUrl = `${temp4}/ballot`;
     // console.log("ballotBaseUrl:", ballotBaseUrl);
   } else {
-    ballotBaseUrl = incomingPathname || '/ballot';
+    // ballotBaseUrl = incomingPathname || '/ballot';  // Changed for WV-676 but needs review
+    ballotBaseUrl = incomingBallotBaseUrl || '/ballot';
   }
   return ballotBaseUrl;
 }
