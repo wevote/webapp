@@ -13,8 +13,8 @@ try {
   // Run `npm run wdio:setup`
 }
 
-//const capabilities = [...browserCapabilities, ...mobileCapabilities];
-const capabilities = [...browserCapabilities];
+const capabilities = [...browserCapabilities, ...mobileCapabilities];
+
 const date = new Date();
 
 const dateForDisplay = date.toDateString();
