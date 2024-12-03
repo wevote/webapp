@@ -172,6 +172,16 @@ export default class HamburgerMenu extends Component {
 
             {isSignedIn && (
               <HamburgerMenuRow
+                icon="fa fa-address-card"
+                iconStyle={{ fontSize: 28, color: '#1c2f4b' }}
+                linkText="Ballot Address"
+                onClickAction={null}
+                to="/settings/address"
+              />
+            )}
+
+            {isSignedIn && (
+              <HamburgerMenuRow
                 fullIcon={this.yourAccountIcon(voterPhotoUrlMedium)}
                 linkText="Security & Sign In"
                 onClickAction={null}

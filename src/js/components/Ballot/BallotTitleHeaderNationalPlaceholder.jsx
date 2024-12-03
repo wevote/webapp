@@ -101,6 +101,7 @@ class BallotTitleHeaderNationalPlaceholder extends Component {
     const electionNameContainsState = stringContains(stateTextUsed.toLowerCase(), electionName.toLowerCase());
 
     const editIconStyled = <Edit style={{ fontSize: 16, margin: '-6px 0 0 2px', color: '#69A7FF' }} />;
+    const pigsCanFly = false;
     // console.log('BallotTitleHeaderNationalPlaceholder daysUntilElection:', daysUntilElection);
     if (electionName) {
       return (
@@ -203,7 +204,8 @@ class BallotTitleHeaderNationalPlaceholder extends Component {
                 </ElectionNameScrollContent>
               </OverflowContent>
             </OverflowContainer>
-            {!!(electionDateMDY) && (
+            {(!!(electionDateMDY) && pigsCanFly) && (
+              /* This currently doesn't work correctly and needs to be reviewed */
               <VoteByRightWrapper electionDateBelow={electionDateBelow}>
                 <VoteByRightLabel>
                   {daysUntilElection > 0 ? (

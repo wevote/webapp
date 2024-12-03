@@ -82,7 +82,7 @@ export default class SettingsPersonalSideBar extends Component {
     renderLog('SettingsPersonalSideBar');  // Set LOG_RENDER_EVENTS to log all renders
     // console.log("SettingsPersonalSideBar, isOrganization: ", this.state.isOrganization);
     const { editMode } = this.props;
-    const { isOnPartnerUrl, isSignedIn, isOrganization, showPremiumFeatures, voterIsAdminForThisUrl } = this.state;
+        const { isOnPartnerUrl, isSignedIn, isOrganization, showPremiumFeatures, voterIsAdminForThisUrl } = this.state;
     const showSettingsInDevelopment = false; // If developing any of the new settings, change this to true
     const isOnPartnerUrlAndNotAdmin = isOnPartnerUrl && !voterIsAdminForThisUrl;
     const alwaysTrue = true; // A temp fix for https://wevoteusa.atlassian.net/browse/WV-168
@@ -104,6 +104,24 @@ export default class SettingsPersonalSideBar extends Component {
                     'SettingsItem__summary__item__display-name'}
                   >
                     Name &amp; Photo
+                  </span>
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {(isSignedIn) && (
+            <div className={String(editMode) === 'address' ?
+              'SettingsItem__summary__item-container SettingsItem__summary__item-container--selected' :
+              'SettingsItem__summary__item-container'}
+            >
+              <div>
+                <Link to="/settings/address" className="SettingsItem__summary__item" id="address">
+                  <span className={String(editMode) === 'address' ?
+                    'SettingsItem__summary__item__display-name SettingsItem__summary__item__display-name--selected' :
+                    'SettingsItem__summary__item__display-name'}
+                  >
+                    <span>Ballot Address</span>
                   </span>
                 </Link>
               </div>
