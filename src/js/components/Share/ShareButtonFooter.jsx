@@ -560,7 +560,7 @@ const ShareButtonFooterWrapper = styled('div', {
 })(({ shareBottomValue }) => (`
   position: fixed;
   width: 100%;
-  ${shareBottomValue ? `bottom: ${shareBottomValue}` : ''};
+  bottom: ${shareBottomValue || '57px'};
   display: block;
   background-color: white;
   @media (min-width: 576px) {
