@@ -159,19 +159,19 @@ class Donate extends Component {
   );
 
   preDonateDescription = () => (
-    <span id='first_paragraph'>
+    <span id="first_paragraph">
       Thank you for being a voter! For every $10 donated, you help 50 Americans be voters too.
     </span>
   );
 
   preDonateDescriptionBottom = (isC4Donation) => (
-    <span id='second_paragraph'>
+    <span id="second_paragraph">
       <OpenExternalWebSite
         linkIdAttribute="annualBudget"
         url={isC4Donation ? 'https://projects.propublica.org/nonprofits/organizations/811052585' : 'https://projects.propublica.org/nonprofits/organizations/472691544'}
         target="_blank"
         body={(
-          <span id='budgets_small'>
+          <span id="budgets_small">
             Our budgets are small,
             <Launch
               style={{

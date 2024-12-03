@@ -55,14 +55,14 @@ class ReadyFinePrint extends Component {
     return (
       <OuterWrapper>
         <InnerWrapper>
-          <IntroHeader titleCentered={titleCentered} titleLarge={titleLarge} tabIndex={0} ref={this.introHeaderRef}>
+          <IntroHeader id="thefineprintheadertext" titleCentered={titleCentered} titleLarge={titleLarge} tabIndex={0} ref={this.introHeaderRef}>
             The fine print:
           </IntroHeader>
           <ListWrapper>
             <ListMaxWidth>
               <ListTitleRow onClick={this.contentUnfurledLink}>
-                <Dot><StepNumber>a</StepNumber></Dot>
-                <StepTitle>You cannot cast your vote electronically</StepTitle>
+                <Dot><StepNumber id="fineprintmenuitema">a</StepNumber></Dot>
+                <StepTitle id="fineprinttextmenuheadera">You cannot cast your vote electronically</StepTitle>
               </ListTitleRow>
               {contentUnfurled && (
                 <ListRow>
@@ -72,8 +72,8 @@ class ReadyFinePrint extends Component {
               )}
 
               <ListTitleRow onClick={this.contentUnfurledLink}>
-                <Dot><StepNumber>b</StepNumber></Dot>
-                <StepTitle>WeVote does not represent a government entity</StepTitle>
+                <Dot><StepNumber id="fineprintmenuitemb">b</StepNumber></Dot>
+                <StepTitle id="fineprinttextmenuheaderb">WeVote does not represent a government entity</StepTitle>
               </ListTitleRow>
               {contentUnfurled && (
                 <ListRow>
@@ -96,8 +96,8 @@ class ReadyFinePrint extends Component {
 
               {(contentUnfurled || showStep3WhenCompressed) && (
                 <ListTitleRow onClick={this.contentUnfurledLink}>
-                  <Dot><StepNumber>c</StepNumber></Dot>
-                  <StepTitle>Please make sure you are registered to vote</StepTitle>
+                  <Dot><StepNumber id="fineprintmenuitemc">c</StepNumber></Dot>
+                  <StepTitle id="fineprinttextmenuheaderc">Please make sure you are registered to vote</StepTitle>
                 </ListTitleRow>
               )}
               {contentUnfurled && (
@@ -111,8 +111,8 @@ class ReadyFinePrint extends Component {
 
               {(contentUnfurled || showStep3WhenCompressed) && (
                 <ListTitleRow onClick={this.contentUnfurledLink}>
-                  <Dot><StepNumber>d</StepNumber></Dot>
-                  <StepTitle>How your data is used &amp; protected</StepTitle>
+                  <Dot><StepNumber id="fineprintstepd">d</StepNumber></Dot>
+                  <StepTitle id="fineprinttextmenuheader4">How your data is used  &amp; protected</StepTitle>
                 </ListTitleRow>
               )}
               {contentUnfurled && (

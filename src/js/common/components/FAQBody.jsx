@@ -5,7 +5,7 @@ import { isCordova, isWebApp } from '../utils/isCordovaOrWebApp';
 import { renderLog } from '../utils/logging';
 import ToolBar from './Widgets/ToolBar';
 import webAppConfig from '../../config';
-import { Video, PlayerContainer } from '../../components/Welcome/headerWelcomeStyles';
+import { Video, PlayerContainer } from './Style/VideoStyles';
 
 
 const OpenExternalWebSite = React.lazy(() => import(/* webpackChunkName: 'OpenExternalWebSite' */ './Widgets/OpenExternalWebSite'));
