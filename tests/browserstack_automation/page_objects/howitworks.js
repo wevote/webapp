@@ -1,14 +1,37 @@
 import { $ } from '@wdio/globals';
 import Page from './page';
+import { driver, expect } from '@wdio/globals';
 
 class HowItWorks extends Page {
 
   get howItWorksTitle () {
     return $('div>h3[class~="gNNNpX"]');
   }
+  get howItWorksDescription () {
+    return $('div>p[class~="ejpinv"]');
+  }
 
-  get findNextButtonHowItWorksWindow () {
-    return $('.kMeOcV');
+  get howItWorksImage () {
+    return $('div>img').getAttribute('src')
+  }
+  get howItWorksLink () {
+    return $('#footerLinkHowItWorks');
+  }
+
+  get findFirstNextButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep1Next');
+  }
+
+  get findSecondNextButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep2Next');
+  }
+
+  get findThirdNextButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep3Next');
+  }
+
+  get findFourthNextButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep4Next');
   }
 
   get findBackButtonHowItWorksWindow () {
@@ -20,7 +43,7 @@ class HowItWorks extends Page {
   }
 
   get getStartedButton () {
-    return $('.cqTvJR>button');
+    return $('#howItWorksGetStartedDesktopButton');
   }
 
   get enterVoterEmailAddressTextBox () {
@@ -116,10 +139,59 @@ class HowItWorks extends Page {
    await element.scrollIntoView()
   }
 
+  async clickHowItWorksLink () {
+    await this.howItWorksLink .click();
+  }
+
   async clickNextButtonFourTimes () {
     for (let i = 1; i <= 4; i++) {
-      await this.findNextButtonHowItWorksWindow.click();
+      if (i == 1) {
+        await this.findFirstNextButtonHowItWorksWindow.click();
+      }else if (i ==2){
+        await this.findSecondNextButtonHowItWorksWindow.click();
+      }else if (i ==3){
+        await this.findThirdNextButtonHowItWorksWindow.click();
+      }else {
+        await this.findFourthNextButtonHowItWorksWindow.click();
+      }
     }
+  }
+
+  async clickNextButton (i) {
+      if (i == 1) {
+        await this.findFirstNextButtonHowItWorksWindow.click();
+      }else if (i ==2){
+        await this.findSecondNextButtonHowItWorksWindow.click();
+      }else if (i ==3){
+        await this.findThirdNextButtonHowItWorksWindow.click();
+      }else {
+        await this.findFourthNextButtonHowItWorksWindow.click();
+      }
+    }
+
+
+  async checkDescriptionOfHowItWorksWindow (num) {
+    if (num === 1) {
+      return 'Follow topics that interest you. We will suggest endorsements based on your interests.';
+    }else if (num === 2) {
+      return 'Learn from the people you trust. Their recommendations are highlighted on your ballot.';
+    } else if (num === 3) {
+      return 'Your personalized score for a candidate is the number of people who support the candidate, from among the people you follow.';
+    } else if (num === 4) {
+      return 'WeVote is fast, mobile, and helps you decide on the go. Vote with confidence!';
+    } else {
+      return 'Are your family and friends feeling lost when it\'s time to vote? Be their hero, no matter which state they vote in.';
+    }
+  }
+
+  async checkBrokenImagesUsingResponseCode() {
+    const imageSrc = await this.howItWorksImage
+    const response = await fetch(imageSrc);
+    if (response.status == 200){
+      console.log("Image loaded");
+     } else{
+      console.log('Image is not loaded');
+     }
   }
 
    async clickBackButtonFourTimes () {

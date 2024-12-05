@@ -10,14 +10,13 @@ describe('HowItWorks', () => {
   it('verifyNextButton', async () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     for (let i = 1; i < 6; i++) {
       const expectedResult = await HowItWorks.checkTitleOfHowItWorksWindow(i);
       await expect(HowItWorks.howItWorksTitle).toHaveText(expectedResult);
       if (i!= 5) {
-        const nextButton = await HowItWorks.findNextButtonHowItWorksWindow;
-        await HowItWorks.clickButton(nextButton)
+        await HowItWorks.clickNextButton(i)
       }
     }
     console.log("Next Button and titles of the page verified successfully")
@@ -26,7 +25,7 @@ describe('HowItWorks', () => {
   it('verifyBackButton', async () => {
     await ReadyPage.load();
     await driver.pause(waitTime);
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     await HowItWorks.clickBackButtonFourTimes()
@@ -37,7 +36,7 @@ describe('HowItWorks', () => {
   // HowItWorks_003
   it('verifyGetStartedButton', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -49,7 +48,7 @@ describe('HowItWorks', () => {
   // HowItWorks_004
   it('verifyCancelSigninwithEmail', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -64,7 +63,7 @@ describe('HowItWorks', () => {
   // HowItWorks_005
   it('verifyCancelSigninWithMobile', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -79,7 +78,7 @@ describe('HowItWorks', () => {
   // HowItWorks_006
   it('verifyCancelSigninWithApple', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -93,7 +92,7 @@ describe('HowItWorks', () => {
   // HowItWorks_007
   it('verifyCancelSigninWithTwitter', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -111,7 +110,7 @@ describe('HowItWorks', () => {
    // HowItWorks_008
   it('verifySigninUsingMobile', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -130,10 +129,51 @@ describe('HowItWorks', () => {
     await HowItWorks.clickButton(profileAvatar)
     console.log("User was able to successfully signIn using mobile")
   });
+  // HowItWorks_009
+  it('verifySigninUsingEmail', async () => {
+    await ReadyPage.load();
+    await HowItWorks.clickHowItWorksLink();
+    await driver.pause(waitTime);
+    await HowItWorks.clickNextButtonFourTimes();
+    const getStarted = await HowItWorks.getStartedButton;
+    await HowItWorks.clickButton(getStarted)
+    const emailTextBox = await HowItWorks.enterVoterEmailAddressTextBox;
+    await driver.pause(waitTime); //Charanya
+    await emailTextBox.addValue(testData.EMAIL_VALID);
+    await driver.pause(waitTime);
+    const sendCode = await HowItWorks.enterSendEmailVerificationCode;
+    await HowItWorks.clickButton(sendCode)
+    for (let i = 0; i < 6; i++) {
+      const digitValue = await HowItWorks.enterDigit(i);
+      await digitValue.addValue(testData.MOBILE_VERIFICATION[i]);
+     }
+    const verifyButton = await HowItWorks.enterVerifyButton;
+    await HowItWorks.clickButton(verifyButton)
+    const profileAvatar = await HowItWorks.enterProfileAvatar;
+    await HowItWorks.clickButton(profileAvatar)
+    console.log("User was able to successfully signIn using Email")
+  });
+  // HowItWorks_012
+  it('verifyImagesAndContent', async () => {
+    await ReadyPage.load();
+    await driver.pause(waitTime);
+    await HowItWorks.clickHowItWorksLink(); //Charanya
+    await driver.pause(waitTime);
+    for (let i = 1; i < 6; i++) {
+      const expectedResult = await HowItWorks.checkDescriptionOfHowItWorksWindow(i);
+      await expect(HowItWorks.howItWorksDescription).toHaveText(expectedResult);
+      await HowItWorks.checkBrokenImagesUsingResponseCode()
+      if (i!= 5) {
+        await HowItWorks.clickNextButton(i)
+      }
+      await driver.pause(waitTime);
+   }
+   console.log("Images and contents of the page verified successfully")
+  });
    //HowItWorks_013
   it('verifyInvalidMobileNumber' , async () =>{
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -147,7 +187,7 @@ describe('HowItWorks', () => {
    //HowItWorks_014
   it('VerifyInvalidEmailAddress' , async () =>{
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -161,7 +201,7 @@ describe('HowItWorks', () => {
   // HowItWorks_015
   it('verifyDeleteUnverifiedPhoneNumbers', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
@@ -181,7 +221,7 @@ describe('HowItWorks', () => {
    // HowItWorks_016
   it('verifyDeleteUnverifiedEmailAddress', async () => {
     await ReadyPage.load();
-    await ReadyPage.clickHowItWorksLink();
+    await HowItWorks.clickHowItWorksLink();
     await driver.pause(waitTime);
     await HowItWorks.clickNextButtonFourTimes();
     const getStarted = await HowItWorks.getStartedButton;
