@@ -48,7 +48,8 @@ module.exports.config = {
     '../specs/FooterLinks.js',
     '../specs/SignInPage.js',
 
-    '../specs/BallotPage.js'
+    '../specs/BallotPage.js',
+    '../specs/CandidatesPage.js',
 
     '../specs/WhosRunningForOffice.js',
 
