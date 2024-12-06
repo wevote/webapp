@@ -240,7 +240,7 @@ class OfficeItemCompressed extends Component {
 
   // eslint-disable-next-line no-unused-vars
   generateCandidates = (officeWeVoteId) => {
-    const { candidateList, disableAutoRollUp, externalUniqueId, isFirstBallotItem } = this.props;
+    const { candidateList, disableAutoRollUp, externalUniqueId, foundInSearchWords, isFirstBallotItem } = this.props;
     if (!candidateList || candidateList.length === 0) {
       // console.log('OfficeItemCompressed generateCandidates candidateList is empty');
       return (
@@ -259,7 +259,7 @@ class OfficeItemCompressed extends Component {
     // If there are supported candidates, then limit what we show to supported and opposed candidates
     let candidatesToRender;
     let limitNumberOfCandidatesShownToThisNumber;
-    if (showAllCandidates) {
+    if (showAllCandidates || foundInSearchWords) {
       candidatesToRender = candidateList;
       limitNumberOfCandidatesShownToThisNumber = candidatesToRender.length;
     } else if (disableAutoRollUp) {
@@ -415,6 +415,7 @@ OfficeItemCompressed.propTypes = {
   // classes: PropTypes.object,
   disableAutoRollUp: PropTypes.bool,
   externalUniqueId: PropTypes.string,
+  foundInSearchWords: PropTypes.bool,
   isFirstBallotItem: PropTypes.bool,
   organization: PropTypes.object,
   organizationWeVoteId: PropTypes.string,
