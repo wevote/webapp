@@ -4,11 +4,44 @@ import { driver, expect } from '@wdio/globals';
 
 class HowItWorks extends Page {
 
-  get howItWorksTitle () {
-    return $('div>h3[class~="gNNNpX"]');
+  get howItWorksTitle1() {
+    return $('#claimYourCampaignProfile')
   }
-  get howItWorksDescription () {
-    return $('div>p[class~="ejpinv"]');
+
+  get howItWorksTitle2() {
+    return $('#importEndorsements')
+  }
+
+  get howItWorksTitle3() {
+    return $('#addMoreCustomizations')
+  }
+
+  get howItWorksTitle4() {
+    return $('#launchToYourPeople')
+  }
+
+  get howItWorksTitle5() {
+    return $('#socialLift')
+  }
+
+  get howItWorksDescription1() {
+    return $('#claimYourCampaignProfileDescription');
+  }
+
+  get howItWorksDescription2() {
+    return $('#importEndorsementsDescription');
+  }
+
+  get howItWorksDescription3() {
+    return $('#addMoreCustomizationsDescription');
+  }
+
+  get howItWorksDescription4() {
+    return $('#launchToYourPeopleDescription');
+  }
+
+  get howItWorksDescription5() {
+    return $('#socialLiftDescription');
   }
 
   get howItWorksImage () {
@@ -34,12 +67,28 @@ class HowItWorks extends Page {
     return $('#annotatedSlideShowStep4Next');
   }
 
-  get findBackButtonHowItWorksWindow () {
-    return $('//button[text() = "Back"]');
+  get findFirstBackButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep2Back');
+  }
+
+  get findSecondBackButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep3Back');
+  }
+
+  get findThirdBackButtonHowItWorksWindow () {
+    return $('#annotatedSlideShowStep4Back');
+  }
+
+  get findFourthBackButtonHowItWorksWindow () {
+    return $('#howItWorksBackDesktopButton');
   }
 
   get getTitleSignUpPopUp () {
-    return $('.u-f3');
+    return $('#signIn');
+  }
+
+  get signInSubtitle (){
+    return $('#pleaseSingInTitle')
   }
 
   get getStartedButton () {
@@ -67,15 +116,11 @@ class HowItWorks extends Page {
   }
 
   get enterSignInWithTwitter () {
-    return $('.csbvaL');
+    return $('.csbvaL');//deprecated case page object
   }
 
   get cancelTwitterSignin(){
   return $('#cancel')
-  }
-
-  get gotoWeVoteBallotGuide() {
-    return $('*=homepage')
   }
 
   get enterSendVerificationCode() {
@@ -94,6 +139,10 @@ class HowItWorks extends Page {
     return $('#profileAvatarHeaderBar')
   }
 
+  get signOut() {
+    return $('#signOut_Settings')
+  }
+
   get phoneNumberHelperText(){
     return $('#enterVoterPhone-helper-text')
   }
@@ -107,7 +156,7 @@ class HowItWorks extends Page {
   }
 
   get deleteIcon() {
-    return $('svg[data-testid="DeleteIcon"]')
+    return $('svg[data-testid = "DeleteIcon"]')
   }
 
   get alertMessage() {
@@ -133,10 +182,6 @@ class HowItWorks extends Page {
 
   async clickButton(element){
     await element.findAndClick()
-  }
-
-  async scrollToView(element) {
-   await element.scrollIntoView()
   }
 
   async clickHowItWorksLink () {
@@ -169,18 +214,17 @@ class HowItWorks extends Page {
       }
     }
 
-
   async checkDescriptionOfHowItWorksWindow (num) {
     if (num === 1) {
-      return 'Follow topics that interest you. We will suggest endorsements based on your interests.';
+      return this.howItWorksDescription1;
     }else if (num === 2) {
-      return 'Learn from the people you trust. Their recommendations are highlighted on your ballot.';
+      return this.howItWorksDescription2;
     } else if (num === 3) {
-      return 'Your personalized score for a candidate is the number of people who support the candidate, from among the people you follow.';
+      return this.howItWorksDescription3;
     } else if (num === 4) {
-      return 'WeVote is fast, mobile, and helps you decide on the go. Vote with confidence!';
+      return this.howItWorksDescription4;
     } else {
-      return 'Are your family and friends feeling lost when it\'s time to vote? Be their hero, no matter which state they vote in.';
+      return howItWorksDescription5;
     }
   }
 
@@ -194,23 +238,31 @@ class HowItWorks extends Page {
      }
   }
 
-   async clickBackButtonFourTimes () {
+  async clickBackButtonFourTimes () {
     for (let i = 1; i <= 4; i++) {
-      await this.findBackButtonHowItWorksWindow.click();
+      if (i == 1) {
+        await this.findFourthBackButtonHowItWorksWindow.click();
+      }else if (i ==2){
+        await this.findThirdBackButtonHowItWorksWindow.click();
+      }else if (i ==3){
+        await this.findSecondBackButtonHowItWorksWindow.click();
+      }else {
+        await this.findFirstBackButtonHowItWorksWindow.click();
+      }
     }
   }
 
   async checkTitleOfHowItWorksWindow (num) {
     if (num === 1) {
-      return '1. Choose your interests';
+      return this.howItWorksTitle1;
     }else if (num === 2) {
-      return '2. Follow organizations and people you trust';
+      return this.howItWorksTitle2;
     } else if (num === 3) {
-      return '3. See who endorsed each choice on your ballot';
+      return this.howItWorksTitle3;
     } else if (num === 4) {
-      return '4. Complete your ballot with confidence';
+      return this.howItWorksTitle4;
     } else {
-      return '5. Share with friends who could use a guide';
+      return this.howItWorksTitle5;
     }
   }
 }
