@@ -14,7 +14,6 @@ import PoliticianActions from '../../common/actions/PoliticianActions';
 import VoterGuideActions from '../../actions/VoterGuideActions';
 import apiCalming from '../../common/utils/apiCalming';
 import { hasIPhoneNotch } from '../../common/utils/cordovaUtils';
-import { normalizedHref } from '../../common/utils/hrefUtils';
 import { cordovaOffsetLog, renderLog } from '../../common/utils/logging';
 import stringContains from '../../common/utils/stringContains';
 import ShowMoreButtons from '../Widgets/ShowMoreButtons';
