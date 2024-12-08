@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { isAndroid } from '../../common/utils/isCordovaOrWebApp';
 import { renderLog } from '../../common/utils/logging';
 import StateDropDownCore from '../Filter/StateDropDownCore';
-import SearchBar2024 from '../Search/SearchBar2024';
+import SearchBar2024 from '../../common/components/Search/SearchBar2024';
 
 function CampaignsHomeFilter (props) {
   renderLog('CampaignsHomeFilter functional component');

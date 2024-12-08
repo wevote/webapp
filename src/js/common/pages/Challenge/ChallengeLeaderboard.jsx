@@ -3,11 +3,10 @@ import styled from 'styled-components';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { withStyles } from '@mui/styles';
-import SearchBar2024 from '../../../components/Search/SearchBar2024';
-import DesignTokenColors from '../../components/Style/DesignTokenColors';
+import SearchBar2024 from '../../components/Search/SearchBar2024';
 import ChallengeParticipantList from '../../components/ChallengeParticipantListRoot/ChallengeParticipantList';
 import AppObservableStore from '../../stores/AppObservableStore';
-import YourRankOutOf from '../Challenge/YourRankOutOf';
+import YourRankOutOf from '../../components/Challenge/YourRankOutOf';
 
 
 const ChallengeLeaderboard = ({ classes, challengeWeVoteId, clearSearchFunction, searchFunction }) => {
@@ -30,7 +29,7 @@ const ChallengeLeaderboard = ({ classes, challengeWeVoteId, clearSearchFunction,
         <ButtonAndSearchWrapper>
           <ButtonWrapper>
             <Button
-              classes={{root: classes.buttonDesktop}}
+              classes={{ root: classes.buttonDesktop }}
               color="primary"
               id="challengeLeaderboardYouButton"
               onClick={() => console.log('You button clicked')}

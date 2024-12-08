@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { blurTextFieldAndroid, focusTextFieldAndroid } from '../../common/utils/cordovaUtils';
-import { renderLog } from '../../common/utils/logging';
-import BaseSearchbox from './BaseSearchbox';
+import styled from 'styled-components';
+import { blurTextFieldAndroid, focusTextFieldAndroid } from '../../utils/cordovaUtils';
+import { renderLog } from '../../utils/logging';
+import SearchBase from './SearchBase';
 
 /* eslint-disable jsx-a11y/control-has-associated-label  */
-export default class SearchBar2024 extends Component {
+class SearchBar2024 extends Component {
   constructor (props) {
     super(props);
 
@@ -80,8 +81,8 @@ export default class SearchBar2024 extends Component {
     const { placeholder } = this.props;
     const { searchString } = this.state;
     return (
-      <div className="search-bar clearfix">
-        <BaseSearchbox
+      <SearchBar2024Wrapper>
+        <SearchBase
           id="search_input"
           placeholder={placeholder}
           value={searchString}
@@ -91,17 +92,23 @@ export default class SearchBar2024 extends Component {
           onBlur={blurTextFieldAndroid}
           onClear={this.clearQuery}
         />
-      </div>
+      </SearchBar2024Wrapper>
     );
   }
 }
-
 SearchBar2024.propTypes = {
-  clearButton: PropTypes.bool,
   clearFunction: PropTypes.func.isRequired,
   clearSearchTextNow: PropTypes.bool,
   placeholder: PropTypes.string,
-  searchButton: PropTypes.bool,
   searchFunction: PropTypes.func.isRequired,
   searchUpdateDelayTime: PropTypes.number.isRequired,
 };
+
+const SearchBar2024Wrapper = styled('div')`
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 4px;
+`;
+
+export default SearchBar2024;
