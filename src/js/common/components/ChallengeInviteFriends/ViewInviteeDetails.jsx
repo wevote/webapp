@@ -5,12 +5,13 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, DialogTitle } from '@mui/material';
 import DesignTokenColors from '../Style/DesignTokenColors';
-import ModalDisplayTemplateA, { templateAStyles, TextFieldWrapper } from '../../../components/Widgets/ModalDisplayTemplateA';
+import ModalDisplayTemplateA, { templateAStyles } from '../../../components/Widgets/ModalDisplayTemplateA';
 import ChallengeInviteeStore from '../../stores/ChallengeInviteeStore';
 import isMobileScreenSize from 'js/common/utils/isMobileScreenSize';
 
 const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   const [inviteeData, setInviteeData] = useState(null);
+//   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const fetchInviteeData = async () => {
@@ -22,10 +23,17 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
     }
   }, [inviteeId]);
 
-  const handleClose = () => {
-    setShow(false);
-    setAnchorEl(null);
+  const toggleModal = () => {
+    setShow((prev) => !prev);
+    if (!show) {
+      setAnchorEl(null); // Handle anchor cleanup when closing
+    }
   };
+
+//   const handleClose = () => {
+//     setShow(false);
+//     setAnchorEl(null);
+//   };
 
   const formatDate = (dateString, customMessage = 'Unavailable') => {
     if (!dateString) return customMessage;
@@ -47,8 +55,15 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
 
 //   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
 
-  const dialogTitleText = isMobileScreenSize() ? 'Invitation History' :
-          inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
+  const dialogTitleJSX = (
+    <StyledDialogTitle>
+      {isMobileScreenSize()
+        ? 'Invitation History'
+        : inviteeData ?
+        `${inviteeData.invitee_name}'s Invitation History`
+        : null}
+    </StyledDialogTitle>
+    )
 
   // console.log('inviteeData:', inviteeData);
   const textFieldJSX = (
@@ -72,13 +87,28 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
               <StyledTableBodyCellLeft component="th" scope="row">
                 Challenge viewed
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_invite_viewed, 'Invitation has not been viewed') : 'Invitation has not been viewed'}</StyledTableBodyCellRight>
+              <StyledTableBodyCellRight align="right">
+                {inviteeData
+                  ? formatDate(
+                    inviteeData.date_invite_viewed,
+                    isMobileScreenSize() ? 'Not viewed' : 'Invitation has not been viewed'
+                    )
+                    : isMobileScreenSize() ? 'Not viewed' : 'Invitation has not been viewed'}
+{/*                 {inviteeData ? formatDate(inviteeData.date_invite_viewed, 'Invitation has not been viewed') : 'Invitation has not been viewed'} */}
+              </StyledTableBodyCellRight>
             </TableRow>
             <StyledTableRow>
               <StyledTableBodyCellLeft component="th" scope="row" styled={{ fontFamily: 'inherit' }}>
                 Challenge joined
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_challenge_joined, 'Challenge has not been joined') : 'Challenge has not been joined'}</StyledTableBodyCellRight>
+              <StyledTableBodyCellRight align="right">
+                {inviteeData
+                  ? formatDate(
+                    inviteeData.date_challenge_joined,
+                    isMobileScreenSize() ? 'Not joined' : 'Challenge has not been joined'
+                    )
+                    : isMobileScreenSize() ? 'Not joined' : 'Challenge has not been joined'}
+              </StyledTableBodyCellRight>
             </StyledTableRow>
           </TableBody>
         </StyledTable>
@@ -88,11 +118,11 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
 
   return (
     <ModalDisplayTemplateA
-      dialogTitleJSX={<>{dialogTitleText}</>}
+      dialogTitleJSX={dialogTitleJSX}
       textFieldJSX={textFieldJSX}
       show={show}
       tallMode
-      toggleModal={handleClose}
+      toggleModal={toggleModal}
     />
   );
 };
@@ -104,10 +134,14 @@ ViewInviteeDetails.propTypes = {
   uniqueExternalId: PropTypes.string,
 };
 
-
-const TitleWrapper = styled('div')`
-
+const StyledDialogTitle = styled(DialogTitle)`
+  padding: 16px 16px;
 `
+
+// const TitleWrapper = styled('div')`
+//
+//   padding: 0px 16px;
+// `
 const StyledTable = styled('table')`
   width: 100%;
   border-collapse: collapse;
