@@ -7,6 +7,7 @@ import { TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialo
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ModalDisplayTemplateA, { templateAStyles, TextFieldWrapper } from '../../../components/Widgets/ModalDisplayTemplateA';
 import ChallengeInviteeStore from '../../stores/ChallengeInviteeStore';
+import isMobileScreenSize from 'js/common/utils/isMobileScreenSize';
 
 const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   const [inviteeData, setInviteeData] = useState(null);
@@ -44,7 +45,10 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
     return `${formattedDate} - ${formattedTime}`;
   };
 
-  const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
+//   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
+
+  const dialogTitleText = isMobileScreenSize() ? 'Invitation History' :
+          inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
 
   // console.log('inviteeData:', inviteeData);
   const textFieldJSX = (
@@ -84,7 +88,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
 
   return (
     <ModalDisplayTemplateA
-      dialogTitleJSX={<DialogTitle>{dialogTitleText}</DialogTitle>}
+      dialogTitleJSX={<>{dialogTitleText}</>}
       textFieldJSX={textFieldJSX}
       show={show}
       tallMode
@@ -100,6 +104,10 @@ ViewInviteeDetails.propTypes = {
   uniqueExternalId: PropTypes.string,
 };
 
+
+const TitleWrapper = styled('div')`
+
+`
 const StyledTable = styled('table')`
   width: 100%;
   border-collapse: collapse;
