@@ -19,6 +19,11 @@ function VoterPositionEntryAndDisplay ({ classes }) {
   const [anchorElDislikes, setAnchorElDislikes] = useState(null);
   const [showVoterEdit, setShowVoterEdit] = useState(false);
 
+  // Still to take care of:
+  // 1. hooking up the component to live data
+  // 2. hooking up the edit feature
+  // 3. format dislikes could be refactored with helper functions
+
   const voter = {
     first_name: 'David',
     last_name: 'NiederKofler',
@@ -50,7 +55,9 @@ function VoterPositionEntryAndDisplay ({ classes }) {
       { first_name: 'Blair', last_name: 'H', full_name: 'Blair H' },
       { first_name: 'Blair', last_name: 'H', full_name: 'Blair H' },
     ],
-    opinion_dislikes: [{ first_name: 'Enrique', last_name: 'C', full_name: 'Enrique C' }],
+    opinion_dislikes: [
+      { first_name: 'Enrique', last_name: 'C', full_name: 'Enrique C' },
+    ],
   };
 
   // const handleVoterEditClick = () => {
@@ -121,11 +128,15 @@ function VoterPositionEntryAndDisplay ({ classes }) {
 
   const toolTipMessage = (arr) => (
     <p>
-      See reactions from
+      See
+      {' '}
+      {arr.length > 1 ? 'reactions ' : 'reaction '}
+      from
       {' '}
       {arr.length}
       {' '}
-      users, like:
+      {arr.length > 1 ? 'users, ' : 'user, '}
+      like:
       {' '}
       {arr.map((nameObj) => nameObj.full_name).join(' ')}
     </p>
@@ -222,7 +233,8 @@ function VoterPositionEntryAndDisplay ({ classes }) {
                       <CommentLikesDislikesPopoverHeaderMessage>
                         {opinion.opinion_likes.length}
                         {' '}
-                        people liked your comment
+                        {opinion.opinion_likes.length > 1 ? 'people ' : 'person'}
+                        liked your comment
                       </CommentLikesDislikesPopoverHeaderMessage>
                       <ClosePopover aria-label="close-icon" type="button">
                         <CloseIcon
@@ -281,7 +293,8 @@ function VoterPositionEntryAndDisplay ({ classes }) {
                       <CommentLikesDislikesPopoverHeaderMessage>
                         {opinion.opinion_dislikes.length}
                         {' '}
-                        people disliked your comment
+                        {opinion.opinion_dislikes.length > 1 ? 'people ' : 'person '}
+                        liked your comment
                       </CommentLikesDislikesPopoverHeaderMessage>
                       <ClosePopover aria-label="close-icon" type="button">
                         <CloseIcon
