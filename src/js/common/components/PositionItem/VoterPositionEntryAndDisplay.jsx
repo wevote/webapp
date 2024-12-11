@@ -294,7 +294,7 @@ function VoterPositionEntryAndDisplay ({ classes }) {
                         {opinion.opinion_dislikes.length}
                         {' '}
                         {opinion.opinion_dislikes.length > 1 ? 'people ' : 'person '}
-                        liked your comment
+                        disliked your comment
                       </CommentLikesDislikesPopoverHeaderMessage>
                       <ClosePopover aria-label="close-icon" type="button">
                         <CloseIcon
