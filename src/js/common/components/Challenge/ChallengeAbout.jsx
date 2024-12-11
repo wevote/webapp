@@ -73,6 +73,19 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
       )}
     </span>
   );
+  const challengeOwnersText = (
+    <ChallengeOwnersText>
+      Challenge started by
+      {' '}
+      {challengeOwners.slice(0, 3).map((owner, index) => (
+        <ChallengeOwnersSpan key={owner.organization_we_vote_id}>
+          {owner.organization_name}
+          {index < challengeOwners.slice(0, 3).length - 1 ? ', ' : ''}
+        </ChallengeOwnersSpan>
+      ))}
+      {challengeOwners.length > 3 && ' and others'}
+    </ChallengeOwnersText>
+  );
   const remindFriends = 'Remind as many friends as you can about the date of the election, and let them know you will be voting.';
   const currentLeader = `Current leader: ${participantNameWithHighestRank}`;
   const friendsInvited = (
@@ -87,7 +100,7 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
     </span>
   );
 
-  const showStartedBy = false;
+  const showStartedBy = true;
   return (
     <ChallengeAboutWrapper>
       <CardRowsWrapper>
@@ -141,13 +154,7 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
                       beforeInjection={(svg) => svg.setAttribute('style', { padding: '1px 1px 1px 0px' })}
                     />
                   </SvgImageWrapper>
-                  <ChallengeOwnersDiv>
-                    <ChallengeOwnersText>
-                      Challenge started by
-                      {' '}
-                      {challengeOwners.map((owner) => <ChallengeOwnersSpan key={owner.organization_we_vote_id}>{owner.organization_name}</ChallengeOwnersSpan>)}
-                    </ChallengeOwnersText>
-                  </ChallengeOwnersDiv>
+                  <ChallengeOwnersDiv>{challengeOwnersText}</ChallengeOwnersDiv>
                 </FlexDivLeft>
               )}
             </Suspense>
