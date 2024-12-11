@@ -6,10 +6,12 @@ import { ThumbDownAltRounded } from '@mui/icons-material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { Popover } from '@mui/material';
 import DesignTokenColors from '../Style/DesignTokenColors';
+import VoterPositionEditModal from '../../../components/PositionItem/VoterPositionEditModal';
 
 function VoterPositionEntryAndDisplay () {
   const [voterOpinion, setVoterOpinion] = useState(null);
   const [anchorEl, setAnchorEL] = useState(null);
+  const [showVoterEdit, setShowVoterEdit] = useState(false);
 
   const voter = {
     first_name: 'David',
@@ -18,6 +20,8 @@ function VoterPositionEntryAndDisplay () {
     voter_photo_url_medium: '',
   };
 
+  const candidateName = 'Holly Mitchell';
+
   const opinion = {
     opinion_body: 'Holly can get the job done',
     opinion_time_created: new Date(),
@@ -25,14 +29,18 @@ function VoterPositionEntryAndDisplay () {
     opinion_dislikes: ['Enrique C'],
   };
 
-  const handleVoterEditClick = () => {
-    console.log('Edit voter logic will go here');
+  // const handleVoterEditClick = () => {
+  //   console.log('Edit voter logic will go here');
+  // };
+
+  const handleSetOpinonClick = () => {
+    setVoterOpinion(opinion);
   };
 
   const formatNewDate = (date) => new Intl.DateTimeFormat('en-US', { month: '2-digit', day: 'numeric', year: '2-digit' }).format(date);
 
   const voterOpinionClick = () => {
-    setVoterOpinion(opinion);
+    setShowVoterEdit(!showVoterEdit);
   };
 
   const handleEditCommentClick = (e) => {
@@ -83,11 +91,17 @@ function VoterPositionEntryAndDisplay () {
               </>
             )}
         </VoterAvatar>
-        <VoterEdit onClick={handleVoterEditClick}>
+        <VoterEdit onClick={handleSetOpinonClick}>
           <EditIcon />
         </VoterEdit>
       </VoterAvatarDisplayContainer>
       <VoterOpinionDisplayContainer>
+        <VoterPositionEditModal
+          showVoterEdit={showVoterEdit}
+          setShowVoterEdit={setShowVoterEdit}
+          candidateName={candidateName}
+          voter={voter}
+        />
         {voterOpinion ? (
           <VoterOpinionContainer>
             <VoterTitle>

@@ -96,7 +96,7 @@ class FilterBaseSearch extends Component {
       this.searchNewItems(searchText);
       // Filter out items without the search terms, and put the most likely search result at the top
       // Only return results if they get past the filter
-      const sortedFiltered = sortBy(this.filterItems(searchText), ['searchPriority']).reverse().filter((item) => item.searchPriority > 0);
+      const sortedFiltered = this.filterItems(searchText);
       // console.log('sortedFiltered:', sortedFiltered);
       return this.props.onFilterBaseSearch(searchText, sortedFiltered.length ? sortedFiltered : []);
     }, delayBeforeSearchExecution);
@@ -118,39 +118,63 @@ class FilterBaseSearch extends Component {
     }
   }
 
-  filterItems = (search) => this.props.allItems.map((item) => {
+  filterItems = (search) => {
     // console.log('FilterBaseSearch filterItems allItems:', this.props.allItems);
-    const { opinionsAndBallotItemsSearchMode, positionSearchMode, voterGuidePositionSearchMode } = this.props;
-    let candidatesToShowForSearchResults = [];
-    let foundInArray;
-    let searchPriority;
-    if (opinionsAndBallotItemsSearchMode) {
-      // console.log('FilterBaseSearch filterItems opinionsAndBallotItemsSearchMode');
-      const opinionsAndBallotItemsResults = opinionsAndBallotItemsSearchPriority(search, item);
-      ({ searchPriority } = opinionsAndBallotItemsResults);
-      ({ foundInArray } = opinionsAndBallotItemsResults);
-      ({ candidatesToShowForSearchResults } = opinionsAndBallotItemsResults);
-      return { ...item, searchPriority, foundInArray, candidatesToShowForSearchResults };
-    } else if (positionSearchMode) {
-      const positionResults = positionSearchPriority(search, item);
-      ({ searchPriority } = positionResults);
-      ({ foundInArray } = positionResults);
-      return { ...item, searchPriority, foundInArray, candidatesToShowForSearchResults };
-    } else if (voterGuidePositionSearchMode) {
-      const voterGuidePositionResults = voterGuidePositionSearchPriority(search, item);
-      ({ searchPriority } = voterGuidePositionResults);
-      ({ foundInArray } = voterGuidePositionResults);
-      return { ...item, searchPriority, foundInArray, candidatesToShowForSearchResults };
-    } else {
-      // console.log('FilterBaseSearch ballotSearchPriority');
-      const ignoreDescriptionFields = (this.props.addVoterGuideMode);
-      const results = ballotSearchPriority(search, item, ignoreDescriptionFields);
-      ({ searchPriority } = results);
-      ({ foundInArray } = results);
-      ({ candidatesToShowForSearchResults } = results);
-      return { ...item, searchPriority, foundInArray, candidatesToShowForSearchResults };
-    }
-  });
+    const {
+      opinionsAndBallotItemsSearchMode,
+      positionSearchMode,
+      voterGuidePositionSearchMode,
+      addVoterGuideMode,
+    } = this.props;
+
+    const searchWords = search.toLowerCase().match(/\b(\w+)\b/g) || [];
+
+    return this.props.allItems
+      .map((item) => {
+        // If no candidate list, return item as-is. If removed creates filter error
+        if (!item.candidate_list || item.candidate_list.length === 0) {
+          return item;
+        }
+        const filteredCandidates = item.candidate_list.filter(candidate =>
+          searchWords.every((searchWord) =>
+            candidate.ballot_item_display_name.toLowerCase().includes(searchWord),
+
+          ),
+        );
+
+        const candidateMatchFound = filteredCandidates.length > 0;
+        const ballotItemNameMatch = searchWords.every((searchWord) =>
+          item.ballot_item_display_name.toLowerCase().includes(searchWord)
+
+        );
+
+        let searchResults;
+        if (opinionsAndBallotItemsSearchMode) {
+          searchResults = opinionsAndBallotItemsSearchPriority(search, item);
+        } else if (positionSearchMode) {
+          searchResults = positionSearchPriority(search, item);
+        } else if (voterGuidePositionSearchMode) {
+          searchResults = voterGuidePositionSearchPriority(search, item);
+        } else {
+          const ignoreDescriptionFields = addVoterGuideMode;
+          searchResults = ballotSearchPriority(search, item, ignoreDescriptionFields);
+        }
+        return {
+          ...item,
+          ...searchResults,
+          candidate_list: filteredCandidates,
+          candidateMatchFound,
+          foundInSearchWords: candidateMatchFound || ballotItemNameMatch,
+        };
+      })
+      .filter((item) => {
+        // Keep items that have matching candidates or match ballot item name and have a search priority
+        return (item.foundInSearchWords && item.searchPriority > 0) ||
+          (item.candidate_list && item.candidate_list.length > 0);
+      })
+      // Sort by priority level, descending order
+      .sort((a, b) => b.searchPriority - a.searchPriority);
+  };
 
   toggleSearch = () => {
     const { isSearching } = this.props;
@@ -177,7 +201,7 @@ class FilterBaseSearch extends Component {
     // Filter out items without the search terms, and put the most likely search result at the top
     // Only return results if they get past the filter
     this.searchNewItems(searchText);
-    const sortedFiltered = sortBy(this.filterItems(searchText), ['searchPriority']).reverse().filter((item) => item.searchPriority > 0);
+    const sortedFiltered = this.filterItems(searchText);
     // console.log('sortedFiltered:', sortedFiltered);
     return this.props.onFilterBaseSearch(searchText, sortedFiltered.length ? sortedFiltered : []);
   }

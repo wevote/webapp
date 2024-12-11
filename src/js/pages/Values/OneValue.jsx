@@ -9,7 +9,7 @@ import IssueActions from '../../actions/IssueActions';
 import OrganizationActions from '../../actions/OrganizationActions';
 import apiCalming from '../../common/utils/apiCalming';
 import { renderLog } from '../../common/utils/logging';
-import SearchBar2024 from '../../components/Search/SearchBar2024';
+import SearchBar2024 from '../../common/components/Search/SearchBar2024';
 import { PageContentContainer } from '../../components/Style/pageLayoutStyles';
 import GuideList from '../../components/VoterGuide/GuideList';
 import IssueStore from '../../stores/IssueStore';
@@ -282,8 +282,6 @@ class OneValue extends Component {
           )}
           <SearchBarWrapper>
             <SearchBar2024
-              clearButton
-              searchButton
               placeholder="Search by name, X handle or description"
               searchFunction={this.searchFunction}
               clearFunction={this.clearFunction}

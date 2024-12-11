@@ -139,6 +139,7 @@ export default class HamburgerMenu extends Component {
     const nextReleaseFeaturesEnabled = webAppConfig.ENABLE_NEXT_RELEASE_FEATURES === undefined ? false : webAppConfig.ENABLE_NEXT_RELEASE_FEATURES;
     console.log(`Hamburger menu this.state.showDeviceDialog ${this.state.showDeviceDialog}`);
     const version = getCordovaBuildVersion();
+    const pigsCanFly = false;
 
     return (
       <PageContentContainer>
@@ -167,6 +168,16 @@ export default class HamburgerMenu extends Component {
                 linkText="Name & Photo"
                 onClickAction={null}
                 to="/settings/profile"
+              />
+            )}
+
+            {(isSignedIn && pigsCanFly) && (
+              <HamburgerMenuRow
+                icon="fa fa-address-card"
+                iconStyle={{ fontSize: 28, color: '#1c2f4b' }}
+                linkText="Ballot Address"
+                onClickAction={null}
+                to="/settings/address"
               />
             )}
 
