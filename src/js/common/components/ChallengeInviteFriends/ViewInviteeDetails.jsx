@@ -3,7 +3,7 @@ import withStyles from '@mui/styles/withStyles';
 import withTheme from '@mui/styles/withTheme';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, DialogTitle } from '@mui/material';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ModalDisplayTemplateA, { templateAStyles, TextFieldWrapper } from '../../../components/Widgets/ModalDisplayTemplateA';
 import ChallengeInviteeStore from '../../stores/ChallengeInviteeStore';
@@ -50,7 +50,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
-        <Table aria-label="simple table">
+        <StyledTable aria-label="simple table">
           <TableHead>
             <StyledTableRow>
               <StyledTableHeaderCell>STATUS</StyledTableHeaderCell>
@@ -77,14 +77,14 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
               <StyledTableBodyCellRight align="right">{inviteeData ? formatDate(inviteeData.date_challenge_joined, 'Challenge has not been joined') : 'Challenge has not been joined'}</StyledTableBodyCellRight>
             </StyledTableRow>
           </TableBody>
-        </Table>
+        </StyledTable>
       </TableWrapper>
     </TableContainer>
   );
 
   return (
     <ModalDisplayTemplateA
-      dialogTitleJSX={<TitleWrapper>{dialogTitleText}</TitleWrapper>}
+      dialogTitleJSX={<DialogTitle>{dialogTitleText}</DialogTitle>}
       textFieldJSX={textFieldJSX}
       show={show}
       tallMode
@@ -100,12 +100,24 @@ ViewInviteeDetails.propTypes = {
   uniqueExternalId: PropTypes.string,
 };
 
+const StyledTable = styled('table')`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  border-radius: 8px;
+  overflow: hidden;
+`;
+
 const StyledTableHeaderCell = styled(TableCell)`
   color: ${DesignTokenColors.neutral900};
   font-size: 10px;
   font-weight: bold;
   font-family: inherit;
   padding: 8px 4px 4px 4px;
+  @media (max-width: 600px) {
+    font-size: 8px; /* Reduce font size for smaller screens */
+    padding: 4px; /* Adjust padding for smaller screens */
+  }
 `;
 
 const StyledTableRow = styled(TableRow)`
@@ -129,21 +141,12 @@ const StyledTableBodyCellRight = styled(TableCell)`
   padding-right: none;
 `;
 
-const TitleWrapper = styled('div')`
-  font-size: 16px;
-  font-weight: bold;
-  padding-bottom: 4px;
-  padding-left: 4px;
-  text-align: center;
-  font-family: inherit;
-`;
-
 const TableWrapper = styled('div')`
-  border-top: 1px solid ${DesignTokenColors.neutral100};
   margin-top: 4px; /* Adjust to give space below the title */
   margin-bottom: 4px;
-  min-width: 300px;
-  overflow-x: auto;
+  min-width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 `;
 
 export default withTheme(withStyles(templateAStyles)(ViewInviteeDetails));

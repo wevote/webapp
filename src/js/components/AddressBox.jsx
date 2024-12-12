@@ -75,7 +75,7 @@ class AddressBox extends Component {
   }
 
   onVoterStoreChange () {
-    // console.log('AddressBox, onVoterStoreChange, this.state:', this.state);
+// console.log('AddressBox, onVoterStoreChange, this.state:', this.state);
     const { textForMapSearch, voterSavedAddress } = this.state;
 
     if (textForMapSearch && voterSavedAddress) {
@@ -120,7 +120,10 @@ class AddressBox extends Component {
     this.setState({
       loading: true,
       voterSavedAddress: true,
-    });
+    } ,() => {
+      if (this.props.onAddressSaveSuccess) {
+        this.props.onAddressSaveSuccess();
+      }});
     // We want to leave the voter in the modal until we get a new ballot
     // this.returnNewTextForMapSearchLocal(textForMapSearch);
     // const { toggleSelectAddressModal } = this.props;
@@ -232,7 +235,9 @@ AddressBox.propTypes = {
   returnNewTextForMapSearch: PropTypes.func,
   saveUrl: PropTypes.string.isRequired,
   showCancelEditAddressButton: PropTypes.bool,
+  shouldClearOnCancel: PropTypes.bool,
   toggleEditingAddress: PropTypes.func,
+  onAddressSaveSuccess: PropTypes.func,
   toggleSelectAddressModal: PropTypes.func,
   waitingMessage: PropTypes.string,
   // disableAutoFocus: PropTypes.bool,

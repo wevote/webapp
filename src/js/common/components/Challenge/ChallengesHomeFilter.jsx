@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import styled from 'styled-components';
 import { renderLog } from '../../utils/logging';
-import SearchBar2024 from '../../../components/Search/SearchBar2024';
+import SearchBar2024 from '../Search/SearchBar2024';
 
 function ChallengesHomeFilter (props) {
   renderLog('ChallengesHomeFilter functional component');

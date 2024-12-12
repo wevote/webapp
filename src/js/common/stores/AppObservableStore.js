@@ -166,6 +166,10 @@ export default {
     return nonFluxState.positionDrawerOrganizationWeVoteId;
   },
 
+  getGlobalVariableState (globalVariableName) {
+    return nonFluxState[globalVariableName];
+  },
+
   getGoogleAnalyticsEnabled () {
     return nonFluxState.googleAnalyticsEnabled;
   },
@@ -371,6 +375,11 @@ export default {
   setActivityTidbitWeVoteIdForDrawerAndOpen (setActivityTidbitWeVoteIdForDrawerAndOpen) {
     nonFluxState.activityTidbitWeVoteIdForDrawerAndOpen = setActivityTidbitWeVoteIdForDrawerAndOpen;
     messageService.sendMessage('state updated activityTidbitWeVoteIdForDrawerAndOpen');
+  },
+
+  setGlobalVariableState (globalVariableName, newState) {
+    nonFluxState[globalVariableName] = newState;
+    messageService.sendMessage(`state updated ${globalVariableName}`);
   },
 
   setBlockCampaignXRedirectOnSignIn (value) {

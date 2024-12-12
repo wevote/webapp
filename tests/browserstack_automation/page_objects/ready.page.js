@@ -1,4 +1,4 @@
-import { $, $$, expect, driver } from '@wdio/globals';
+import { $, $$, expect, driver, browser } from '@wdio/globals';
 import Page from './page';
 
 class ReadyPage extends Page {
@@ -27,8 +27,8 @@ class ReadyPage extends Page {
   }
 
   get ballotAddress () {
-    // return $('#ballotTitleBallotAddress');
-    return $('//span[@class ="u-cursor--pointer u-link-color u-link-underline-on-hover"]');
+    return $('#ballotTitleBallotAddress');
+    // return $('//span[@class ="u-cursor--pointer u-link-color u-link-underline-on-hover"]');
   }
 
   get ballotAddressInput () {
@@ -49,6 +49,7 @@ class ReadyPage extends Page {
 
   get toggleIntroductionButton () {
     return $('#toggleContentButton-showMoreReadyIntroductionCompressed');
+    // return $('#showmorelink');
   }
 
   get introductionStepText () {
@@ -61,6 +62,7 @@ class ReadyPage extends Page {
 
   get toggleFinePrintButton () {
     return $('#toggleContentButton-showMoreReadyFinePrintCompressed');
+    // return $('#showmorelink');
   }
 
   get finePrintStepText () {

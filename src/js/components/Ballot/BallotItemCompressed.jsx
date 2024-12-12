@@ -9,6 +9,7 @@ export default class BallotItemCompressed extends PureComponent {
     renderLog('BallotItemCompressed');  // Set LOG_RENDER_EVENTS to log all renders
     const {
       ballotItemDisplayName, candidateList, candidatesToShowForSearchResults,
+      foundInSearchWords,
       isFirstBallotItem, isMeasure, primaryParty,
       weVoteId,
     } = this.props;
@@ -26,6 +27,7 @@ export default class BallotItemCompressed extends PureComponent {
             candidateList={candidateList}
             candidatesToShowForSearchResults={candidatesToShowForSearchResults}
             disableAutoRollUp
+            foundInSearchWords={foundInSearchWords}
             isFirstBallotItem={isFirstBallotItem}
             primaryParty={primaryParty}
           />
@@ -38,6 +40,7 @@ BallotItemCompressed.propTypes = {
   ballotItemDisplayName: PropTypes.string.isRequired,
   candidateList: PropTypes.array,
   candidatesToShowForSearchResults: PropTypes.array,
+  foundInSearchWords: PropTypes.bool,
   isFirstBallotItem: PropTypes.bool,
   isMeasure: PropTypes.bool,
   primaryParty: PropTypes.string,

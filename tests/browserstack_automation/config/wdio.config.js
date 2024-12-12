@@ -9,7 +9,7 @@ try {
   const data = readFileSync('./tests/browserstack_automation/capabilities/mobile.json', { encoding: 'utf8' });
   mobileCapabilities = JSON.parse(data);
 } catch (error) {
-  
+
   // Run `npm run wdio:setup`
 }
 
@@ -44,10 +44,15 @@ module.exports.config = {
     '../specs/TermsPage.js',
     '../specs/TopNavigation.js',
     '../specs/TopicsPage.js',
-    '../specs/HowItWorks.js', 
+    '../specs/HowItWorks.js',
     '../specs/FooterLinks.js',
     '../specs/SignInPage.js',
+
+    '../specs/BallotPage.js',
+    '../specs/CandidatesPage.js',
+
     '../specs/WhosRunningForOffice.js',
+
   ],
 
   capabilities,

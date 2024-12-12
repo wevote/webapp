@@ -14,9 +14,8 @@ import rocketShipNoThrust from '../../../../img/global/svg-icons/rocket-ship-no-
 
 function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
   renderLog('ChallengeAbout');
-  const [challengeCreator, setChallengeCreator] = React.useState('');
+  const [challengeOwners, setChallengeOwners] = React.useState([]);
   const [challengeInviteesCount, setChallengeInviteesCount] = React.useState(0);
-  const [challengeIsSupporting, setChallengeIsSupporting] = React.useState('');
   const [challengeParticipantCount, setChallengeParticipantCount] = React.useState(0);
   const [daysLeft, setDaysLeft] = React.useState(0);
   const [participantNameWithHighestRank, setParticipantNameWithHighestRank] = React.useState('');
@@ -33,8 +32,7 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
       setChallengeParticipantCount(ChallengeStore.getNumberOfParticipantsInChallenge(challengeWeVoteId));
     }
     setDaysLeft(ChallengeStore.getDaysUntilChallengeEnds(challengeWeVoteId));
-    setChallengeCreator('Anusha P.');
-    setChallengeIsSupporting('John Smith');
+    setChallengeOwners(ChallengeStore.getChallengeOwnerList(challengeWeVoteId));
   };
   const onChallengeParticipantStoreChange = () => {
     if (challengeParticipantCount < ChallengeParticipantStore.getNumberOfParticipantsInChallenge(challengeWeVoteId)) {
@@ -74,12 +72,18 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
       )}
     </span>
   );
-  const challengeStarted = (
-    <span>
+  const challengeOwnersText = (
+    <ChallengeOwnersText>
       Challenge started by
       {' '}
-      {challengeCreator}
-    </span>
+      {challengeOwners.slice(0, 3).map((owner, index) => (
+        <ChallengeOwnersSpan key={owner.organization_we_vote_id}>
+          {owner.organization_name}
+          {index < challengeOwners.slice(0, 3).length - 1 ? ', ' : ''}
+        </ChallengeOwnersSpan>
+      ))}
+      {challengeOwners.length > 3 && ' and others'}
+    </ChallengeOwnersText>
   );
   const remindFriends = 'Remind as many friends as you can about the date of the election, and let them know you will be voting.';
   const currentLeader = `Current leader: ${participantNameWithHighestRank}`;
@@ -95,7 +99,7 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
     </span>
   );
 
-  const showStartedBy = false;
+  const showStartedBy = true;
   return (
     <ChallengeAboutWrapper>
       <CardRowsWrapper>
@@ -140,22 +144,16 @@ function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
         {showStartedBy && (
           <CardForListRow>
             <Suspense fallback={<></>}>
-              {challengeStarted && (
+              {challengeOwners && (
                 <FlexDivLeft>
                   <SvgImageWrapper style={{ paddingTop: '3px' }}>
                     <ReactSVG
                       src={normalizedImagePath(rocketShipNoThrust)}
                       alt="Rocket Ship"
-                      beforeInjection={(svg) => {
-                        // Fill property applied to the path element, not SVG element. querySelector to grab the path element and set the attribute.
-                        svg.querySelectorAll('path').forEach((path) => {
-                          path.setAttribute('fill', 'none');
-                          path.setAttribute('stroke', '#606060');
-                        });
-                      }}
+                      beforeInjection={(svg) => svg.setAttribute('style', { padding: '1px 1px 1px 0px' })}
                     />
                   </SvgImageWrapper>
-                  <ChallengeStartedDiv>{challengeStarted}</ChallengeStartedDiv>
+                  <ChallengeOwnersDiv>{challengeOwnersText}</ChallengeOwnersDiv>
                 </FlexDivLeft>
               )}
             </Suspense>
@@ -194,6 +192,7 @@ export const CardForListRow = styled('div')`
   color: ${DesignTokenColors.neutral500};
   font-size: 16px;
   padding: 3px 0;
+  margin-bottom: 3px;
 `;
 
 export const CardRowsWrapper = styled('div')`
@@ -218,7 +217,15 @@ const ChallengeAboutWrapper = styled('div')`
     pointer-events: none;
 `;
 
-const ChallengeStartedDiv = styled('div')`
+const ChallengeOwnersDiv = styled('div')`
+`;
+
+const ChallengeOwnersText = styled('p')`
+`;
+
+const ChallengeOwnersSpan = styled('span')`
+  font-weight: 500;
+  color: ${DesignTokenColors.neutral600};
 `;
 
 export const FlexDivLeft = styled('div')`
@@ -256,6 +263,8 @@ export const FriendsInvitedDiv = styled('div')`
 `;
 
 const ShowDaysLeftText = styled('span')`
+  font-weight: 500;
+  color: ${DesignTokenColors.neutral600};
 `;
 
 export default withStyles(styles)(ChallengeAbout);
