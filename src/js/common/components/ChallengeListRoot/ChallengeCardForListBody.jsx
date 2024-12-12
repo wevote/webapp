@@ -177,8 +177,9 @@ function ChallengeCardForListBody (props) {
                         style={useVerticalCard ? {
                           borderBottom: `1px solid ${DesignTokenColors.neutralUI100}`,
                           borderTop: `1px solid ${DesignTokenColors.neutralUI100}`,
+                          borderRadius: '12px',
                         } : {}}
-                        width={limitCardWidth ? '257px' : '320px'}
+                        width={limitCardWidth ? '250px' : '320px'}
                         height={limitCardWidth ? '157px' : '168px'}
                       />
                     </ChallengeImageDesktopPlaceholder>

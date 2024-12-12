@@ -10,7 +10,6 @@ import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import ChallengeStore from '../../stores/ChallengeStore';
 import AppObservableStore, { messageService } from '../../stores/AppObservableStore';
 import normalizedImagePath from '../../utils/normalizedImagePath';
-
 import rocketShipNoThrust from '../../../../img/global/svg-icons/rocket-ship-no-thrust.svg';
 
 function ChallengeAbout ({ challengeWeVoteId, showDaysLeft }) {
@@ -180,7 +179,7 @@ const styles = () => ({
 });
 
 export const CampaignOutlinedStyled = styled(CampaignOutlined)`
-  font-size: 30px;
+  font-size: 25px;
 `;
 
 export const EmojiEventsOutlinedStyled = styled(EmojiEventsOutlined)`
@@ -188,7 +187,7 @@ export const EmojiEventsOutlinedStyled = styled(EmojiEventsOutlined)`
 `;
 
 export const EventOutlinedStyled = styled(EventOutlined)`
-  font-size: 25px;
+  font-size: 28px;
 `;
 
 export const CardForListRow = styled('div')`
@@ -198,11 +197,25 @@ export const CardForListRow = styled('div')`
 `;
 
 export const CardRowsWrapper = styled('div')`
-  margin-top: 2px;
+  margin: 2px 0 0 2px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  height: 170px;
 `;
 
 const ChallengeAboutWrapper = styled('div')`
   white-space: normal;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    pointer-events: none;
 `;
 
 const ChallengeStartedDiv = styled('div')`
@@ -215,14 +228,15 @@ export const FlexDivLeft = styled('div')`
 `;
 
 export const SvgImageWrapper = styled('div')`
-  align-items: center;
-  display: flex;
-  justify-content: center;
+  // align-items: center;
+  // display: flex;
+  // justify-content: center;
   max-width: 35px;
-  min-width: 35px;
+  // min-width: 35px;
   width: 35px;
   margin-right: 5px;
   margin-top: -4px;
+  margin-left: -3px
 `;
 
 export const ChallengeDatesDiv = styled('div')`
