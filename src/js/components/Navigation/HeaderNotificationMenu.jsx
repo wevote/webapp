@@ -278,8 +278,9 @@ class HeaderNotificationMenu extends Component {
           id="headerNotificationMenuIcon"
           onClick={this.handleClick}
           size="large"
-          sx={isTablet() ? { marginTop: '5px', marginRight: '12px' } : {}}
-        >
+          // 'sx' refactored in the iconButtonRoot class below
+          // sx={isTablet() ? { marginTop: '5px', marginRight: '12px' } : {}}
+        > 
           {allActivityNoticesNotSeenCount ? (
             <Badge
               badgeContent={<BadgeCountWrapper>{allActivityNoticesNotSeenCount}</BadgeCountWrapper>}
@@ -343,6 +344,16 @@ const styles = (theme) => ({
     paddingRight: 0,
     paddingBottom: '9px !important',
     paddingLeft: 6,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '5px !important',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      marginTop: '4px !important',
+      marginRight: '12px',
+    },
+    [theme.breakpoints.up('md')]: {
+      marginTop: '3px !important',
+    },
     '&:hover': {
       backgroundColor: 'transparent',
     },
@@ -355,6 +366,16 @@ const styles = (theme) => ({
     paddingRight: 0,
     paddingBottom: '9px !important',
     paddingLeft: 6,
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '5px !important',
+    },
+    [theme.breakpoints.between('sm', 'md')]: {
+      marginTop: '4px !important',
+      marginRight: '12px',
+    },
+    [theme.breakpoints.up('md')]: {
+      marginTop: '3px !important',
+    },
     '&:hover': {
       backgroundColor: 'transparent',
     },
