@@ -95,7 +95,7 @@ function marginTopOffset (scrolledDown) {
   return 0;
 }
 
-function parsePoliticalUrl(url) {
+function extractPoliticianDetailsFromUrl(url) {
   // Split the URL into parts using '/'
   const parts = url.split('/');
 
@@ -167,7 +167,7 @@ class PoliticianDetailsPage extends Component {
     // console.log('PoliticianDetailsPage componentDidMount');
     const { match: { params } } = this.props;
     const { politicianSEOFriendlyPath: politicianSEOFriendlyPathFromUrl, politicianWeVoteId } = params;
-    const { state, name } = parsePoliticalUrl(this.props.match.url); // Using the match URL for parsing
+    const { state, name } = extractPoliticianDetailsFromUrl(this.props.match.url); // Using the match URL for parsing
     this.setState({
       politicianStateParsedFromURLBeforeLoad: state,
       politicianNameParsedFromURLBeforeLoad: name,
