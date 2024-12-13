@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import VoterActions from '../../actions/VoterActions';
 import { renderLog } from '../../common/utils/logging';
@@ -10,7 +9,7 @@ import DeleteAllContactsButton from '../SetUpAccount/DeleteAllContactsButton';
 import VoterStore from '../../stores/VoterStore';
 import BrowserPushMessage from '../Widgets/BrowserPushMessage';
 
-class SettingsYourData extends Component {
+export default class SettingsYourData extends Component {
   constructor (props) {
     super(props);
     this.state = {
@@ -18,7 +17,6 @@ class SettingsYourData extends Component {
   }
 
   componentDidMount () {
-    console.log(withRouter);
     window.scrollTo(0, 0);
     this.onVoterStoreChange();
     this.voterStoreListener = VoterStore.addListener(this.onVoterStoreChange.bind(this));
@@ -94,5 +92,3 @@ const DeleteAllContactsWrapper = styled('div')`
   margin-top: 8px;
   width: 100%;
 `;
-
-export default withRouter(SettingsYourData);

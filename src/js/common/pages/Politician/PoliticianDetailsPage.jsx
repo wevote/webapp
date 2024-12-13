@@ -820,7 +820,7 @@ class PoliticianDetailsPage extends Component {
               officeName={contestOfficeName}
               politicalParty={candidateCampaign.party}
               showOfficeName={showOfficeName}
-              stateName={stateName}
+              stateName={stateName || politicianStateParsedFromURLBeforeLoad}
               year={`${year}`}
             />
           </CandidateCampaignWrapper>
@@ -942,14 +942,6 @@ class PoliticianDetailsPage extends Component {
           <meta name="description" content={politicianDescriptionLimited} />
         </Helmet>
         <PageWrapper>
-        <Suspense fallback={(
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
-              <h2>Loading Politician Details...</h2>
-              {politicianNameParsedFromURLBeforeLoad && <p>Politician Name: {politicianNameParsedFromURLBeforeLoad}</p>}
-              {politicianStateParsedFromURLBeforeLoad && <p>State: {politicianStateParsedFromURLBeforeLoad}</p>}
-            </div>
-          )}>
-        </Suspense>
           <DetailsSectionMobile className="u-show-mobile">
             <MobileHeaderOuterContainer id="politicianHeaderContainer" scrolledDown={scrolledDown}>
               <MobileHeaderInnerContainer>
@@ -972,7 +964,7 @@ class PoliticianDetailsPage extends Component {
                       {/* Candidate Name */}
                       <CandidateNameAndPartyWrapper>
                         <CandidateNameH4>
-                          {politicianName}
+                          {politicianName || politicianNameParsedFromURLBeforeLoad}
                         </CandidateNameH4>
                         <CandidateParty>
                           {politicalParty}
