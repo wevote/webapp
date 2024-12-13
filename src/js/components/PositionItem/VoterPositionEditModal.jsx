@@ -15,6 +15,9 @@ const VoterPositionEditModal = ({ showVoterEdit, setShowVoterEdit, candidateName
   const [disableToolTip, setDisableToolTip] = useState(false);
   const {voter_photo_url_medium, first_name, last_name, full_name} = voter;
 
+  const voterPhotoUrlMedium = voter_photo_url_medium;
+  const fullName = full_name;
+
   useEffect(() => {
     const checkIsFormValid = () => {
       if (endorseOption !== 'Neutral') {
@@ -92,7 +95,7 @@ const VoterPositionEditModal = ({ showVoterEdit, setShowVoterEdit, candidateName
         <VoterAvatarWrapper>
           <VoterAvatar>
             {voter.voter_photo_url_medium ?
-              <VoterImage src={voter_photo_url_medium} alt="Voter" /> :
+              <VoterImage src={voterPhotoUrlMedium} alt="Voter" /> :
               (
                 <>
                   <VoterFirstName>
@@ -110,7 +113,7 @@ const VoterPositionEditModal = ({ showVoterEdit, setShowVoterEdit, candidateName
         </VoterAvatarWrapper>
         <VoterNameVisibilityWrapper>
           <VoterFullName>
-            {full_name}
+            {fullName}
           </VoterFullName>
           <VoterVisibilityWrapper>
             <OpinionOptionDescription
@@ -175,13 +178,12 @@ const VoterPositionTitle = styled('div')`
   display: flex;
   justify-content: center;
   font-size: 18px;
+  margin: 12px;
 `;
 
 const VoterPositionTextFieldWrapper = styled('div')`
   display: flex;
   flex-direction: column;
-  border-top: 1px solid ${DesignTokenColors.neutral100};
-  margin-top: 12px;
 `;
 
 const VoterPositionAvatarVisibilityWrapper = styled('div')`

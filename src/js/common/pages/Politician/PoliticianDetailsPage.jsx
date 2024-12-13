@@ -1412,12 +1412,12 @@ const MobileHeaderOuterContainer = styled('div', {
   z-index: 1;
   right: 0;
   transform: translateY(${scrolledDown ? 0 : '-100%'});
-  transition: transform 0.3s ease-in-out;
-  visibility: ${scrolledDown ? 'visible' : 'hidden'};
-  opacity: ${scrolledDown ? 1 : 0};
+  transition: transform .3s ease-in-out;
+  // visibility: ${scrolledDown ? 'visible' : 'hidden'};
+  // opacity: ${scrolledDown ? 1 : 0};
 
   ${scrolledDown && `
-    animation: ${slideIn} 0.7s ease-out;
+    animation: ${slideIn} 2s ease-in;
     border-bottom: 1px solid #aaa;
     box-shadow: ${standardBoxShadow('wide')};
  `}

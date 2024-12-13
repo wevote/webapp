@@ -168,7 +168,7 @@ class ChallengeCardList extends Component {
       return null;
     }
     let numberDisplayed = 0;
-    const pigsCanFly = false;
+    const pigsCanFly = true;
     return (
       <Wrapper>
         <ListWrapper useVerticalCard={useVerticalCard}>
@@ -302,21 +302,20 @@ const ChallengeCardForListVerticalWrapper = styled('div')`
   display: flex;
   flex-direction: column;
   // height: ${isWebApp() ? '100%' : 'unset'};
-  height: 440px;
+  height: 450px;
   position: relative;
   width: 80%;
-  max-width: 300px;
+  max-width: 250px;
+  margin-right: 5px;
 `;
 
-const JoinedButtonsInnerWrapper = styled('div')`
-  width: 95%;
-`;
+const JoinedButtonsInnerWrapper = styled('div')``;
 
 const JoinedButtonsOuterWrapper = styled('div')`
   bottom: 0;
   display: flex;
-  justify-content: center;
   position: absolute;
+  width: 250px;
 `;
 
 const JoinedAndDaysForChallengePage = styled('div')`
