@@ -104,7 +104,7 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
 
   const classes = useStyles();
   const history = useHistory();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('xs'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -197,7 +197,7 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
               <StyledTabs value={value} onChange={handleChange} aria-label="Tab menu">
                 {!hideAboutTab && <StyledTab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} isSmallScreen={isSmallScreen} />}
                 <StyledTab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} isSmallScreen={isSmallScreen} />
-                {voterIsChallengeParticipant && <StyledTab id="challengeLandingTab-2" label={isSmallScreen ? 'Invited' : 'Invited friends'} isSmallScreen={isSmallScreen} onClick={() => history.push(friendsUrl)} value={3} isSmallScreen={isSmallScreen} />}
+                {voterIsChallengeParticipant && <StyledTab id="challengeLandingTab-2" label={isSmallScreen ? 'Invited' : 'Invited friends'} onClick={() => history.push(friendsUrl)} value={3} />}
               </StyledTabs>
               <MoreInfoIconWrapper
                 hovered={hovered}
