@@ -95,6 +95,38 @@ function marginTopOffset (scrolledDown) {
   return 0;
 }
 
+function extractPoliticianDetailsFromUrl(url) {
+  // Split the URL into parts using '/'
+  const parts = url.split('/');
+
+  // assume the second part of the path is the SEO-friendly string ("nancy-a-montgomery-politician-from-new-york")
+  const seoFriendlyPart = parts[1];
+  console.log('SEO Friendly Part:', seoFriendlyPart);
+
+  if (!seoFriendlyPart) {
+    return { state: null, name: null };  // If there's no seoFriendlyPart, return null for state and name
+  }
+
+  // Split the SEO-friendly part by dashes to get the name and state words
+  const words = seoFriendlyPart.split('-');
+  console.log('Words:', words);
+
+  const fromIndex = words.lastIndexOf('from');   // Look for the last occurrence of "from", as it typically separates the name and state, reduce chances of pulling "from" in the name
+  console.log('From last Index:', fromIndex);
+
+  if (fromIndex === -1) {
+    return { state: null, name: null }; // If 'from' is not found, return null for both
+  }
+
+  // Extract state and name based on the position of 'from'
+  const state = words.slice(fromIndex + 1).join(' ');  // Combine words after 'from' for the state
+  const name = words.slice(0, fromIndex).join(' ');   // Combine words before 'from' for the name
+  const nameWithoutPolitician = name ? name.replace(/\bpolitician\b/i, '').trim() : null;
+
+
+  return { state, name: nameWithoutPolitician };
+}
+
 
 class PoliticianDetailsPage extends Component {
   constructor (props) {
@@ -124,6 +156,8 @@ class PoliticianDetailsPage extends Component {
       supporterEndorsementsWithText: [],
       voterCanEditThisPolitician: false,
       wikipediaUrl: '',
+      politicianStateParsedFromURLBeforeLoad: '',
+      politicianNameParsedFromURLBeforeLoad: '',
       // youtubeUrl: '',
     };
     // this.onScroll = this.onScroll.bind(this);
@@ -133,6 +167,11 @@ class PoliticianDetailsPage extends Component {
     // console.log('PoliticianDetailsPage componentDidMount');
     const { match: { params } } = this.props;
     const { politicianSEOFriendlyPath: politicianSEOFriendlyPathFromUrl, politicianWeVoteId } = params;
+    const { state, name } = extractPoliticianDetailsFromUrl(this.props.match.url); // Using the match URL for parsing
+    this.setState({
+      politicianStateParsedFromURLBeforeLoad: state,
+      politicianNameParsedFromURLBeforeLoad: name,
+    });
     // console.log('componentDidMount politicianSEOFriendlyPathFromUrl: ', politicianSEOFriendlyPathFromUrl, ', politicianWeVoteId: ', politicianWeVoteId);
     this.onAppObservableStoreChange();
     this.appStateSubscription = messageService.getMessage().subscribe(() => this.onAppObservableStoreChange());
@@ -592,6 +631,8 @@ class PoliticianDetailsPage extends Component {
   render () {
     renderLog('PoliticianDetailsPage');  // Set LOG_RENDER_EVENTS to log all renders
 
+    const { politicianStateParsedFromURLBeforeLoad } = this.state; // reaname variable state calculated from URL to be used when page is still loading. 
+    const { politicianNameParsedFromURLBeforeLoad } = this.state; // reaname variable name calculated from URL to be used when page is still loading.
     const { classes } = this.props;
     const { match: { params } } = this.props;
     const { politicianSEOFriendlyPath: politicianSEOFriendlyPathFromUrl } = params;
@@ -779,7 +820,7 @@ class PoliticianDetailsPage extends Component {
               officeName={contestOfficeName}
               politicalParty={candidateCampaign.party}
               showOfficeName={showOfficeName}
-              stateName={stateName}
+              stateName={stateName || politicianStateParsedFromURLBeforeLoad}
               year={`${year}`}
             />
           </CandidateCampaignWrapper>
@@ -923,7 +964,7 @@ class PoliticianDetailsPage extends Component {
                       {/* Candidate Name */}
                       <CandidateNameAndPartyWrapper>
                         <CandidateNameH4>
-                          {politicianName}
+                          {politicianName || politicianNameParsedFromURLBeforeLoad}
                         </CandidateNameH4>
                         <CandidateParty>
                           {politicalParty}
