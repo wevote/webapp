@@ -157,7 +157,6 @@ class JoinChallengeButton extends React.Component {
       const { location: { pathname: currentPathname } } = window;
       AppObservableStore.setSetUpAccountBackLinkPath(currentPathname);
       AppObservableStore.setSetUpAccountEntryPath(joinChallengeNextStepPath);
-
       if (itemsAreMissing) {
         historyPush(joinChallengeNextStepPath);
       } else {
