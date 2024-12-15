@@ -11,6 +11,7 @@ import ChallengeParticipantActions from '../../actions/ChallengeParticipantActio
 import ReadyStore from '../../../stores/ReadyStore';
 import VoterStore from '../../../stores/VoterStore';
 import { getChallengeValuesFromIdentifiers } from '../../utils/challengeUtils';
+import TagManager from 'react-gtm-module';
 
 class JoinChallengeButton extends React.Component {
   constructor (props) {
@@ -122,6 +123,17 @@ class JoinChallengeButton extends React.Component {
     const challengeBasePath = this.getChallengeBasePath();
     const inviteFriendsPath = `${challengeBasePath}invite-friends`;
     const { location: { pathname: currentPathname } } = window;
+    const { challengeWeVoteId } = this.state;
+
+    // Adding event data to dataLayer for Google Tag Manager to fire the inviteFriendsToChallenge tag
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'inviteFriendsToChallenge', //'inviteFriendsClick',
+        voterWeVoteId: VoterStore.getVoterWeVoteId(),
+        challengeWeVoteId,
+      },
+    });
+
     AppObservableStore.setSetUpAccountBackLinkPath(currentPathname);
     AppObservableStore.setSetUpAccountEntryPath(inviteFriendsPath);
     historyPush(inviteFriendsPath);
@@ -145,6 +157,7 @@ class JoinChallengeButton extends React.Component {
       const { location: { pathname: currentPathname } } = window;
       AppObservableStore.setSetUpAccountBackLinkPath(currentPathname);
       AppObservableStore.setSetUpAccountEntryPath(joinChallengeNextStepPath);
+
       if (itemsAreMissing) {
         historyPush(joinChallengeNextStepPath);
       } else {
