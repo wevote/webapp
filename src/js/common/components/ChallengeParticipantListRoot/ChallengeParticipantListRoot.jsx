@@ -5,10 +5,12 @@ import { Button } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ChallengeParticipantList from './ChallengeParticipantList';
-import SearchBar2024 from '../../../components/Search/SearchBar2024';
+import SearchBar2024 from '../Search/SearchBar2024';
 import AppObservableStore, { messageService } from '../../stores/AppObservableStore';
 import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import FirstChallengeParticipantListController from './FirstChallengeParticipantListController';
+import YourRankOutOf from '../Challenge/YourRankOutOf';
+import ChallengeStore from '../../stores/ChallengeStore';
 
 // const FirstChallengeParticipantListController = React.lazy(() => import(/* webpackChunkName: 'FirstChallengeParticipantListController' */ './FirstChallengeParticipantListController'));
 const participantListDummyData = [
@@ -54,6 +56,7 @@ const ChallengeParticipantListRoot = ({ challengeWeVoteId, classes, uniqueExtern
   const [participantList, setParticipantList] = React.useState([]);
   const [participantsCount, setParticipantsCount] = useState(0);
   const [rankOfVoter, setRankOfVoter] = React.useState(0);
+  const [voterIsChallengeParticipant, setVoterIsChallengeParticipant] = React.useState(false);
 
   const onAppObservableStoreChange = () => {
     setRankOfVoter(AppObservableStore.getChallengeParticipantRankOfVoterByChallengeWeVoteId(challengeWeVoteId));
@@ -65,84 +68,80 @@ const ChallengeParticipantListRoot = ({ challengeWeVoteId, classes, uniqueExtern
     setParticipantsCount(sortedParticipantsWithRank.length);
   };
 
+  const onChallengeStoreChange = () => {
+    setVoterIsChallengeParticipant(ChallengeStore.getVoterIsChallengeParticipant(challengeWeVoteId));
+  };
+
   React.useEffect(() => {
     // console.log('Fetching participants for:', challengeWeVoteId);
     const appStateSubscription = messageService.getMessage().subscribe(() => onAppObservableStoreChange());
     onAppObservableStoreChange();
     const challengeParticipantStoreListener = ChallengeParticipantStore.addListener(onChallengeParticipantStoreChange);
     onChallengeParticipantStoreChange();
+    const challengeStoreListener = ChallengeStore.addListener(onChallengeStoreChange);
+    onChallengeStoreChange();
 
     return () => {
       appStateSubscription.unsubscribe();
       challengeParticipantStoreListener.remove();
+      challengeStoreListener.remove();
     };
   }, [challengeWeVoteId]);
   return (
     <ChallengeParticipantListRootContainer>
       <TopSection>
-        <ButtonAndSearchWrapper>
-          <ButtonWrapper>
-            <Button
-              classes={{ root: classes.buttonDesktop }}
-              color="primary"
-              id="challengeLeaderboardYouButton"
-              onClick={() => console.log('You button clicked', challengeWeVoteId)}
-              variant="outlined"
-            >
-              You
-            </Button>
-            <Button
-              classes={{ root: classes.buttonDesktop }}
-              color="primary"
-              id="challengeLeaderboardTop50Button"
-              onClick={() => console.log('Top 50 button clicked')}
-              variant="outlined"
-            >
-              Top&nbsp;50
-            </Button>
-          </ButtonWrapper>
-          <SearchBarWrapper>
-            <SearchBar2024
-              clearButton
-              searchButton
-              placeholder="Search by rank or name"
-              searchFunction={searchFunction}
-              clearFunction={clearSearchFunction}
-              searchUpdateDelayTime={500}
-            />
-          </SearchBarWrapper>
-        </ButtonAndSearchWrapper>
+        {voterIsChallengeParticipant && (
+          <ButtonAndSearchWrapper>
+            <ButtonWrapper>
+              <Button
+                classes={{ root: classes.buttonDesktop }}
+                color="primary"
+                id="challengeLeaderboardYouButton"
+                onClick={() => console.log('You button clicked', challengeWeVoteId)}
+                variant="outlined"
+              >
+                You
+              </Button>
+              <Button
+                classes={{ root: classes.buttonDesktop }}
+                color="primary"
+                id="challengeLeaderboardTop50Button"
+                onClick={() => console.log('Top 50 button clicked')}
+                variant="outlined"
+              >
+                Top&nbsp;50
+              </Button>
+            </ButtonWrapper>
+            <SearchBarWrapper>
+              <SearchBar2024
+                clearButton
+                searchButton
+                placeholder="Search by rank or name"
+                searchFunction={searchFunction}
+                clearFunction={clearSearchFunction}
+                searchUpdateDelayTime={500}
+              />
+            </SearchBarWrapper>
+          </ButtonAndSearchWrapper>
+        )}
         <LeaderboardInfoWrapper>
           {!!(rankOfVoter) && (
-            <RankContainer>
-              <RankText>You&apos;re</RankText>
-              {' '}
-              <RankNumber>
-                #
-                {rankOfVoter}
-              </RankNumber>
-              {' '}
-              <RankDetails>
-                (of
-                {' '}
-                {participantsCount}
-                )
-              </RankDetails>
-            </RankContainer>
+            <YourRankOutOf rankOfVoter={rankOfVoter} participantsCount={participantsCount} />
           )}
         </LeaderboardInfoWrapper>
         <LeaderboardTableHeader>
-          <HeaderGroup gap="32px">
+          <HeaderGroup gap="70px">
             <HeaderItem>RANK</HeaderItem>
             <HeaderItem>NAME</HeaderItem>
           </HeaderGroup>
-          <HeaderGroup gap="10px">
+          <HeaderGroup gap="75px">
             <HeaderItem>POINTS</HeaderItem>
             <HeaderItem>FRIENDS JOINED</HeaderItem>
           </HeaderGroup>
         </LeaderboardTableHeader>
       </TopSection>
       <ChallengeParticipantList
+        challengeWeVoteId={challengeWeVoteId}
         participantList={participantList}
         // participantList={participantListDummyData}
         uniqueExternalId={uniqueExternalId}
@@ -234,25 +233,6 @@ const HeaderGroup = styled.div`
 
 const HeaderItem = styled.p`
   margin: 0;  /* Reset default margins */
-`;
-
-const RankContainer = styled.p`
-  font-size: 16px;
-  color: ${DesignTokenColors.neutral900}; /* Default color */
-`;
-
-const RankText = styled.span`
-  font-weight: bold;
-  color: ${DesignTokenColors.neutral900};  /* Color for "You're" */
-`;
-
-const RankNumber = styled.span`
-  font-weight: bold;
-  color: ${DesignTokenColors.accent500};  /* Accent color for the rank number */
-`;
-
-const RankDetails = styled.span`
-  color: ${DesignTokenColors.neutral600};  /* Subdued color for "(of 6441)" */
 `;
 
 export default withStyles(styles)(ChallengeParticipantListRoot);

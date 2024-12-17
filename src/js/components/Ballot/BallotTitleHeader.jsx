@@ -52,8 +52,8 @@ class BallotTitleHeader extends Component {
     const electionDayText = BallotStore.currentBallotElectionDate;
     const electionDayTextFormatted = electionDayText && window.moment ? window.moment(electionDayText).format('MMM Do, YYYY') : '';
     const electionDayTextObject = electionDayText && window.moment ? <span>{electionDayTextFormatted}</span> : null;
-    const nextNationalElectionDayText = `${BallotStore.nextNationalElectionDayText || '2024-11-05'}`;
-    // console.log('nextNationalElectionDayText:', nextNationalElectionDayText);
+    const nextNationalElectionDayText = `${BallotStore.nextNationalElectionDayText || '2026-11-03'}`;
+    console.log('nextNationalElectionDayText:', nextNationalElectionDayText);
     initializeMoment(() => {
       const { moment } = window;
       // this.setNextNationalElectionDateFromDayText(nextNationalElectionDayText);
@@ -116,7 +116,7 @@ class BallotTitleHeader extends Component {
       electionName, nextNationalElectionDateMDY, originalTextAddress, originalTextState,
       substitutedAddress, substitutedState, textForMapSearch,
     } = this.state;
-
+    console.log('BallotTitleHeader daysUntilElection:', daysUntilElection);
     const electionNameContainsWordElection = stringContains('election', electionName.toLowerCase());
     const stateTextUsed = substitutedState || originalTextState || '';
     const electionNameContainsState = stringContains(stateTextUsed.toLowerCase(), electionName.toLowerCase());
@@ -197,19 +197,20 @@ class BallotTitleHeader extends Component {
                             <BallotAddress
                               allowTextWrap={allowTextWrap}
                               centerText={centerText}
+                              className={linksOff ? '' : 'u-cursor--pointer'}
                               id="ballotTitleBallotAddress"
+                              onClick={this.showSelectBallotModalEditAddress}
                             >
                               Ballot for
                               {' '}
-                              <button style={{ backgroundColor: 'transparent', border: 'none', padding: '0' }} type="button">
-                                <span
-                                  className={linksOff ? '' : 'u-cursor--pointer u-link-color u-link-underline-on-hover'}
-                                  onClick={this.showSelectBallotModalEditAddress}
-                                >
+                              <span
+                                className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}
+                              >
+                                <span>
                                   {(textForMapSearch && textForMapSearch !== '') ? textForMapSearch : originalTextAddress}
                                 </span>
                                 {linksOff ? <></> : editIconStyled}
-                              </button>
+                              </span>
                             </BallotAddress>
                           ) : (
                             <>
@@ -223,7 +224,7 @@ class BallotTitleHeader extends Component {
                                 >
                                   Ballot for
                                   {' '}
-                                  <span className={linksOff ? '' : 'u-link-color'}>
+                                  <span className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}>
                                     {substitutedAddress}
                                   </span>
                                   {linksOff ? <></> : editIconStyled}
@@ -236,7 +237,7 @@ class BallotTitleHeader extends Component {
                                   id="ballotTitleBallotAddress"
                                   onClick={this.showSelectBallotModalEditAddress}
                                 >
-                                  <span className={linksOff ? '' : 'u-link-color'}>
+                                  <span className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}>
                                     Click to enter your address
                                   </span>
                                   {linksOff ? <></> : editIconStyled}
@@ -271,7 +272,7 @@ class BallotTitleHeader extends Component {
                 </ElectionNameScrollContent>
               </OverflowContent>
             </OverflowContainer>
-            {electionDayTextObject && (
+            {(!turnOffVoteByBelow && electionDayTextObject) && (
               <VoteByRightWrapper electionDateBelow={electionDateBelow}>
                 <VoteByRightLabel>
                   {daysUntilElection > 0 ? (

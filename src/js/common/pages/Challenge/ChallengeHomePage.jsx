@@ -559,6 +559,7 @@ class ChallengeHomePage extends Component {
             </MobileHeaderOuterContainer>
             <ChallengeCardForList
               challengeWeVoteId={challengeWeVoteIdForDisplay}
+              titleLinkOff
               useVerticalCard
               voterWeVoteId={voterWeVoteId}
             />
@@ -583,13 +584,14 @@ class ChallengeHomePage extends Component {
                 ) : (
                   <AboutSectionWrapper>
                     <CampaignDescriptionWrapper hideCardMargins>
-                      <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} />
+                      <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} showDaysLeft />
                       {challengeDescription && (
                         <DelayedLoad waitBeforeShow={250}>
                           <ChallengeDescription>
-                            <Suspense fallback={<></>}>
-                              <ReadMore numberOfLines={6} textToDisplay={challengeDescription} />
-                            </Suspense>
+                            {challengeDescription}
+                            {/* <Suspense fallback={<></>}> */}
+                            {/*  <ReadMore numberOfLines={20} textToDisplay={challengeDescription} /> */}
+                            {/* </Suspense> */}
                           </ChallengeDescription>
                         </DelayedLoad>
                       )}
@@ -624,12 +626,11 @@ class ChallengeHomePage extends Component {
               <ColumnOneThird>
                 <ChallengeCardForList
                   challengeWeVoteId={challengeWeVoteIdForDisplay}
-                  // limitCardWidth
-                  // useCampaignSupportThermometer
+                  titleLinkOff
                   useVerticalCard
                   voterWeVoteId={voterWeVoteId}
                 />
-                <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} />
+                <ChallengeAbout challengeWeVoteId={challengeWeVoteIdForDisplay} showDaysLeft />
                 <JoinChallengeButtonWrapper>
                   <Suspense fallback={<></>}>
                     <JoinChallengeButton
@@ -641,9 +642,10 @@ class ChallengeHomePage extends Component {
                 {challengeDescription && (
                   <DelayedLoad waitBeforeShow={250}>
                     <ChallengeDescription>
-                      <Suspense fallback={<></>}>
-                        <ReadMore numberOfLines={6} textToDisplay={challengeDescription} />
-                      </Suspense>
+                      {challengeDescription}
+                      {/* <Suspense fallback={<></>}> */}
+                      {/*  <ReadMore numberOfLines={20} textToDisplay={challengeDescription} /> */}
+                      {/* </Suspense> */}
                     </ChallengeDescription>
                   </DelayedLoad>
                 )}

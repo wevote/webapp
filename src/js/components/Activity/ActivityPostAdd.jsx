@@ -78,7 +78,7 @@ class ActivityPostAdd extends Component {
 
   render () {
     renderLog('ActivityPostAdd');  // Set LOG_RENDER_EVENTS to log all renders
-    const { classes, externalUniqueId } = this.props;
+    const { classes, externalUniqueId, activityTidbitWeVoteId } = this.props;
     const {
       showActivityPostModal,
       voterPhotoUrlMedium, statementText,
@@ -146,7 +146,7 @@ class ActivityPostAdd extends Component {
           {showActivityPostModal && (
             <Suspense fallback={<></>}>
               <ActivityPostModal
-                activityPostWeVoteId=""
+                activityTidbitWeVoteId={activityTidbitWeVoteId}
                 externalUniqueId={externalUniqueId}
                 show={showActivityPostModal}
                 toggleModal={this.toggleActivityPostModal}
@@ -161,6 +161,7 @@ class ActivityPostAdd extends Component {
 ActivityPostAdd.propTypes = {
   externalUniqueId: PropTypes.string,
   classes: PropTypes.object,
+  activityTidbitWeVoteId: PropTypes.string,
 };
 
 const styles = (theme) => ({

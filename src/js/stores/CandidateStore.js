@@ -391,6 +391,7 @@ class CandidateStore extends ReduceStore {
           incomingCandidateCount += 1;
           localCandidateList.push(one);
         });
+        // console.log(`${action.type} allCachedCandidates:`, allCachedCandidates);
         // console.log('localCandidateList:', localCandidateList);
         if (contestOfficeWeVoteId) {
           candidateListsByOfficeWeVoteId[contestOfficeWeVoteId] = localCandidateList;
@@ -464,6 +465,7 @@ class CandidateStore extends ReduceStore {
         if (politicianWeVoteId) {
           candidateListsByPoliticianWeVoteId[politicianWeVoteId] = localCandidateList;
         }
+        // console.log(`${action.type} allCachedCandidates:`, allCachedCandidates);
         // console.log('candidateListsByOfficeWeVoteId:', candidateListsByOfficeWeVoteId);
         // console.log('candidateListsByOfficeWeVoteId[contestOfficeWeVoteId]:', candidateListsByOfficeWeVoteId[contestOfficeWeVoteId]);
 
@@ -523,6 +525,7 @@ class CandidateStore extends ReduceStore {
               }
             }
           });
+          // console.log(`${action.type} allCachedCandidates:`, allCachedCandidates);
 
           return {
             ...state,

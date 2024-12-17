@@ -13,7 +13,6 @@ import { isWebApp } from '../../utils/isCordovaOrWebApp';
 import ChallengeStore from '../../stores/ChallengeStore';
 import JoinChallengeAndLearnMoreButtons from '../Challenge/JoinChallengeAndLearnMoreButtons';
 import JoinedAndDaysLeft from '../Challenge/JoinedAndDaysLeft';
-import DesignTokenColors from '../Style/DesignTokenColors';
 
 const DelayedLoad = React.lazy(() => import(/* webpackChunkName: 'DelayedLoad' */ '../Widgets/DelayedLoad'));
 
@@ -131,8 +130,11 @@ class ChallengeCardList extends Component {
     const {
       in_draft_mode: inDraftMode,
     } = challenge;
+    const voterIsChallengeParticipant = ChallengeStore.getVoterIsChallengeParticipant(challengeWeVoteId);
     if (inDraftMode) {
       return '/start-a-challenge-preview';
+    } else if (voterIsChallengeParticipant) {
+      return `${this.getChallengeBasePath(challengeWeVoteId)}leaderboard`;
     } else {
       return `${this.getChallengeBasePath(challengeWeVoteId)}`;
     }
@@ -166,7 +168,7 @@ class ChallengeCardList extends Component {
       return null;
     }
     let numberDisplayed = 0;
-    const pigsCanFly = false;
+    const pigsCanFly = true;
     return (
       <Wrapper>
         <ListWrapper useVerticalCard={useVerticalCard}>
@@ -182,6 +184,7 @@ class ChallengeCardList extends Component {
                     challengeWeVoteId={oneChallenge.challenge_we_vote_id}
                     joinedAndDaysLeftOff
                     limitCardWidth={useVerticalCard}
+                    titleLengthRestricted
                     useVerticalCard={useVerticalCard}
                   />
                   {/* JoinedAndDaysLeft component positioned absolutely */}
@@ -196,7 +199,11 @@ class ChallengeCardList extends Component {
                   <ChallengeAbout challengeWeVoteId={oneChallenge.challenge_we_vote_id} />
                 </Link>
                 {pigsCanFly && (
-                  <JoinChallengeAndLearnMoreButtons />
+                  <JoinedButtonsOuterWrapper>
+                    <JoinedButtonsInnerWrapper>
+                      <JoinChallengeAndLearnMoreButtons />
+                    </JoinedButtonsInnerWrapper>
+                  </JoinedButtonsOuterWrapper>
                 )}
               </ChallengeCardForListVerticalWrapper>
             );
@@ -295,24 +302,33 @@ const ChallengeCardForListVerticalWrapper = styled('div')`
   display: flex;
   flex-direction: column;
   // height: ${isWebApp() ? '100%' : 'unset'};
+  height: 450px;
+  position: relative;
   width: 80%;
-  max-width: 300px;
+  max-width: 250px;
+  margin-right: 5px;
+`;
+
+const JoinedButtonsInnerWrapper = styled('div')``;
+
+const JoinedButtonsOuterWrapper = styled('div')`
+  bottom: 0;
+  display: flex;
+  position: absolute;
+  width: 250px;
+`;
+
+const JoinedAndDaysForChallengePage = styled('div')`
+  left: 10px;
+  position: absolute;
+  top: 130px;
+  @media (max-width: 600px) {
+    top: 140px;
+  }
 `;
 
 const Wrapper = styled('div')`
   min-height: 30px;
-`;
-
-const JoinedAndDaysForChallengePage = styled('div')`
-align-items: center;
-border-radius: 20px;
-color: ${DesignTokenColors.gray900};
-display: flex;
-font-size: 12px;
-left: 10px;
-padding: 5px 10px;
-position: absolute;
-top: 125px;
 `;
 
 export default withStyles(styles)(ChallengeCardList);

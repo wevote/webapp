@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Button } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import JoinChallengeButton from './JoinChallengeButton'
+// import JoinChallengeButton from './JoinChallengeButton';
 
-const JoinChallengeAndLearnMoreButtons = ({ classes }) => {
+const JoinChallengeButton = React.lazy(() => import(/* webpackChunkName: 'JoinChallengeButton' */ '../../components/Challenge/JoinChallengeButton'));
+
+const JoinChallengeAndLearnMoreButtons = ({ challengeWeVoteId, classes }) => {
   return (
     <JoinChallengeButtonWrapper>
-      <Button
-        classes={{ root: classes.joinChallengeButton }}
-        color="primary"
-        variant="contained"
-      >
-       Join Challenge
-      </Button>
+      <Suspense fallback={<></>}>
+        <JoinChallengeButton
+          // challengeSEOFriendlyPath={challengeSEOFriendlyPathForDisplay}
+          challengeWeVoteId={challengeWeVoteId}
+        />
+      </Suspense>
       <Button
         classes={{ root: classes.learnMoreButton }}
-        color="primary"
-        variant="contained"
+        color="secondary"
+        id={`challengeLearnMore-${challengeWeVoteId}`}
+        variant="outlined"
       >
         Learn More
       </Button>
@@ -29,20 +31,26 @@ const JoinChallengeAndLearnMoreButtons = ({ classes }) => {
 const styles = () => ({
   joinChallengeButton: {
     borderRadius: 45,
-    maxWidth: '300px',
-    background: 'var(--Primary-600, #0858A1)',
-    border: ' 1px solid var(--Primary-400, #4187C6)',
-    color: 'var(--WhiteUI, #FFFFFF)',
-    marginRight: '10px',
-    marginTop: '10px'
+    maxWidth: 300,
+    //    background: 'var(--Primary-600, #0858A1)',
+    //     border: '1px solid var(--Primary-400, #4187C6)',
+    //     color: 'var(--WhiteUI, #FFFFFF)',
+    marginRight: '5px',
+    marginTop: '10px',
+    fontSize: '14px',
   },
-learnMoreButton:{
+  learnMoreButton: {
     borderRadius: 45,
-    maxWidth: '300px',
-    background: 'white',
-    border: ' 1px solid var(--Primary-400, #4187C6)',
-    color: 'var(--Neutral-900, #2A2A2C)',
-    marginTop: '10px'
+    maxWidth: 300,
+    //     background: 'white',
+    //     border: '1px solid var(--Primary-400, #4187C6)',
+    //     color: 'var(--Neutral-900, #2A2A2C)',
+    marginTop: '10px',
+    fontSize: '14px',
+    //     '&:hover': {
+    //       backgroundColor: 'white',
+    //       color: 'var(--Neutral-900, #2A2A2C)',
+    //     },
   },
 });
 
@@ -53,6 +61,7 @@ const JoinChallengeButtonWrapper = styled('div')`
 `;
 
 JoinChallengeAndLearnMoreButtons.propTypes = {
+  challengeWeVoteId: PropTypes.string,
   classes: PropTypes.object.isRequired,
 };
 

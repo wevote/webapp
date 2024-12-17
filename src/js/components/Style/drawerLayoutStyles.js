@@ -1,12 +1,11 @@
 import styled, { css, keyframes } from 'styled-components';
 import standardBoxShadow from '../../common/components/Style/standardBoxShadow';
-import { cordovaBallotFilterTopMargin } from '../../utils/cordovaOffsets';
 
 const slideIn = keyframes`
-  from { 
+  from {
     transform: translateY(-100%);
   }
-  to { 
+  to {
     transform: translateY(0);
   }
 `;
@@ -34,22 +33,10 @@ export const DrawerHeaderOuterContainer = styled.div.attrs(({ scrolledDown }) =>
       box-shadow: ${standardBoxShadow('wide')};
     `}
 `;
+
 export const DrawerHeaderInnerContainer = styled('div')`
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 10px;
 `;
-
-
-export const DrawerHeaderContentContainer = styled('div')(({ theme }) => (`
-  margin: ${() => cordovaBallotFilterTopMargin()} auto 0 auto;
-  position: relative;
-  max-width: 960px;
-  width: 100%;
-  z-index: 0;
-  ${theme.breakpoints.down('sm')} {
-    min-height: 10px;
-    //margin: 0 10px;
-  }
-`));

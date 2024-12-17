@@ -11,11 +11,9 @@ import IssueActions from '../../actions/IssueActions';
 import MeasureActions from '../../actions/MeasureActions';
 import OrganizationActions from '../../actions/OrganizationActions';
 import PoliticianActions from '../../common/actions/PoliticianActions';
-import PoliticianCardForList from '../PoliticianListRoot/PoliticianCardForList';
 import VoterGuideActions from '../../actions/VoterGuideActions';
 import apiCalming from '../../common/utils/apiCalming';
 import { hasIPhoneNotch } from '../../common/utils/cordovaUtils';
-import { normalizedHref } from '../../common/utils/hrefUtils';
 import { cordovaOffsetLog, renderLog } from '../../common/utils/logging';
 import stringContains from '../../common/utils/stringContains';
 import ShowMoreButtons from '../Widgets/ShowMoreButtons';
@@ -35,7 +33,6 @@ import { headroomWrapperOffset } from '../../utils/cordovaCalculatedOffsets';
 import { getPageKey } from '../../utils/cordovaPageUtils';
 import AppObservableStore, { messageService } from '../../common/stores/AppObservableStore';
 import { Candidate, CandidateNameAndPartyWrapper, CandidateNameH4, CandidateParty, CandidateTopRow } from '../Style/BallotStyles';
-import ImageHandler from '../ImageHandler';
 import normalizedImagePath from '../../common/utils/normalizedImagePath';
 import CampaignSupportThermometer from '../../common/components/CampaignSupport/CampaignSupportThermometer';
 // import { handleResize } from '../../common/utils/isMobileScreenSize';
@@ -44,7 +41,8 @@ const CampaignRetrieveController = React.lazy(() => import(/* webpackChunkName: 
 const DelayedLoad = React.lazy(() => import(/* webpackChunkName: 'DelayedLoad' */ '../../common/components/Widgets/DelayedLoad'));
 const IssuesByBallotItemDisplayList = React.lazy(() => import(/* webpackChunkName: 'IssuesByBallotItemDisplayList' */ '../Values/IssuesByBallotItemDisplayList'));
 const MeasureItem = React.lazy(() => import(/* webpackChunkName: 'MeasureItem' */ '../Ballot/MeasureItem'));
-// const PoliticianCardForList = React.lazy(() => import(/* webpackChunkName: 'PoliticianCardForList' */ '../PoliticianListRoot/PoliticianCardForList'));
+const ImageHandler = React.lazy(() => import(/* webpackChunkName: 'ImageHandler' */ '../ImageHandler'));
+const PoliticianCardForList = React.lazy(() => import(/* webpackChunkName: 'PoliticianCardForList' */ '../PoliticianListRoot/PoliticianCardForList'));
 const PositionList = React.lazy(() => import(/* webpackChunkName: 'PositionList' */ '../Ballot/PositionList'));
 const ScoreSummaryListController = React.lazy(() => import(/* webpackChunkName: 'ScoreSummaryListController' */ '../Widgets/ScoreDisplay/ScoreSummaryListController'));
 
@@ -200,6 +198,7 @@ class OrganizationModal extends Component {
   componentWillUnmount () {
     this.candidateStoreListener.remove();
     this.measureStoreListener.remove();
+    this.appStateSubscription.unsubscribe();
     AppObservableStore.setScrolledDownDrawer(false);
   }
 
@@ -340,7 +339,8 @@ class OrganizationModal extends Component {
   closeOrganizationModal () {
     this.setState({ modalOpen: false });
     setTimeout(() => {
-      this.props.toggleFunction(normalizedHref());
+      // console.log('In OrganizationModal, toggleFunction fired');
+      this.props.toggleFunction();
     }, 500);
   }
 
@@ -431,12 +431,14 @@ class OrganizationModal extends Component {
         </DrawerHeaderOuterContainer>
         {(isCandidate && !hideBallotItemInfo) && (
           <PoliticianCardForListWrapper>
-            <PoliticianCardForList
-              politicianWeVoteId={politicianWeVoteId}
-              showPoliticianOpenInNewWindow
-              useCampaignSupportThermometer
-              useVerticalCard
-            />
+            <Suspense fallback={<span>&nbsp;</span>}>
+              <PoliticianCardForList
+                politicianWeVoteId={politicianWeVoteId}
+                showPoliticianOpenInNewWindow
+                useCampaignSupportThermometer
+                useVerticalCard
+              />
+            </Suspense>
             <Suspense fallback={<></>}>
               <IssuesByBallotItemDisplayList
                 ballotItemDisplayName={ballotItemDisplayName}

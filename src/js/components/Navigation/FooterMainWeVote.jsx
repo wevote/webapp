@@ -103,7 +103,7 @@ class FooterMainWeVote extends Component {
             <OneRow>
               {isWebApp() ? (
                 <>
-                  <Link to="/more/faq" className={classes.link}>
+                  <Link id="footerLinkAboutFAQ" to="/more/faq" className={classes.link}>
                     About &amp; FAQ
                   </Link>
                   <RowSpacer />
@@ -159,7 +159,7 @@ class FooterMainWeVote extends Component {
           </TopSectionInnerWrapper>
         </TopSectionOuterWrapper>
         <BottomSection>
-          <Text>
+          <Text id="weVoteFooterText">
             <WeVoteName>
               WeVote
             </WeVoteName>

@@ -86,6 +86,7 @@ export default class SettingsPersonalSideBar extends Component {
     const showSettingsInDevelopment = false; // If developing any of the new settings, change this to true
     const isOnPartnerUrlAndNotAdmin = isOnPartnerUrl && !voterIsAdminForThisUrl;
     const alwaysTrue = true; // A temp fix for https://wevoteusa.atlassian.net/browse/WV-168
+    const pigsCanFly = false;
 
     return (
       <div className="card">
@@ -104,6 +105,24 @@ export default class SettingsPersonalSideBar extends Component {
                     'SettingsItem__summary__item__display-name'}
                   >
                     Name &amp; Photo
+                  </span>
+                </Link>
+              </div>
+            </div>
+          )}
+
+          {(isSignedIn && pigsCanFly) && ( // Turning this off until we can work on it more
+            <div className={String(editMode) === 'address' ?
+              'SettingsItem__summary__item-container SettingsItem__summary__item-container--selected' :
+              'SettingsItem__summary__item-container'}
+            >
+              <div>
+                <Link to="/settings/address" className="SettingsItem__summary__item" id="address">
+                  <span className={String(editMode) === 'address' ?
+                    'SettingsItem__summary__item__display-name SettingsItem__summary__item__display-name--selected' :
+                    'SettingsItem__summary__item__display-name'}
+                  >
+                    <span>Ballot Address</span>
                   </span>
                 </Link>
               </div>
@@ -372,7 +391,7 @@ export default class SettingsPersonalSideBar extends Component {
                 <Link to="/ready" className="SettingsItem__summary__item" id="site text">
                   <span className={String(editMode) === 'text' ?
                     'SettingsItem__summary__item__display-name SettingsItem__summary__item__display-name--selected' :
-                    'SettingsItem__summary__item__display-name'}
+                    'SettingsItem__summary__item__display-name'} id = "signOut_Settings"
                   >
                     Sign Out
                   </span>

@@ -137,7 +137,7 @@ class BallotStore extends ReduceStore {
   }
 
   get nextNationalElectionDayText () {
-    return this.getState().nextNationalElectionDayText || '2024-11-05';
+    return this.getState().nextNationalElectionDayText || '2026-11-03';
   }
 
   get currentBallotGoogleCivicElectionId () {
@@ -503,6 +503,7 @@ class BallotStore extends ReduceStore {
     let voterBallotList = [];
     let voterGuides;
     let voterGuideElectionListByElectionId;
+    let yearMonthDayArray = [];
     const { ballotItemListCandidatesDict, ballotItemUnfurledTracker: newBallotItemUnfurledTracker } = state;
 
     switch (action.type) {
@@ -700,9 +701,14 @@ class BallotStore extends ReduceStore {
         revisedState = { ...revisedState, ballotCaveat };
         googleCivicElectionId = action.res.google_civic_election_id || 0;
         googleCivicElectionId = parseInt(googleCivicElectionId, 10);
-        nextNationalElectionDayText = action.res.next_national_election_day_text;
-        if (nextNationalElectionDayText && nextNationalElectionDayText !== '') {
-          revisedState = { ...revisedState, nextNationalElectionDayText };
+        if (action.res.next_national_election_day_text) {
+          yearMonthDayArray = action.res.next_national_election_day_text.split('-');
+          if (yearMonthDayArray[0] > '2024' && yearMonthDayArray[1] > '11' && yearMonthDayArray[2] > '11') {
+            nextNationalElectionDayText = action.res.next_national_election_day_text;
+            if (nextNationalElectionDayText && nextNationalElectionDayText !== '') {
+              revisedState = { ...revisedState, nextNationalElectionDayText };
+            }
+          }
         }
         textForMapSearch = action.res.text_for_map_search;
         revisedState = { ...revisedState, textForMapSearch };

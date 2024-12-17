@@ -229,6 +229,7 @@ export const OneCampaignInnerWrapper = styled('div')(({ theme }) => (`
     justify-content: space-between;
     margin: 15px;
   }
+  ${isCordova() ? 'padding-top: 44px;' : ''}
 `));
 
 export const OneCampaignOuterWrapper = styled('div')(({ theme }) => (`

@@ -1,16 +1,17 @@
 import styled from 'styled-components';
-import { isWebApp } from '../../common/utils/isCordovaOrWebApp';
 import colors from '../../common/components/Style/Colors';
-import DesignTokenColors from '../../common/components/Style/DesignTokenColors';  // 2024-04-16 Upgrade to using this
+import DesignTokenColors from '../../common/components/Style/DesignTokenColors';
+import { isCordova, isWebApp } from '../../common/utils/isCordovaOrWebApp';
+import isMobileScreenSize from '../../common/utils/isMobileScreenSize'; // 2024-04-16 Upgrade to using this
 
 export const BallotAddress = styled('div', {
   shouldForwardProp: (prop) => !['centerText', 'allowTextWrap'].includes(prop),
 })(({ allowTextWrap, centerText }) => (`
   margin-left: 2px;
-  font-size: 18px;
-  ${allowTextWrap ? '' : 'overflow: hidden;'}
-  ${allowTextWrap ? '' : 'text-overflow: ellipsis;'}
-  ${allowTextWrap ? '' : 'white-space: nowrap;'}
+  ${isMobileScreenSize() || isCordova() ? '' : 'font-size: 18px;'}
+  ${allowTextWrap || isMobileScreenSize() || isCordova() ? '' : 'overflow: hidden;'}
+  ${allowTextWrap || isMobileScreenSize() || isCordova() ? '' : 'text-overflow: ellipsis;'}
+  ${allowTextWrap || isMobileScreenSize() || isCordova() ? '' : 'white-space: nowrap;'}
   ${centerText ? 'text-align: center;' : ''}
 `));
 
@@ -108,9 +109,9 @@ export const VoteByBelowWrapper = styled('div', {
   display: flex;
   ${centerText ? 'justify-content: center;' : 'justify-content: start;'}
   margin: -2px 0 0 2px;
-  ${theme.breakpoints.up('md')} {
-    ${electionDateBelow ? '' : 'display: none;'}
-  }
+  // ${theme.breakpoints.up('md')} {
+  //   ${electionDateBelow ? '' : 'display: none;'}
+  // }
 `));
 
 export const VoteByRightLabel = styled('div')`
@@ -123,7 +124,7 @@ export const VoteByRightLabel = styled('div')`
 export const VoteByRightWrapper = styled('div', {
   shouldForwardProp: (prop) => !['electionDateBelow'].includes(prop),
 })(({ electionDateBelow, theme }) => (`
-  ${electionDateBelow ? 'display: none;' : 'display: block;'}
+  // ${electionDateBelow ? 'display: none;' : 'display: block;'}
   margin-left: 8px;
   margin-top: 4px;
   ${theme.breakpoints.down('md')} {

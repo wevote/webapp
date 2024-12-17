@@ -8,21 +8,19 @@ import DesignTokenColors from '../Style/DesignTokenColors';
 
 const ChallengeParticipantFirstRetrieveController = React.lazy(() => import(/* webpackChunkName: 'ChallengeParticipantFirstRetrieveController' */ '../ChallengeParticipant/ChallengeParticipantFirstRetrieveController'));
 
-function JoinedAndDaysLeft ({ challengeWeVoteId, borderSwitcher }) {
+function JoinedAndDaysLeft ({ challengeWeVoteId, borderSwitcher, padding }) {
   // eslint-disable-next-line no-unused-vars
   const [daysLeft, setDaysLeft] = React.useState(0);
   const [voterIsChallengeParticipant, setVoterIsChallengeParticipant] = React.useState(false);
 
+  const onChallengeStoreChange = () => {
+    const daysToChallengeEnds = ChallengeStore.getDaysUntilChallengeEnds(challengeWeVoteId);
+    // console.log('Days to challenge ends:', daysToChallengeEnds);
+    setDaysLeft(Math.max(daysToChallengeEnds, 0));
+    setVoterIsChallengeParticipant(ChallengeStore.getVoterIsChallengeParticipant(challengeWeVoteId));
+  };
+
   React.useEffect(() => {
-    // console.log('Fetching participants for:', challengeWeVoteId);
-
-    const onChallengeStoreChange = () => {
-      const daysToChallengeEnds = ChallengeStore.getDaysUntilChallengeEnds(challengeWeVoteId);
-      // console.log('Days to challenge ends:', daysToChallengeEnds);
-      setDaysLeft(daysToChallengeEnds);
-      setVoterIsChallengeParticipant(ChallengeStore.getVoterIsChallengeParticipant(challengeWeVoteId));
-    };
-
     const challengeStoreListener = ChallengeStore.addListener(onChallengeStoreChange);
     onChallengeStoreChange();
 
@@ -33,7 +31,7 @@ function JoinedAndDaysLeft ({ challengeWeVoteId, borderSwitcher }) {
   return (
     <InfoWrapper>
       {/* SVG, Joined, Dot, and Days Left */}
-      <JoinedInfoWrapper borderSwitcher={borderSwitcher}>
+      <JoinedInfoWrapper borderSwitcher={borderSwitcher} padding={padding}>
         {voterIsChallengeParticipant ? (
           <>
             <JoinedIcon src={JoinedGreenCircle} alt="Joined" />
@@ -44,9 +42,7 @@ function JoinedAndDaysLeft ({ challengeWeVoteId, borderSwitcher }) {
           <InfoIcon src={InfoOutlineIcon} alt="Info" />
         )}
         <DaysLeftText>
-          {daysLeft}
-          {' '}
-          Days Left
+          {daysLeft === 0 ? 'Challenge Ended' : `${daysLeft} Days Left`}
         </DaysLeftText>
       </JoinedInfoWrapper>
       <Suspense fallback={<span>&nbsp;</span>}>
@@ -58,9 +54,11 @@ function JoinedAndDaysLeft ({ challengeWeVoteId, borderSwitcher }) {
 JoinedAndDaysLeft.propTypes = {
   challengeWeVoteId: PropTypes.string.isRequired,
   borderSwitcher: PropTypes.bool,
+  padding: PropTypes.string,
 };
 JoinedAndDaysLeft.defaultProps = {
-  borderSwitcher: true,  // Default true shows border around the joined and days left info
+  borderSwitcher: true, // Default true shows border around the joined and days left info
+  padding: '5px 10px', // Default padding
 };
 
 // Styled Components
@@ -78,8 +76,8 @@ const InfoWrapper = styled('div')`
 `;
 
 const JoinedInfoWrapper = styled('div', {
-  shouldForwardProp: (prop) => !['borderSwitcher'].includes(prop),
-})(({ borderSwitcher }) => `
+  shouldForwardProp: (prop) => !['borderSwitcher', 'padding'].includes(prop),
+})(({ borderSwitcher, padding }) => `
   align-items: center;
   background-color: ${DesignTokenColors.whiteUI};
   border: ${borderSwitcher ? `1px solid ${DesignTokenColors.neutral100}` : 'none'};
@@ -87,7 +85,7 @@ const JoinedInfoWrapper = styled('div', {
   display: flex;
   height: auto;
   justify-content: center;
-  padding: 5px 10px;
+  padding: ${padding};
   width: auto;
 `);
 

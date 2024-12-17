@@ -197,6 +197,7 @@ class FooterBar extends React.Component {
       },
       '& .MuiBottomNavigationAction-label': {
         fontSize: 16,
+        marginBottom: '-4px',
       },
     };
     const groupsIconStyles = {
@@ -214,7 +215,7 @@ class FooterBar extends React.Component {
       },
       '& .MuiBottomNavigationAction-label': {
         fontSize: 16,
-        marginBottom: '4px',
+        marginBottom: '3px',
         marginTop: '-5px',
       },
     };
@@ -224,7 +225,7 @@ class FooterBar extends React.Component {
     let discussVisible;
     let donateVisible;
     const friendsVisible = false; // 2023-09-04 Dale We are turning off Friends footer icon for now
-    const squadsVisible = isWebApp();
+    const squadsVisible = isWebApp();  // Icon label for Squads is now Challenges
     // const squadsVisible = false;
     // let howItWorksVisible;
     const howItWorksVisible = false;
@@ -242,6 +243,7 @@ class FooterBar extends React.Component {
       donateVisible = true; // 2022-12 Donate not used for now
       // howItWorksVisible = true;
     }
+    // console.log('--------- Footer bar donateVisible ', donateVisible, 'squadsVisible', squadsVisible);
     return (
       <FooterBarWrapper>
         <FooterContainer
@@ -271,7 +273,8 @@ class FooterBar extends React.Component {
               showLabel
               sx={defaultIconStyles}
               style={{
-                paddingLeft: '0px',
+                marginLeft: '-4px',
+                paddingLeft: 0,
               }}
             />
             <BottomNavigationAction
@@ -300,7 +303,7 @@ class FooterBar extends React.Component {
               )}
               label="Candidates"
               style={{
-                marginLeft: '2px',
+                marginLeft: '-4px',
               }}
               showLabel
               sx={defaultIconStyles}
@@ -341,7 +344,7 @@ class FooterBar extends React.Component {
                 label="Challenges"
                 showLabel
                 style={{
-                  marginLeft: '8px',
+                  marginLeft: '4px',
                 }}
                 sx={groupsIconStyles}
               />

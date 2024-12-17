@@ -11,6 +11,7 @@ import ChallengeParticipantActions from '../../actions/ChallengeParticipantActio
 import ReadyStore from '../../../stores/ReadyStore';
 import VoterStore from '../../../stores/VoterStore';
 import { getChallengeValuesFromIdentifiers } from '../../utils/challengeUtils';
+import TagManager from 'react-gtm-module';
 
 class JoinChallengeButton extends React.Component {
   constructor (props) {
@@ -80,7 +81,8 @@ class JoinChallengeButton extends React.Component {
   }
 
   onVoterStoreChange () {
-    const { goToNextStepAfterSignIn, voterIsSignedIn: voterIsSignedInPrevious } = this.state;
+    const { challengeWeVoteId: challengeWeVoteIdFromProps } = this.props;
+    const { challengeWeVoteId, goToNextStepAfterSignIn, voterIsSignedIn: voterIsSignedInPrevious } = this.state;
     const voterIsSignedIn = VoterStore.getVoterIsSignedIn();
     this.setState({
       voterFirstName: VoterStore.getFirstName(),
@@ -90,7 +92,16 @@ class JoinChallengeButton extends React.Component {
       // We started the sign-in process, and seem to have completed it.
       if (voterIsSignedIn && voterIsSignedIn !== voterIsSignedInPrevious) {
         if (goToNextStepAfterSignIn) {
-          this.goToJoinChallenge();
+          const challengeWeVoteIdToUse = challengeWeVoteId || challengeWeVoteIdFromProps;
+          let voterIsChallengeParticipant = false;
+          if (challengeWeVoteIdToUse) {
+            voterIsChallengeParticipant = ChallengeStore.getVoterIsChallengeParticipant(challengeWeVoteIdToUse);
+          }
+          if (voterIsChallengeParticipant) {
+            this.goToInviteFriends();
+          } else {
+            this.goToJoinChallenge();
+          }
         }
       }
     });
@@ -112,6 +123,17 @@ class JoinChallengeButton extends React.Component {
     const challengeBasePath = this.getChallengeBasePath();
     const inviteFriendsPath = `${challengeBasePath}invite-friends`;
     const { location: { pathname: currentPathname } } = window;
+    const { challengeWeVoteId } = this.state;
+
+    // Adding event data to dataLayer for Google Tag Manager to fire the inviteFriendsToChallenge tag
+    TagManager.dataLayer({
+      dataLayer: {
+        event: 'inviteFriendsToChallenge', //'inviteFriendsClick',
+        voterWeVoteId: VoterStore.getVoterWeVoteId(),
+        challengeWeVoteId,
+      },
+    });
+
     AppObservableStore.setSetUpAccountBackLinkPath(currentPathname);
     AppObservableStore.setSetUpAccountEntryPath(inviteFriendsPath);
     historyPush(inviteFriendsPath);
@@ -190,11 +212,9 @@ JoinChallengeButton.propTypes = {
   challengeWeVoteId: PropTypes.string,
 };
 
-
 const styles = () => ({
   buttonDesktop: {
     borderRadius: 45,
-    // fontSize: '18px',
     minWidth: '300px',
     width: '100%',
   },

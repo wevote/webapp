@@ -11,7 +11,6 @@ export const ChallengeCardForListWrapper = styled('div', {
 export const ChallengeDescription = styled('div')`
   color: ${DesignTokenColors.neutral500};
   font-size: 16px;
-  line-height: 1.1;
   padding-bottom: 18px;
   padding-top: 12px;
   text-align: left;
@@ -45,7 +44,7 @@ export const ChallengeImageDesktopPlaceholder = styled('div', {
   ${limitCardWidth ? 'height: 157px;' : `${useVerticalCard ? 'height: 200px;' : 'height: 117px;'}`}
   ${limitCardWidth ? 'min-height: 157px;' : `${useVerticalCard ? 'min-height: 200px;' : 'min-height: 117px;'}`}
   justify-content: center;
-  ${limitCardWidth ? 'width: 300px;' : `${useVerticalCard ? 'width: 100%;' : 'width: 224px;'}`}
+  ${limitCardWidth ? 'width: 250px;' : `${useVerticalCard ? 'width: 250px;' : 'width: 224px;'}`}
   ${ChallengeImageDesktopSharedStyles}
 `));
 
@@ -67,7 +66,7 @@ export const ChallengeImageMobileSharedStyles = css`
 export const ChallengeImageMobilePlaceholder = styled('div', {
   shouldForwardProp: (prop) => !['profileImageBackgroundColor', 'useVerticalCard'].includes(prop),
 })(({ profileImageBackgroundColor, useVerticalCard }) => (`
-  align-items: center;
+  // align-items: center;
   background-color: ${profileImageBackgroundColor || DesignTokenColors.neutralUI50};
   ${useVerticalCard ? `border: 1px solid ${DesignTokenColors.neutralUI100};` : ''}
   ${useVerticalCard ? 'border-radius: 12px;' : ''}
@@ -77,6 +76,8 @@ export const ChallengeImageMobilePlaceholder = styled('div', {
   max-height: 157px;
   min-height: 157px;
   ${ChallengeImageMobileSharedStyles}
+  width: 90%;
+  overflow: hidden;
 `));
 
 export const ChallengeImagePlaceholderText = styled('div')`
@@ -165,9 +166,12 @@ export const OneChallengeTextColumn = styled('div', {
 `));
 
 export const OneChallengeTitleLink = styled('h1')(({ theme }) => (`
-  font-size: 22px;
+  color: ${DesignTokenColors.neutralUI900};
+  font-size: 20px;
   font-weight: 400;
-  margin: 20px 0 4px 0;
+  margin: 16px 0 4px 0;
+  padding-right: 30px;
+  min-height: 45px;
   ${theme.breakpoints.down('sm')} {
     // margin-bottom: 4px;
   }

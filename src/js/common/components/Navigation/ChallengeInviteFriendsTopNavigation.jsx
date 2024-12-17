@@ -1,15 +1,79 @@
-import { AppBar, Tab, Tabs, Toolbar } from '@mui/material';
-import { createTheme, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import React, { useState, Suspense } from 'react';
+import { AppBar, Tab, Tabs, Toolbar, useMediaQuery } from '@mui/material';
+import { createTheme, StyledEngineProvider, ThemeProvider, styled } from '@mui/material/styles';
 import makeStyles from '@mui/styles/makeStyles';
+import { InfoOutlined } from '@mui/icons-material';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { renderLog } from '../../utils/logging';
 import { endsWith } from '../../utils/startsWith';
 import stringContains from '../../utils/stringContains';
 import ChallengeParticipantStore from '../../stores/ChallengeParticipantStore';
 import ChallengeStore from '../../stores/ChallengeStore';
+import DesignTokenColors from '../Style/DesignTokenColors';
 
+// Lazy-load the PointsExplanationModal
+const PointsExplanationModal = React.lazy(() => import('../Challenge/PointsExplanationModal'));
+
+const theme = createTheme({
+  typography: {
+    button: {
+      textTransform: 'none',
+    },
+    fontFamily: 'Poppins, sans-serif', // Set font family for the theme
+  },
+  components: {
+    MuiButtonBase: {
+      root: {
+        '&:hover': {
+          color: '#4371cc',
+        },
+      },
+    },
+  },
+});
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  alignItems: 'center',
+  display: 'flex',
+  minHeight: 48,
+  position: 'relative',
+  width: '100%',
+}));
+
+const StyledTabs = styled(Tabs)({
+  flexGrow: 1,
+});
+
+const MoreInfoIconWrapper = styled('div', {
+  shouldForwardProp: (prop) => !['hovered', 'isSmallScreen'].includes(prop),
+})(({ hovered, isSmallScreen }) => ({
+  alignItems: 'center',
+  color: hovered ? DesignTokenColors.primary500 : DesignTokenColors.neutral600,
+  cursor: 'pointer',
+  display: 'flex',
+  fontSize: '0.875rem',
+  fontWeight: 500,
+  lineHeight: 1.25,
+  position: 'absolute',
+  right: isSmallScreen ? '12px' : '16px',
+}));
+
+const MoreInfoText = styled('span')({
+  marginLeft: 4,
+});
+
+const StyledTab = styled(Tab)(({ theme }) => ({
+  marginRight: 16,
+  minWidth: 'auto',
+  padding: '12px 16px',
+  [theme.breakpoints.down('sm')]: {
+    minWidth: '0',
+    padding: '12px 10px',
+  },
+  '&:last-child': {
+    marginRight: 0,
+  },
+}));
 
 // TODO: Mar 23, 2022, makeStyles is legacy in MUI 5, replace instance with styled-components or sx if there are issues
 const useStyles = makeStyles((theme) => ({
@@ -29,45 +93,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFriendlyPath, challengeWeVoteId, hideAboutTab }) {
   const [value, setValue] = React.useState(0);
   const [voterIsChallengeParticipant, setVoterIsChallengeParticipant] = React.useState(false);
   // console.log('ChallengeInviteFriendsTopNavigation challengeWeVoteId:', challengeWeVoteId, ', voterIsChallengeParticipant:', voterIsChallengeParticipant);
 
+  // State to handle modal visibility and hover effect
+  const [isMoreInfoOpen, setIsMoreInfoOpen] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
   const classes = useStyles();
   const history = useHistory();
-
-  const defaultTheme = createTheme();
-
-  const theme = createTheme({
-    typography: {
-      button: {
-        textTransform: 'none',
-      },
-    },
-    components: {
-      MuiButtonBase: {
-        root: {
-          '&:hover': {
-            color: '#4371cc',
-          },
-        },
-      },
-      MuiTab: {
-        root: {
-          minWidth: 0,
-          [defaultTheme.breakpoints.up('xs')]: {
-            minWidth: 0,
-          },
-        },
-      },
-    },
-  });
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // Functions to toggle modal and handle hover
+  const toggleMoreInfoModal = React.useCallback(() => {
+    setIsMoreInfoOpen((prev) => !prev);
+  }, []);
 
   const { location: { pathname } } = window;
   if (endsWith('/about', pathname)) {
@@ -144,16 +190,34 @@ export default function ChallengeInviteFriendsTopNavigation ({ challengeSEOFrien
       >
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
-            <Toolbar disableGutters className={classes.toolbarRoot}>
-              <Tabs value={value} onChange={handleChange} aria-label="Tab menu">
-                {!hideAboutTab && <Tab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} />}
-                <Tab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} />
-                {voterIsChallengeParticipant && <Tab id="challengeLandingTab-2" label="Invited friends" onClick={() => history.push(friendsUrl)} value={3} />}
-              </Tabs>
-            </Toolbar>
+            <StyledToolbar disableGutters
+              className={classes.toolbarRoot}
+              component={StyledToolbar}
+            >
+              <StyledTabs value={value} onChange={handleChange} aria-label="Tab menu">
+                {!hideAboutTab && <StyledTab id="challengeLandingTab-0" label="About" onClick={() => history.push(aboutUrl)} value={1} isSmallScreen={isSmallScreen} />}
+                <StyledTab id="challengeLandingTab-1" label="Leaderboard" onClick={() => history.push(leaderboardUrl)} value={2} isSmallScreen={isSmallScreen} />
+                {voterIsChallengeParticipant && <StyledTab id="challengeLandingTab-2" label={isSmallScreen ? 'Invited' : 'Invited friends'} onClick={() => history.push(friendsUrl)} value={3} />}
+              </StyledTabs>
+              <MoreInfoIconWrapper
+                hovered={hovered}
+                isSmallScreen={isSmallScreen}
+                onMouseEnter={() => setHovered(true)}
+                onMouseLeave={() => setHovered(false)}
+                onClick={() => setIsMoreInfoOpen(!isMoreInfoOpen)}
+              >
+                <InfoOutlined />
+                {!isSmallScreen && <MoreInfoText>More info</MoreInfoText>}
+              </MoreInfoIconWrapper>
+            </StyledToolbar>
           </ThemeProvider>
         </StyledEngineProvider>
       </AppBar>
+      {isMoreInfoOpen && ( // Conditional rendering for modal
+        <Suspense fallback={<div>Loading...</div>}>
+          <PointsExplanationModal show={isMoreInfoOpen} toggleModal={toggleMoreInfoModal} />
+        </Suspense>
+      )}
     </div>
   );
 }
