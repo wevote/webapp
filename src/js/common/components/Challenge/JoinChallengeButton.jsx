@@ -155,6 +155,16 @@ class JoinChallengeButton extends React.Component {
         joinChallengeNextStepPath = `${challengeBasePath}customize-message`;
       }
       const { location: { pathname: currentPathname } } = window;
+
+      // Adding event data to dataLayer for Google Tag Manager to fire the joinChallenge tag
+      TagManager.dataLayer({
+        dataLayer: {
+          event: 'joinChallenge',
+          voterWeVoteId: VoterStore.getVoterWeVoteId(),
+          challengeWeVoteId,
+        },
+      });
+
       AppObservableStore.setSetUpAccountBackLinkPath(currentPathname);
       AppObservableStore.setSetUpAccountEntryPath(joinChallengeNextStepPath);
       if (itemsAreMissing) {
