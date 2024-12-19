@@ -19,7 +19,7 @@ export default function DonorboxEmbed () {
       seamless="seamless"
       scrolling="no"
       height="900px"
-      width="100%"
+      width="375px"
       src="https://donorbox.org/embed/we-vote-tax-deductible?default_interval=m&amount=10"
     />
   );
