@@ -124,13 +124,20 @@ class JoinChallengeButton extends React.Component {
     const inviteFriendsPath = `${challengeBasePath}invite-friends`;
     const { location: { pathname: currentPathname } } = window;
     const { challengeWeVoteId } = this.state;
+    // console.log('goToInviteFriends currentPathname: ', currentPathname);
 
     // Adding event data to dataLayer for Google Tag Manager to fire the inviteFriendsToChallenge tag
     TagManager.dataLayer({
       dataLayer: {
-        event: 'inviteFriendsToChallenge', //'inviteFriendsClick',
-        voterWeVoteId: VoterStore.getVoterWeVoteId(),
+        event: 'inviteFriendsToChallenge',
+        user: {
+          voterWeVoteId: VoterStore.getVoterWeVoteId(),
+        },
         challengeWeVoteId,
+        pageDestination: 'joinChallenge',
+        pageType: 'challenge',
+        pageName: '', // Populate from URL pathname
+        pathName: currentPathname,
       },
     });
 
@@ -157,6 +164,22 @@ class JoinChallengeButton extends React.Component {
       const { location: { pathname: currentPathname } } = window;
       AppObservableStore.setSetUpAccountBackLinkPath(currentPathname);
       AppObservableStore.setSetUpAccountEntryPath(joinChallengeNextStepPath);
+      // console.log('goToJoinChallenge currentPathname: ', currentPathname);
+      // Adding event data to dataLayer for Google Tag Manager to fire the inviteFriendsToChallenge tag
+      TagManager.dataLayer({
+        dataLayer: {
+          event: 'inviteFriendsToChallenge',
+          user: {
+            voterWeVoteId: VoterStore.getVoterWeVoteId(),
+          },
+          challengeWeVoteId,
+          pageDestination: 'goToInviteFriends',
+          pageType: 'challenge',
+          pageName: '', // Populate from URL pathname
+          pathName: currentPathname,
+        },
+      });
+
       if (itemsAreMissing) {
         historyPush(joinChallengeNextStepPath);
       } else {

@@ -48,9 +48,9 @@ const ChallengeParticipantSimpleListRoot = ({ challengeWeVoteId, classes, unique
     };
   }, [challengeWeVoteId]);
 
-  useEffect(() => {
-    console.log(participantList);
-  }, [participantList]);
+  // useEffect(() => {
+  //   console.log('participantList from useEffect: ', participantList);
+  // }, [participantList]);
   return (
     <ChallengeParticipantListRootContainer>
       <ChallengeParticipantList
