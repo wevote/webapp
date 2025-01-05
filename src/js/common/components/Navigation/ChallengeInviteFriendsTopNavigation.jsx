@@ -184,18 +184,6 @@ const styles = () => ({
   },
 });
 
-const ToolbarStyled = styled(Toolbar)(() => ({
-  alignItems: 'center',
-  display: 'flex',
-  minHeight: 48,
-  position: 'relative',
-  width: '100%',
-}));
-
-const TabsStyled = styled(Tabs)({
-  flexGrow: 1,
-});
-
 const MoreInfoIconWrapper = styled('div', {
   shouldForwardProp: (prop) => !['hovered', 'isSmallScreen'].includes(prop),
 })(({ hovered, isSmallScreen }) => ({
@@ -214,6 +202,10 @@ const MoreInfoText = styled('span')({
   marginLeft: 4,
 });
 
+const TabsStyled = styled(Tabs)({
+  flexGrow: 1,
+});
+
 const TabStyled = styled(Tab)(() => ({
   marginRight: 16,
   minWidth: 'auto',
@@ -225,6 +217,14 @@ const TabStyled = styled(Tab)(() => ({
   '&:last-child': {
     marginRight: 0,
   },
+}));
+
+const ToolbarStyled = styled(Toolbar)(() => ({
+  alignItems: 'center',
+  display: 'flex',
+  minHeight: 48,
+  position: 'relative',
+  width: '100%',
 }));
 
 export default withStyles(styles)(ChallengeInviteFriendsTopNavigation);
