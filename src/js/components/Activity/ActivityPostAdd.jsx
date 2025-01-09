@@ -1,22 +1,22 @@
+import React, { Component, Suspense } from 'react';
 import { Card, InputBase } from '@mui/material';
 import styled from 'styled-components';
 import withStyles from '@mui/styles/withStyles';
 import withTheme from '@mui/styles/withTheme';
 import PropTypes from 'prop-types';
-import React, { Component, Suspense } from 'react';
 import { isCordova } from '../../common/utils/isCordovaOrWebApp';
 import { renderLog } from '../../common/utils/logging';
 import VoterStore from '../../stores/VoterStore';
 import { avatarGeneric } from '../../utils/applicationUtils';
 import { cordovaNewsPaddingTop } from '../../utils/cordovaOffsets';
 
-const ActivityPostModal = React.lazy(() => import(/* webpackChunkName: 'ActivityPostModal' */ './ActivityPostModal'));
+const VoterPositionEntryAndDisplay = React.lazy(() => import(/* webpackChunkName: 'VoterPositionEntryAndDisplay' */ '../PositionItem/VoterPositionEntryAndDisplay'));
 
 class ActivityPostAdd extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      showActivityPostModal: false,
+      showVoterPositionEntryAndDisplay: false,
       statementText: '',
     };
     this.updateStatementTextToBeSaved = this.updateStatementTextToBeSaved.bind(this);
@@ -62,11 +62,11 @@ class ActivityPostAdd extends Component {
     });
   }
 
-  toggleActivityPostModal = () => {
-    const { showActivityPostModal } = this.state;
-    // console.log('toggleActivityPostModal showActivityPostModal:', showActivityPostModal);
+  toggleVoterPositionEntryAndDisplay = () => {
+    const { showVoterPositionEntryAndDisplay } = this.state;
+    // console.log('toggleVoterPositionEntryAndDisplay showVoterPositionEntryAndDisplay:', showVoterPositionEntryAndDisplay);
     this.setState({
-      showActivityPostModal: !showActivityPostModal,
+      showVoterPositionEntryAndDisplay: !showVoterPositionEntryAndDisplay,
     });
   }
 
@@ -80,7 +80,7 @@ class ActivityPostAdd extends Component {
     renderLog('ActivityPostAdd');  // Set LOG_RENDER_EVENTS to log all renders
     const { classes, externalUniqueId, activityTidbitWeVoteId } = this.props;
     const {
-      showActivityPostModal,
+      showVoterPositionEntryAndDisplay,
       voterPhotoUrlMedium, statementText,
     } = this.state;
 
@@ -137,19 +137,19 @@ class ActivityPostAdd extends Component {
               inputRef={(tag) => { this.textarea = tag; }}
               multiline
               name="statementText"
-              onClick={this.toggleActivityPostModal}
+              onClick={this.toggleVoterPositionEntryAndDisplay}
               onFocus={this.handleFocus}
               placeholder={statementPlaceholderText}
               rows="1"
             />
           </InnerFlexWrapper>
-          {showActivityPostModal && (
+          {showVoterPositionEntryAndDisplay && (
             <Suspense fallback={<></>}>
-              <ActivityPostModal
+              <VoterPositionEntryAndDisplay
                 activityTidbitWeVoteId={activityTidbitWeVoteId}
                 externalUniqueId={externalUniqueId}
-                show={showActivityPostModal}
-                toggleModal={this.toggleActivityPostModal}
+                show={showVoterPositionEntryAndDisplay}
+                toggleModal={this.toggleVoterPositionEntryAndDisplay}
               />
             </Suspense>
           )}
