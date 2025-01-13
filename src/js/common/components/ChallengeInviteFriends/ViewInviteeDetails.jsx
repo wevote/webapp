@@ -144,12 +144,13 @@ const StyledDialogTitle = styled(DialogTitle)`
 // `
 const StyledTable = styled('table')`
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 8px;
-  border-radius: 8px;
+
   overflow: hidden;
 `;
-
+// removed these from StyledTable - not sure they are necessary
+//   border-collapse: collapse;
+//   margin-top: 8px;
+//   border-radius: 8px;
 const StyledTableHeaderCell = styled(TableCell)`
   color: ${DesignTokenColors.neutral900};
   font-size: 10px;
@@ -184,7 +185,6 @@ const StyledTableBodyCellRight = styled(TableCell)`
 `;
 
 const TableWrapper = styled('div')`
-  margin-top: 4px; /* Adjust to give space below the title */
   margin-bottom: 4px;
   min-width: 100%;
   max-width: 100%;
