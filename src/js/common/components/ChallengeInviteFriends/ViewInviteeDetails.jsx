@@ -11,7 +11,6 @@ import isMobileScreenSize from 'js/common/utils/isMobileScreenSize';
 
 const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   const [inviteeData, setInviteeData] = useState(null);
-//   const [show, setShow] = useState(false);
 
   useEffect(() => {
     const fetchInviteeData = async () => {
@@ -30,11 +29,6 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
     }
   };
 
-//   const handleClose = () => {
-//     setShow(false);
-//     setAnchorEl(null);
-//   };
-
   const formatDate = (dateString, customMessage = 'Unavailable') => {
     if (!dateString) return customMessage;
     const date = new Date(dateString);
@@ -46,8 +40,6 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
 
     return `${formattedDate}`;
   };
-
-//   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
 
   const dialogTitleJSX = (
     <StyledDialogTitle>
@@ -85,9 +77,9 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
                 {inviteeData
                   ? formatDate(
                     inviteeData.date_invite_viewed,
-                    isMobileScreenSize() ? 'Not viewed' : 'Invitation has not been viewed'
+                    isMobileScreenSize() ? 'Not viewed' : "Invitation hasn't been viewed"
                     )
-                    : isMobileScreenSize() ? 'Not viewed' : 'Invitation has not been viewed'}
+                    : isMobileScreenSize() ? 'Not viewed' : "Invitation hasn't been viewed"}
 {/*                 {inviteeData ? formatDate(inviteeData.date_invite_viewed, 'Invitation has not been viewed') : 'Invitation has not been viewed'} */}
               </StyledTableBodyCellRight>
             </TableRow>
@@ -99,9 +91,9 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
                 {inviteeData
                   ? formatDate(
                     inviteeData.date_challenge_joined,
-                    isMobileScreenSize() ? 'Not joined' : 'Challenge has not been joined'
+                    isMobileScreenSize() ? 'Not joined' : "Challenge hasn't been joined"
                     )
-                    : isMobileScreenSize() ? 'Not joined' : 'Challenge has not been joined'}
+                    : isMobileScreenSize() ? 'Not joined' : "Challenge hasn't been joined"}
               </StyledTableBodyCellRight>
             </StyledTableRow>
           </TableBody>
@@ -129,22 +121,15 @@ ViewInviteeDetails.propTypes = {
 };
 
 const StyledDialogTitle = styled(DialogTitle)`
-  padding: 16px 16px;
+  padding: 16px;
+  padding-right: 55px;
 `
 
-// const TitleWrapper = styled('div')`
-//
-//   padding: 0px 16px;
-// `
 const StyledTable = styled('table')`
   width: 100%;
-
   overflow: hidden;
 `;
-// removed these from StyledTable - not sure they are necessary
-//   border-collapse: collapse;
-//   margin-top: 8px;
-//   border-radius: 8px;
+
 const StyledTableHeaderCell = styled(TableCell)`
   color: ${DesignTokenColors.neutral900};
   font-size: 10px;
@@ -168,8 +153,7 @@ const StyledTableRow = styled(TableRow)`
 const StyledTableBodyCellLeft = styled(TableCell)`
   font-family: inherit;
   padding: 4px;
-  padding-left: none;
-  padding-right: 70px;
+  padding-right: 20px;
 `;
 
 const StyledTableBodyCellRight = styled(TableCell)`
