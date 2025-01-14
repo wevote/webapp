@@ -44,13 +44,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
       year: 'numeric',
     });
 
-    const formattedTime = date.toLocaleTimeString('en-US', {
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-
-    return `${formattedDate} - ${formattedTime}`;
+    return `${formattedDate}`;
   };
 
 //   const dialogTitleText = inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : null;
@@ -65,7 +59,7 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
     </StyledDialogTitle>
     )
 
-  // console.log('inviteeData:', inviteeData);
+  console.log('inviteeData:', inviteeData);
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
