@@ -47,11 +47,11 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
         ? 'Invitation History'
         : inviteeData ?
         `${inviteeData.invitee_name}'s Invitation History`
-        : null}
+        : 'Invitation History'}
     </StyledDialogTitle>
     )
 
-  console.log('inviteeData:', inviteeData);
+//   console.log('inviteeData:', inviteeData);
   const textFieldJSX = (
     <TableContainer components={Paper} sx={{ paddingBottom: '5px' }}>
       <TableWrapper>
@@ -80,7 +80,6 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
                     isMobileScreenSize() ? 'Not viewed' : "Invitation hasn't been viewed"
                     )
                     : isMobileScreenSize() ? 'Not viewed' : "Invitation hasn't been viewed"}
-{/*                 {inviteeData ? formatDate(inviteeData.date_invite_viewed, 'Invitation has not been viewed') : 'Invitation has not been viewed'} */}
               </StyledTableBodyCellRight>
             </TableRow>
             <StyledTableRow>
@@ -121,7 +120,7 @@ ViewInviteeDetails.propTypes = {
 };
 
 const StyledDialogTitle = styled(DialogTitle)`
-  padding: 16px;
+  padding: 12px 2px;
   padding-right: 55px;
 `
 
