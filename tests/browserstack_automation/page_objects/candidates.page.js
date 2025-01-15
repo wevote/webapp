@@ -17,7 +17,7 @@ class CandidatesPage extends Page {
   }
 
   get pageHeaders () {
-    return $$('h2#WhatIsHappeningTitle');
+    return $$('h2#whatIsHappeningTitle');
   }
 
   get CandidateCardList () {

@@ -27,7 +27,7 @@ import {
   DrawerHeaderInnerContainer, DrawerHeaderOuterContainer,
 } from '../Style/drawerLayoutStyles';
 import { cordovaDrawerTopMargin } from '../../utils/cordovaOffsets';
-import { convertToInteger } from '../../common/utils/textFormat';
+import convertToInteger from '../../common/utils/convertToInteger';
 import { isCordova, isWebApp } from '../../common/utils/isCordovaOrWebApp';
 import { headroomWrapperOffset } from '../../utils/cordovaCalculatedOffsets';
 import { getPageKey } from '../../utils/cordovaPageUtils';

@@ -181,57 +181,149 @@ class ReadyPage extends Page {
   get getDonateLinkFooter () {
     return $('#footerMainLinkDonate');
   }
-
   get getSignInElement () {
     return $('#signIn');
   }
-
   get getMobilePhoneNumberElement () {
     return $('#enterVoterPhone');
   }
-
   get getSendCodeElement () {
     return $('#desktopSmsSendCode');
   }
-
   get getCodeVerificationDigit1Element () {
     return $('#digit1');
   }
-
   get getCodeVerificationDigit2Element () {
     return $('#digit2');
   }
-
   get getCodeVerificationDigit3Element () {
     return $('#digit3');
   }
-
   get getCodeVerificationDigit4Element () {
     return $('#digit4');
   }
-
   get getCodeVerificationDigit5Element () {
     return $('#digit5');
   }
-
   get getCodeVerificationDigit6Element () {
     return $('#digit6');
   }
-
   get getVerifyButtonElement () {
     return $('#emailVerifyButton');
   }
-
   get getProChoiceLinkElement () {
     return $('a[href="/value/pro-choice"]');
   }
-
   get getDemocraticClubsLinkElement () {
     return $('a[href="/value/democratic_clubs"]');
-  }
-
+  } 
   get getProfileIconElement () {
     return $('#profileAvatarHeaderBar');
+  }
+  get getClimateChangeLinkElement() {
+    return $('a[href="/value/climate_change"]')
+  }
+  get getProLifeLinkElement() {
+    return $('a[href="/value/pro-life"]')
+  }
+  get getRepublicanClubsLinkElement() {
+    return $('a[href="/value/republican_clubs"]')
+  }
+  get getLGBTQLinkElement() {
+    return $('a[href="/value/lgbtq"]')
+  }
+  get getShowMoreLinkElement() {
+    return $('#showMoreLink')
+  }
+  get getDemocraticPartyPoliticiansLinkElement() {
+    return $('a[href="/value/democratic_party_politicians"]')
+  }
+  get getRepublicanPartyPoliticiansLinkElement() {
+    return $('a[href="/value/republican_party_politicians"]')
+  }
+  get getProgressiveValuesLinkElement() {
+    return $('a[href="/value/progressive_values"]')
+  }
+  get getConservativeValuesLinkElement() {
+    return $('a[href="/value/conservative_values"]')
+  }
+  get getCommonSenseGunReformLinkElement() {
+    return $('a[href="/value/common_sense_gun_reform"]')
+  }
+  get getGun2ndAmendmentRightsLinkElement() {
+    return $('a[href="/value/gun__2nd_amendment_rights"]')
+  }
+  get getAffordableHousingLinkElement() {
+    return $('a[href="/value/affordable_housing"]')
+  }
+  get getVotingRightsAndEducationLinkElement() {
+    return $('a[href="/value/voting_rights__education"]')
+  }
+  get getCommunitiesOfColorLinkElement() {
+    return $('a[href="/value/communities_of_color"]')
+  }
+  get getAnimalsAndWildlifeLinkElement() {
+    return $('a[href="/value/animals__wildlife"]')
+  }
+  get getImmigrationRightsLinkElement() {
+    return $('a[href="/value/immigration_rights"]')
+  }
+  get getCriminalJusticeReformLinkElement() {
+    return $('a[href="/value/criminal_justice_reform"]')
+  }
+  get getReducingMoneyInPoliticsLinkElement() {
+    return $('a[href="/value/reducing_money_in_politics"]')
+  }
+  get getSocialSecurityAndMedicareLinkElement() {
+    return $('a[href="/value/social_security__medicare"]')
+  }
+  get getReducingStudentDebtLinkElement() {
+    return $('a[href="/value/reducing_student_debt"]')
+  }
+  get getMarijuanaLegalizationLinkElement() {
+    return $('a[href="/value/marijuana_legalization"]')
+  }
+  get getLowIncomeAndUnemploymentLinkElement() {
+    return $('a[href="/value/low_income__unemployment"]')
+  }
+  get getHomelessWellBeingLinkElement() {
+    return $('a[href="/value/homeless_well-being"]')
+  }
+  get getBicyclingLinkElement() {
+    return $('a[href="/value/bicycling"]')
+  }
+  get getSecuringOurBordersLinkElement() {
+    return $('a[href="/value/securing_our_borders"]')
+  } 
+  get getWomensEqualityLinkElement() {
+    return $("a[href='/value/women\\'s_equality']")
+  }
+  get getGreenPartyClubsLinkElement() {
+      return $('a[href="/value/green_party_clubs"]')
+  }
+  get getLibertarianClubsLinkElement() {
+    return $('a[href="/value/libertarian_clubs"]')
+  }
+  get getProPublicSchoolsLinkElement() {
+    return $('a[href="/value/pro_public_schools"]')
+  }
+  get getPubliclyFundedHealthcareLinkElement() {
+    return $('a[href="/value/publicly_funded_healthcare"]')
+  }
+  get getGreenPartyPoliticiansLinkElement() {
+    return $('a[href="/value/green_party_politicians"]')
+  }
+  get getLibertarianPartyPoliticiansLinkElement() {
+    return $('a[href="/value/libertarian_party_politicians"]')
+  }
+  get getIndependentPoliticiansLinkElement() {
+    return $('a[href="/value/independent_politicians"]')
+  }
+  get getProSchoolChoiceLinkElement() {
+    return $('a[href="/value/pro_school_choice"]')
+  }
+  get getMakeAmericaGreatAgainLinkElement() {
+    return $('a[href="/value/make_america_great_again_\\(maga\\)"]')
   }
 
 

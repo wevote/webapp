@@ -74,10 +74,6 @@ export function cleanArray (actual) {
   return newArray;
 }
 
-export function convertToInteger (incomingNumber) {
-  return parseInt(incomingNumber, 10) || 0;
-}
-
 export function extractTwitterHandleFromTextString (incomingString) {
   if (!incomingString || incomingString === '') {
     return '';

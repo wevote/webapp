@@ -16,7 +16,7 @@ import { getTodayAsInteger } from '../../utils/dateFormat';
 import extractAttributeValueListFromObjectList from '../../utils/extractAttributeValueListFromObjectList';
 import { isAndroid } from '../../utils/isCordovaOrWebApp';
 import { renderLog } from '../../utils/logging';
-import { convertToInteger } from '../../utils/textFormat';
+import convertToInteger from '../../utils/convertToInteger';
 import ChallengesHomeFilter from '../../components/Challenge/ChallengesHomeFilter';
 import ChallengeListRootPlaceholder from '../../components/ChallengeListRoot/ChallengeListRootPlaceholder';
 import NoSearchResult from '../../../components/Search/NoSearchResult';
