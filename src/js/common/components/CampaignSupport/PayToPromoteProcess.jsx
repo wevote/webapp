@@ -503,7 +503,6 @@ const PaymentToPromoteWrapper  = styled('div')`
   display: grid;
   justify-content: center;
   margin-bottom: 15px;
-
 `;
 
 const PaymentWrapper  = styled('div')`
