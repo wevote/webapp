@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Select, MenuItem, FormControl } from '@mui/material';
+import { Select, MenuItem, FormControl, Typography } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import DesignTokenColors from '../../common/components/Style/DesignTokenColors';
@@ -9,20 +9,27 @@ const ActivityPostPublicDropdown = (props) => {
   const { visibilityIsPublic, onVisibilityChange, classes } = props;
 
   const handleVisibilityChange = (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     onVisibilityChange(value === 'Public');
   };
 
   return (
-    <div className={classes.container}>
-      <span className={classes.label}>Opinion visible to:</span>
-      <FormControl className={classes.formControl}>
+    <FormControl className={classes.formControl} aria-labelledby="opinion-visibility-label">
+      <div className={classes.container}>
+        <Typography
+          id="opinion-visibility-label"
+          className={classes.label}
+          component="label"
+        >
+          Opinion visible to:
+        </Typography>
         <Select
           value={visibilityIsPublic ? 'Public' : 'Friends Only'}
           onChange={handleVisibilityChange}
           className={classes.selectVisibility}
           disableUnderline
           IconComponent={ArrowDropDownIcon}
+          aria-label="Select visibility for your opinion"
         >
           <MenuItem value="Public" className={classes.menuItem}>
             Public
@@ -31,8 +38,8 @@ const ActivityPostPublicDropdown = (props) => {
             My friends
           </MenuItem>
         </Select>
-      </FormControl>
-    </div>
+      </div>
+    </FormControl>
   );
 };
 
@@ -42,22 +49,21 @@ ActivityPostPublicDropdown.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const styles = (theme) => ({
+const styles = () => ({
+  formControl: {
+    width: '100%',
+  },
   container: {
     display: 'flex',
     alignItems: 'center',
-    borderRadius: '4px',
   },
   label: {
     fontFamily: 'Poppins',
     fontSize: '13px',
     fontWeight: '400',
     lineHeight: '19.5px',
-    textAlign: 'left',
-    color: 'var(--Neutral-900, #2A2A2C)',
-  },
-  formControl: {
-    minWidth: '120px',
+    color: DesignTokenColors.neutralUI900,
+    marginRight: '8px',
   },
   selectVisibility: {
     fontFamily: 'Nunito',
