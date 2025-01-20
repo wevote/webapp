@@ -83,7 +83,7 @@ export const templateAStyles = (theme) => ({
     maxHeight: '350px',
     height: '80%',
     width: '90%',
-    // maxWidth: '600px', // TODO: Look for every instance of ModalDisplayTemplateA and see if max width is affected
+    maxWidth: '600px',
     top: '0',
     transform: isAndroid() ? 'translate(0%, -18%)' : 'translate(0%, -20%)',
     [theme.breakpoints.down('xs')]: {
