@@ -228,6 +228,7 @@ const PopoverViewDetailsText = styled('div')`
 const StyledTypography = styled('div')`
   font-size: 12px;
   font-family: inherit;
+  cursor: pointer;
 `;
 
 const TripleDotButton = styled('button')`

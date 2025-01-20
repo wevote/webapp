@@ -83,7 +83,7 @@ export const templateAStyles = (theme) => ({
     maxHeight: '350px',
     height: '80%',
     width: '90%',
-    maxWidth: '600px',
+    // maxWidth: '600px', // TODO: Look for every instance of ModalDisplayTemplateA and see if max width is affected
     top: '0',
     transform: isAndroid() ? 'translate(0%, -18%)' : 'translate(0%, -20%)',
     [theme.breakpoints.down('xs')]: {
@@ -113,7 +113,7 @@ export const templateAStyles = (theme) => ({
   closeButton: {
     position: 'absolute',
     right: theme.spacing(1),
-    top: isAndroid() ? '-4px' : theme.spacing(2.6),
+    top: isAndroid() ? '-4px' : theme.spacing(2.8),
   },
   saveButtonRoot: {
     width: '100%',

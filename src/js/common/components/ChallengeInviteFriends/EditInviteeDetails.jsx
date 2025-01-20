@@ -36,38 +36,40 @@ const EditInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
     handleClose();
   };
 
-  const dialogTitleText = inviteeData ? `Edit ${inviteeData.invitee_name}'s Details` : 'Edit Invitee Details';
+  const dialogTitleText = "Edit Friend's Name and Message"
 
   const textFieldJSX = (
-    <div>
-      <TextFieldWrapper>
-        <Label>Your friend’s name</Label>
-        <StyledInput
-          type="text"
-          value={editedName}
-          onChange={(e) => setEditedName(e.target.value)}
-        />
-      </TextFieldWrapper>
-      <TextFieldWrapper>
-        <Label>
-          Message to
-          {' '}
-          {editedName || 'your friend'}
-        </Label>
-        <StyledTextarea
-          rows="4"
-          value={editedMessage}
-          onChange={(e) => setEditedMessage(e.target.value)}
-        />
-      </TextFieldWrapper>
-      <UniqueLink>
-        [Jane’s unique link]
-      </UniqueLink>
+    <FormContent>
+      <FormSection>
+        <FormFieldContainer>
+          <Label>Your friend's name</Label>
+          <StyledInput
+            type="text"
+            value={editedName}
+            onChange={(e) => setEditedName(e.target.value)}
+          />
+        </FormFieldContainer>
+        <FormFieldContainer>
+          <Label>
+            Message to
+            {' '}
+            {editedName || 'your friend'}
+          </Label>
+          <StyledTextarea
+            rows="4"
+            value={editedMessage}
+            onChange={(e) => setEditedMessage(e.target.value)}
+          />
+        </FormFieldContainer>
+        <UniqueLink>
+          [{editedName || 'your friend'}'s unique link]
+        </UniqueLink>
+      </FormSection>
       <ButtonContainer>
         <Button onClick={handleClose} color="secondary">Cancel</Button>
-        <Button onClick={handleSave} color="primary" variant="contained">Save Changes</Button>
+        <Button onClick={handleSave} color="primary" disabled={!editedName || !editedMessage} variant="contained">Save Changes</Button>
       </ButtonContainer>
-    </div>
+    </FormContent>
   );
 
   return (
@@ -88,6 +90,24 @@ EditInviteeDetails.propTypes = {
   setAnchorEl: PropTypes.func.isRequired,
 };
 
+const FormContent = styled('div')`
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 500px;
+`;
+
+const FormSection = styled('div')`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const FormFieldContainer = styled('div')`
+  width: 100%;
+`;
+
 const UniqueLink = styled('div')`
   margin-top: 10px;
   font-size: 12px;
@@ -96,6 +116,7 @@ const UniqueLink = styled('div')`
 
 const ButtonContainer = styled('div')`
   margin-top: 20px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
 `;
