@@ -10,9 +10,8 @@ import { isAndroid, isCordova } from '../../common/utils/isCordovaOrWebApp';
 import { renderLog } from '../../common/utils/logging';
 import DesignTokenColors from '../../common/components/Style/DesignTokenColors';
 
-
 class ModalDisplayTemplateB extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
     };
@@ -76,7 +75,7 @@ ModalDisplayTemplateB.propTypes = {
 export const templateBStyles = (theme) => ({
   dialogTitle: {
     padding: isAndroid() ? 8 : 'inherit',
-    fontFamily: 'Nunito, Arial, sans-serif',
+    margin: 0,
   },
   opposingLabel: {
     margin: '0 8px',
@@ -84,26 +83,25 @@ export const templateBStyles = (theme) => ({
   },
   editIcon: {
     alignItems: 'center',
-    backgroundColor: '#E6F3FF',
+    backgroundColor: DesignTokenColors.primary50,
     borderRadius: '50%',
-    color: '#848484',
+    color: DesignTokenColors.neutral400,
     cursor: 'pointer',
     display: 'flex',
     fontSize: '24px',
-    marginTop: '25px',
+    margin: '25px 0 0 -20px',
     padding: '5px',
     position: 'relative',
   },
-
   dialogPaper: {
     border: `1px solid ${DesignTokenColors.neutral100}`,
     borderRadius: '30px',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
     marginTop: hasIPhoneNotch() ? 68 : 48,
     minHeight: isAndroid() ? '257px' : '200px',
-    width: '90%',
     maxWidth: '600px',
     top: '0',
+    width: '90%',
     transform: isAndroid() ? 'translate(0%, -18%)' : 'translate(0%, -20%)',
     [theme.breakpoints.down('xs')]: {
       minWidth: '95%',
@@ -114,7 +112,14 @@ export const templateBStyles = (theme) => ({
       height: '70%',
       margin: '0 auto',
       transform: 'translate(0%, -30%)',
-      fontFamily: 'Nunito, sans-serif',
+    },
+    [theme.breakpoints.up('sm')]: {
+      maxWidth: '500px',
+      width: '80%',
+    },
+    [theme.breakpoints.up('md')]: {
+      maxWidth: '600px',
+      width: '70%',
     },
   },
   dialogPaperAdditionTall: {
@@ -125,23 +130,21 @@ export const templateBStyles = (theme) => ({
   },
   display: 'flex',
   flexDirection: 'column',
-  height: '100%',
   justifyContent: 'space-between',
-  padding: '16px',
+  height: '100%',
   closeButton: {
     height: '24px',
     position: 'absolute',
     right: '16px',
     width: '24.55px',
     textAlign: 'left',
-    fontFamily: 'Nunito, sans-serif',
   },
   formStyles: {
     width: '100%',
   },
   formControl: {
-    width: '100%',
     marginTop: 16,
+    width: '100%',
   },
   inputMultiline: {
     fontSize: 20,
@@ -166,14 +169,13 @@ export const templateBStyles = (theme) => ({
   },
   saveButtonRoot: {
     borderRadius: '30px',
-    marginTop: '18px',
-    height: '40px',
     color: 'white',
-    width: '100%',
     fontWeight: 600,
     fontSize: 16,
+    height: '40px',
+    width: '100%',
     lineHeight: '24px',
-
+    margin: '16px 0 0 0 ',
     '&.Mui-disabled': {
       backgroundColor: DesignTokenColors.neutral100,
       color: DesignTokenColors.whiteUI,
@@ -181,12 +183,15 @@ export const templateBStyles = (theme) => ({
     },
   },
   radioLabel: {
-    margin: '0 16px',
-    fontSize: '16px',
+    alignItems: 'center',
+    color: DesignTokenColors.neutral900,
+    display: 'flex',
     fontWeight: '400',
     lineHeight: '22px',
-    fontFamily: 'Nunito, Arial, sans-serif',
-    color: DesignTokenColors.neutral900,
+    margin: 0,
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '12px !important',
+    },
   },
   radioRoot: {
     color: DesignTokenColors.neutral900,
@@ -197,17 +202,29 @@ export const templateBStyles = (theme) => ({
 });
 
 const DialogContentInnerWrapper = styled('div')`
-  height: 100%;
   display: flex;
   flex-direction: column;
+  height: 100%;
   justify-content: space-between;
+   
+  @media (max-width: 600px) {
+    min-height: 48px;
+  }
+
+  @media (min-width: 960px) {
+    min-height: 64px;
+  }
 `;
 
 const DialogTitleInnerWrapper = styled('div')`
+  align-items: center;  
   display: flex;
   justify-content: space-between;
-  align-items: center;
   min-height: 56px;
+
+  @media ${(props) => props.theme.breakpoints.down('sm')} {
+    min-height: 48px;
+  }
 `;
 
 export const horizontalEllipsis = '\u2026';
@@ -240,38 +257,44 @@ const Title = styled('div')`
   font-size: 18px;
   font-weight: bold;
   line-height: 24.55px;
-  margin: 0;
+  margin: 16px 0;
   text-align: left;
-  padding-left: 16px;
-  fontFamily: 'Nunito, sans-serif',
-  
-`;
+  padding-left: 20px;
 
+  @media (max-width: 600px) {
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  @media (min-width: 960px) {
+    font-size: 20px;
+    line-height: 28px;
+  }
+`;
 export const VoterAvatarImg = styled('img')`
   border-radius: 6px;
   width: 43px;
   height: 43px;
   display: block;
   margin-left: 14px;
-
+  @media (max-width: 600px) {
+  margin-left: 0px;
+  }
 `;
 
 export const UserInfoWrapper = styled('div')`
   display: flex;
-  align-items: center;
   margin-top: 25px;
 `;
 
 export const UserInfoText = styled('div')`
-  margin-left: 24px;
-  fontFamily: 'Nunito, sans-serif',
-`;
+  padding-left: 16px;
+  `;
 export const UserName = styled('div')`
   color: DesignTokenColors.neutralUI900;  
   font-size: 18px;
   font-weight: 600;
   line-height: 25px;
-  fontFamily: 'Nunito, Arial, sans-serif',
 `;
 
 export const VisibilityText = styled('div')`
@@ -290,24 +313,45 @@ export const OpinionButtonsWrapper = styled('div')`
 export const OpinionButton = styled(Button)`
   border-radius: 16px;  
   flex: 1;
-  fontFamily: 'Nunito, sans-serif',
   font-size: 16px;
   font-weight: 400;
-  font-weight: bold;
   line-height: 22px;
   margin: 0 4px;
   text-transform: capitalize;
+
+  @media (max-width: 600px) {
+    font-size: 14px;
+    line-height: 20px;
+  }
+
   color: ${(props) => (props.selected ? DesignTokenColors.whiteUI : DesignTokenColors.primary600)};
   background-color: ${(props) => (props.selected ? DesignTokenColors.primary600 : 'transparent')};
+  
   &:hover {
   background-color: ${(props) => (props.selected ? DesignTokenColors.primary600 : 'transparent')};
     background-color: ${(props) => (props.selected ? DesignTokenColors.primary600 : DesignTokenColors.primary50)};
   }
 `;
-export const radioGroup = styled('div')`
+export const StyledRadioGroup = styled('div')`
   display: flex;
-  justify-content: space-around;
-  padding: 25px;
-  background-color: red;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 10px;
+  padding: 0;
+  width: 100%;
+  
+  @media (max-width: 600px) {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  }
+
+  @media (max-width: 375px) {
+  align-items: flex-start;
+  gap: 8px;
+}
 `;
 export default withTheme(withStyles(templateBStyles)(ModalDisplayTemplateB));

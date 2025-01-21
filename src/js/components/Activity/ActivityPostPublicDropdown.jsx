@@ -49,32 +49,34 @@ ActivityPostPublicDropdown.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const styles = () => ({
+const styles = (theme) => ({
   formControl: {
     width: '100%',
   },
   container: {
-    display: 'flex',
     alignItems: 'center',
+    display: 'flex',
   },
   label: {
+    color: DesignTokenColors.neutralUI900,
     fontFamily: 'Poppins',
     fontSize: '13px',
     fontWeight: '400',
     lineHeight: '19.5px',
-    color: DesignTokenColors.neutralUI900,
     marginRight: '8px',
+    [theme.breakpoints.down('md')]: {
+      display: 'none',
+    },
   },
   selectVisibility: {
-    fontFamily: 'Nunito',
+    border: 'none',
+    boxShadow: 'none',
+    color: DesignTokenColors.neutralUI900,
     fontSize: '16px',
     fontWeight: '400',
     lineHeight: '21.82px',
-    color: DesignTokenColors.neutralUI900,
-    padding: '0 8px',
-    border: 'none',
-    boxShadow: 'none',
     outline: 'none',
+    padding: 0,
     '&:focus': {
       outline: 'none',
       boxShadow: 'none',
@@ -82,13 +84,29 @@ const styles = () => ({
     '& .MuiOutlinedInput-notchedOutline': {
       border: 'none',
     },
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    },
+    [theme.breakpoints.down('xs')]: {
+      padding: '0 32px 0 0',
+      fontSize: '14px',
+    },
   },
   menuItem: {
-    fontFamily: 'Nunito',
+    color: DesignTokenColors.neutralUI900,
     fontSize: '16px',
     fontWeight: '400',
     lineHeight: '21.82px',
-    color: DesignTokenColors.neutralUI900,
+    padding: 0,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '14px',
+    },
+  },
+  outlinedInputRoot: {
+    padding: 0,
+    '& .MuiSelect-select': {
+      padding: '0 !important',
+    },
   },
 });
 

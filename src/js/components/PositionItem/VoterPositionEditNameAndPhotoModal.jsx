@@ -5,44 +5,6 @@ import PropTypes from 'prop-types';
 import { Close as CloseIcon } from '@mui/icons-material';
 import DesignTokenColors from '../../common/components/Style/DesignTokenColors';
 
-const styles = {
-  modalContent: {
-    padding: '20px',
-  },
-  uploadSection: {
-    alignItems: 'center',
-    border: `3px dashed ${DesignTokenColors.neutral100}`,
-    borderRadius: '8px',
-    display: 'flex',
-    flexDirection: 'column',
-    marginBottom: '20px',
-    padding: '20px',
-  },
-  profilePhoto: {
-    alignItems: 'center',
-    backgroundColor: DesignTokenColors.neutral50,
-    borderRadius: '50%',
-    display: 'flex',
-    height: '80px',
-    justifyContent: 'center',
-    marginBottom: '10px',
-    width: '80px',
-  },
-  formField: {
-    color: DesignTokenColors.neutral100,
-    marginBottom: '15px',
-  },
-  a: {
-    color: DesignTokenColors.primary500,
-  },
-  closeButton: {
-    color: DesignTokenColors.neutral100,
-    position: 'absolute',
-    right: '8px',
-    top: '8px',
-  },
-};
-
 const VoterPositionEditNameAndPhotoModal = ({ show, toggleModal, classes }) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -166,5 +128,43 @@ VoterPositionEditNameAndPhotoModal.propTypes = {
   toggleModal: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
+const styles = {
+  modalContent: {
+    padding: '20px',
+  },
+  uploadSection: {
+    alignItems: 'center',
+    border: `3px dashed ${DesignTokenColors.neutral100}`,
+    borderRadius: '8px',
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '20px',
+    padding: '20px',
+  },
+  profilePhoto: {
+    alignItems: 'center',
+    backgroundColor: DesignTokenColors.neutral50,
+    borderRadius: '50%',
+    display: 'flex',
+    height: '80px',
+    justifyContent: 'center',
+    marginBottom: '10px',
+    width: '80px',
+  },
+  formField: {
+    color: DesignTokenColors.neutral100,
+    marginBottom: '15px',
+  },
+  a: {
+    color: DesignTokenColors.primary500,
+  },
+  closeButton: {
+    color: DesignTokenColors.neutral100,
+    position: 'absolute',
+    right: '8px',
+    top: '8px',
+  },
+};
+
 
 export default withStyles(styles)(VoterPositionEditNameAndPhotoModal);

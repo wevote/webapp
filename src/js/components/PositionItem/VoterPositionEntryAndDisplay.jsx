@@ -13,7 +13,7 @@ import { avatarGeneric } from '../../utils/applicationUtils';
 import ModalDisplayTemplateB, {
   templateBStyles, TextFieldDiv,
   TextFieldForm, TextFieldWrapper, VoterAvatarImg,
-  UserInfoWrapper, UserInfoText, UserName, VisibilityText, editIcon,
+  UserInfoWrapper, UserInfoText, UserName, VisibilityText, editIcon, StyledRadioGroup,
 } from '../Widgets/ModalDisplayTemplateB';
 // import ActivityPostPublicToggle from '../Activity/ActivityPostPublicToggle';
 import ActivityPostPublicDropdown from '../Activity/ActivityPostPublicDropdown';
@@ -146,7 +146,7 @@ const VoterPositionEntryAndDisplay = (props) => {
             />
           </UserInfoText>
         </UserInfoWrapper>
-        <RadioGroup
+        <StyledRadioGroup
           row
           value={selectedOpinion}
           onChange={handleOpinionChange}
@@ -169,7 +169,7 @@ const VoterPositionEntryAndDisplay = (props) => {
             label="Neutral"
             classes={{ root: classes.radioLabel }}
           />
-        </RadioGroup>
+        </StyledRadioGroup>
         <TextFieldDiv>
           <InputBase
             classes={{ root: classes.inputStyles, inputMultiline: classes.inputMultiline }}
@@ -189,7 +189,8 @@ const VoterPositionEntryAndDisplay = (props) => {
           color="primary"
           classes={{ root: classes.saveButtonRoot }}
           type="submit"
-          disabled={!statementText}
+          // disabled={!statementText} // Commented out to allow saving without statement
+          disabled={!selectedOpinion}
         >
           {activityTidbitIdCheck ? 'Add opinion' : 'Save Changes'}
         </Button>
