@@ -7,7 +7,6 @@ import { TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Dialo
 import DesignTokenColors from '../Style/DesignTokenColors';
 import ModalDisplayTemplateA, { templateAStyles } from '../../../components/Widgets/ModalDisplayTemplateA';
 import ChallengeInviteeStore from '../../stores/ChallengeInviteeStore';
-import isMobileScreenSize from 'js/common/utils/isMobileScreenSize';
 
 const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   const [inviteeData, setInviteeData] = useState(null);
