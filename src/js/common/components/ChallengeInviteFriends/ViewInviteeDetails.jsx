@@ -42,13 +42,14 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
   };
 
   const dialogTitleJSX = (
-    <StyledDialogTitle>
-      {isMobileScreenSize()
-        ? 'Invitation History'
-        : inviteeData ?
-        `${inviteeData.invitee_name}'s Invitation History`
-        : 'Invitation History'}
-    </StyledDialogTitle>
+    <>
+      <StyledDialogTitle className="u-show-desktop-tablet">
+        {inviteeData ? `${inviteeData.invitee_name}'s Invitation History` : 'Invitation History'}
+      </StyledDialogTitle>
+      <StyledDialogTitle className="u-show-mobile">
+        {inviteeData ? 'Invitation History' : 'Invitation History'}
+      </StyledDialogTitle>
+    </>
     )
 
 //   console.log('inviteeData:', inviteeData);
@@ -73,26 +74,22 @@ const ViewInviteeDetails = ({ inviteeId, show, setShow, setAnchorEl }) => {
               <StyledTableBodyCellLeft component="th" scope="row">
                 Challenge viewed
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">
-                {inviteeData
-                  ? formatDate(
-                    inviteeData.date_invite_viewed,
-                    isMobileScreenSize() ? 'Not viewed' : "Invitation hasn't been viewed"
-                    )
-                    : isMobileScreenSize() ? 'Not viewed' : "Invitation hasn't been viewed"}
+              <StyledTableBodyCellRight className="u-show-desktop-tablet" align="right">
+                {inviteeData ? "Invitation hasn't been viewed" : null}
+              </StyledTableBodyCellRight>
+              <StyledTableBodyCellRight className="u-show-mobile" align="right">
+                {inviteeData ? "Not viewed" : null}
               </StyledTableBodyCellRight>
             </TableRow>
             <StyledTableRow>
               <StyledTableBodyCellLeft component="th" scope="row" styled={{ fontFamily: 'inherit' }}>
                 Challenge joined
               </StyledTableBodyCellLeft>
-              <StyledTableBodyCellRight align="right">
-                {inviteeData
-                  ? formatDate(
-                    inviteeData.date_challenge_joined,
-                    isMobileScreenSize() ? 'Not joined' : "Challenge hasn't been joined"
-                    )
-                    : isMobileScreenSize() ? 'Not joined' : "Challenge hasn't been joined"}
+              <StyledTableBodyCellRight className="u-show-desktop-tablet" align="right">
+                {inviteeData ? "Invitation hasn't been joined" : null}
+              </StyledTableBodyCellRight>
+              <StyledTableBodyCellRight className="u-show-mobile" align="right">
+                {inviteeData ? "Not joined" : null}
               </StyledTableBodyCellRight>
             </StyledTableRow>
           </TableBody>
