@@ -30,6 +30,9 @@ const ActivityPostPublicDropdown = (props) => {
           disableUnderline
           IconComponent={ArrowDropDownIcon}
           aria-label="Select visibility for your opinion"
+          MenuProps={{
+            classes: { paper: classes.menuPaper },
+          }}
         >
           <MenuItem value="Public" className={classes.menuItem}>
             Public
@@ -97,9 +100,14 @@ const styles = (theme) => ({
     fontSize: '16px',
     fontWeight: '400',
     lineHeight: '21.82px',
-    padding: 0,
+    padding: '10px',
     [theme.breakpoints.down('xs')]: {
       fontSize: '14px',
+    },
+  },
+  menuPaper: {
+    '& .MuiMenu-list': {
+      padding: 0,
     },
   },
   outlinedInputRoot: {

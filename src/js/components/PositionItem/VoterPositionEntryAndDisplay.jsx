@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Button, InputBase, Radio, RadioGroup, FormControlLabel, FormControl } from '@mui/material';
+import { Button, InputBase, Radio, FormControlLabel, RadioGroup } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import { Edit as EditIcon } from '@mui/icons-material';
@@ -13,7 +13,7 @@ import { avatarGeneric } from '../../utils/applicationUtils';
 import ModalDisplayTemplateB, {
   templateBStyles, TextFieldDiv,
   TextFieldForm, TextFieldWrapper, VoterAvatarImg,
-  UserInfoWrapper, UserInfoText, UserName, VisibilityText, editIcon, StyledRadioGroup,
+  UserInfoWrapper, UserInfoText, UserName,
 } from '../Widgets/ModalDisplayTemplateB';
 // import ActivityPostPublicToggle from '../Activity/ActivityPostPublicToggle';
 import ActivityPostPublicDropdown from '../Activity/ActivityPostPublicDropdown';
@@ -85,17 +85,8 @@ const VoterPositionEntryAndDisplay = (props) => {
     }
   }, [initialFocusSet]);
 
-  const onBlurInput = () => {
-    restoreStylesAfterCordovaKeyboard('VoterPositionEntryAndDisplay');
-  };
-
-
   const onFocusInput = () => {
     prepareForCordovaKeyboard('VoterPositionEntryAndDisplay');
-  };
-
-  const onPublicToggleChange = (newVisibilityIsPublic) => {
-    setVisibilityIsPublic(newVisibilityIsPublic);
   };
 
   const saveActivityPost = (e) => {
@@ -132,7 +123,7 @@ const VoterPositionEntryAndDisplay = (props) => {
           />
           <EditIcon
             onClick={handleEditModalOpen}
-            className={classes.editIcon}
+            className={classes.styledEditIcon}
           />
           <UserInfoText>
             <UserName>
@@ -146,10 +137,11 @@ const VoterPositionEntryAndDisplay = (props) => {
             />
           </UserInfoText>
         </UserInfoWrapper>
-        <StyledRadioGroup
+        <RadioGroup
           row
           value={selectedOpinion}
           onChange={handleOpinionChange}
+          className={classes.radioGroup}
         >
           <FormControlLabel
             value="Endorsing"
@@ -169,7 +161,7 @@ const VoterPositionEntryAndDisplay = (props) => {
             label="Neutral"
             classes={{ root: classes.radioLabel }}
           />
-        </StyledRadioGroup>
+        </RadioGroup>
         <TextFieldDiv>
           <InputBase
             classes={{ root: classes.inputStyles, inputMultiline: classes.inputMultiline }}

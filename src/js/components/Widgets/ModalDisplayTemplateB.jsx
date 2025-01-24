@@ -1,5 +1,5 @@
 import { Close } from '@mui/icons-material';
-import { Dialog, DialogContent, DialogTitle, Divider, IconButton, Button } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, Divider, IconButton, Button, RadioGroup } from '@mui/material';
 import withStyles from '@mui/styles/withStyles';
 import withTheme from '@mui/styles/withTheme';
 import PropTypes from 'prop-types';
@@ -11,7 +11,7 @@ import { renderLog } from '../../common/utils/logging';
 import DesignTokenColors from '../../common/components/Style/DesignTokenColors';
 
 class ModalDisplayTemplateB extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
     };
@@ -81,7 +81,7 @@ export const templateBStyles = (theme) => ({
     margin: '0 8px',
     padding: '4px 8px',
   },
-  editIcon: {
+  styledEditIcon: {
     alignItems: 'center',
     backgroundColor: DesignTokenColors.primary50,
     borderRadius: '50%',
@@ -100,7 +100,7 @@ export const templateBStyles = (theme) => ({
     marginTop: hasIPhoneNotch() ? 68 : 48,
     minHeight: isAndroid() ? '257px' : '200px',
     maxWidth: '600px',
-    top: '0',
+    top: '50px',
     width: '90%',
     transform: isAndroid() ? 'translate(0%, -18%)' : 'translate(0%, -20%)',
     [theme.breakpoints.down('xs')]: {
@@ -180,6 +180,27 @@ export const templateBStyles = (theme) => ({
       backgroundColor: DesignTokenColors.neutral100,
       color: DesignTokenColors.whiteUI,
       opacity: 0.6,
+    },
+  },
+  radioGroup: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    gap: '16px',
+    marginBottom: '10px',
+    padding: '0',
+    width: '100%',
+
+    '@media (max-width: 600px)': {
+      alignItems: 'flex-start',
+      flexDirection: 'column',
+      gap: '8px',
+    },
+
+    '@media (max-width: 375px)': {
+      alignItems: 'flex-start',
+      gap: '8px',
     },
   },
   radioLabel: {
@@ -332,26 +353,5 @@ export const OpinionButton = styled(Button)`
     background-color: ${(props) => (props.selected ? DesignTokenColors.primary600 : DesignTokenColors.primary50)};
   }
 `;
-export const StyledRadioGroup = styled('div')`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 10px;
-  padding: 0;
-  width: 100%;
-  
-  @media (max-width: 600px) {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  }
 
-  @media (max-width: 375px) {
-  align-items: flex-start;
-  gap: 8px;
-}
-`;
 export default withTheme(withStyles(templateBStyles)(ModalDisplayTemplateB));
