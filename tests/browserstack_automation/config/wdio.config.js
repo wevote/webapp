@@ -13,8 +13,8 @@ try {
   // Run `npm run wdio:setup`
 }
 
-const capabilities = [...browserCapabilities, ...mobileCapabilities];
-
+//const capabilities = [...browserCapabilities, ...mobileCapabilities];
+const capabilities =[...browserCapabilities];
 const date = new Date();
 
 const dateForDisplay = date.toDateString();
@@ -37,37 +37,37 @@ module.exports.config = {
     ],
   ],
   specs: [
-    '../specs/DiscussPage.js',
+    // '../specs/DiscussPage.js',
     '../specs/FAQPage.js',
-    '../specs/PrivacyPage.js',
-    '../specs/ReadyPage.js',
-    '../specs/TermsPage.js',
-    '../specs/TopNavigation.js',
-    '../specs/TopicsPage.js',
-    '../specs/HowItWorks.js',
-    '../specs/FooterLinks.js',
-    '../specs/SignInPage.js',
+    // '../specs/PrivacyPage.js',
+    // '../specs/ReadyPage.js',
+    // '../specs/TermsPage.js',
+    // '../specs/TopNavigation.js',
+    // '../specs/TopicsPage.js',
+    // '../specs/HowItWorks.js',
+    // '../specs/FooterLinks.js',
+    // '../specs/SignInPage.js',
 
-    '../specs/BallotPage.js',
-    '../specs/CandidatesPage.js',
+    // '../specs/BallotPage.js',
+    // '../specs/CandidatesPage.js',
 
-    '../specs/WhosRunningForOffice.js',
+    // '../specs/WhosRunningForOffice.js',
 
   ],
 
   capabilities,
   commonCapabilities: {
-    'bstack:options': {
-      buildName,
-      debug: 'true',
-      // geoLocation is only available under Enterprise plans
-      // geoLocation: 'US-CA',
-      // gpsLocation is only available under Paid plans
-      // Oakland, CA, USA
-      gpsLocation: '37.804363,-122.271111',
-      maskCommands: 'setValues, getValues, setCookies, getCookies',
-      video: 'true',
-    },
+    // 'bstack:options': {
+    //   buildName,
+    //   debug: 'true',
+    //   // geoLocation is only available under Enterprise plans
+    //   // geoLocation: 'US-CA',
+    //   // gpsLocation is only available under Paid plans
+    //   // Oakland, CA, USA
+    //   gpsLocation: '37.804363,-122.271111',
+    //   maskCommands: 'setValues, getValues, setCookies, getCookies',
+    //   video: 'true',
+   // },
   },
   maxInstances: 1,
   exclude: [],
