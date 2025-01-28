@@ -2,53 +2,57 @@ import { $, $$, driver } from '@wdio/globals';
 import Page from './page';
 
 class FAQPage extends Page {
-  constructor () {
+  constructor() {
     super().title = 'FAQ - WeVote';
   }
 
-  async load () {
+  async load() {
     await super.open('/more/faq');
     await super.maximizeWindow();
     await super.rerender();
   }
 
-  get getFAQPageTitleElement () {
+  get getFAQPageTitleElement() {
     return $('.kkIyuQ');
   }
 
-  get getTwitterIconElement () {
+  get getTwitterIconElement() {
     return $('#wevoteTwitter');
   }
 
-  get getFacebookIconElement () {
+  get getFacebookIconElement() {
     return $('#wevoteFacebook');
   }
 
-  get getInstagramIconElement () {
+  get getInstagramIconElement() {
     return $('#wevoteInstagram');
   }
 
-  get getWeVoteElementFromInstagram () {
+  get getWeVoteElementFromInstagram() {
     return $('//h2[contains(text(), "wevote")]');
   }
 
-  get getEmailIconElement () {
+  get getEmailIconElement() {
     return $('#eepurl');
   }
 
-  get getGitHubIconElement () {
+  get getAboutLinkElement() {
+    return $('//a[text() = "About & FAQ"]');
+  }
+
+  get getGitHubIconElement() {
     return $$('//a[@href = "https://github.com/WeVote"]');
   }
 
-  get getBlogIconElement () {
+  get getBlogIconElement() {
     return $('#wevoteBlog');
   }
 
-  get getValueLinkElement () {
+  get getValueLinkElement() {
     return $$('//a[@id = "helpSiteValues"]');
   }
 
-  async clickValueLink () {
+  async clickValueLink() {
     const selectorToGetValueElements = '//a[@id = "helpSiteValues"]';
     const arrOfElements = [];
     for (let i = 1; i <= $$(selectorToGetValueElements).length; i++) {
@@ -63,20 +67,20 @@ class FAQPage extends Page {
     return arrOfElements;
   }
 
-  get getWeVoteEducationWebsiteElement () {
+  get getWeVoteEducationWebsiteElement() {
     return $('#weVoteEducationWebsite');
   }
 
-  get getWeVoteUSAWebsiteElement () {
+  get getWeVoteUSAWebsiteElement() {
     return $('#weVoteUSAWebsite');
   }
 
-  get getWeVoteVolunteerElements () {
+  get getWeVoteVolunteerElements() {
     return $$('//a[@href = "https://wevote.applytojob.com/apply"]');
   }
 
-  async clickVolunteerOpeningsLinks () {
-    //const selectorToGetElements = '//a[@href = "https://wevote.applytojob.com/apply"]';
+  async clickVolunteerOpeningsLinks() {
+    // const selectorToGetElements = '//a[@href = "https://wevote.applytojob.com/apply"]';
     const selectorToGetElements = await this.getWeVoteVolunteerElements;
 
     const arrOfElements = [];
@@ -85,52 +89,52 @@ class FAQPage extends Page {
       driver.switchWindow('https://wevote.applytojob.com/apply');
       const textFromElement = driver.getTitle();
       arrOfElements.push(textFromElement);
-     // driver.switchWindow('https://quality.wevote.us/more/faq');
+      // driver.switchWindow('https://quality.wevote.us/more/faq');
     }
     return arrOfElements;
   }
 
-  get getAboutPageTitleElement () {
+  get getAboutPageTitleElement() {
     return $('#weVoteAboutUsPage');
   }
 
-  get getWeVoteContactUsFormElement () {
+  get getWeVoteContactUsFormElement() {
     return $('#weVoteContactUsPage');
   }
 
-  get getWeVoteIPhoneLinkElement () {
+  get getWeVoteIPhoneLinkElement() {
     return $('#weVoteIPhone');
   }
 
-  get getWeVoteAndroidLinkElement () {
+  get getWeVoteAndroidLinkElement() {
     return $('#weVoteAndroid');
   }
 
-  get getPleaseDonateElement () {
+  get getPleaseDonateElement() {
     return $('[href="/donate"]');
   }
 
-  get getVolunteerElement () {
+  get getVolunteerElement() {
     return $('#idealistOpenPositions');
   }
 
-  get getLetsGetStartedElement () {
+  get getLetsGetStartedElement() {
     return $('//a[contains(text(), "get started!")]');
   }
 
-  async waitForURL(expectedURL){
-    driver.waitUntil(async()=>{
-     await driver.switchWindow(expectedURL);
-    const currenturl= await driver.getUrl();
-    return currenturl=== expectedURL;
-    },{
+  async waitForURL(expectedURL) {
+    driver.waitUntil(async () => {
+      await driver.switchWindow(expectedURL);
+      const currenturl = await driver.getUrl();
+      return currenturl === expectedURL;
+    }, {
       timeout: 10000,
-      timeoutMsg: 'Expected URL not found'
+      timeoutMsg: 'Expected URL not found',
 
-  });
-}
+    });
+  }
 
-  async clickGitHubIconAndLinks () {
+  async clickGitHubIconAndLinks() {
     const selectorToGetElements = '//a[@href = "https://github.com/WeVote"]';
     const arrOfElements = [];
     for (let i = 1; i <= $$(selectorToGetElements).length; i++) {
