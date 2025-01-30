@@ -105,23 +105,6 @@ class ChallengeCardList extends Component {
     });
   }
 
-  increaseNumberToDisplay = () => {
-    let { numberToDisplay } = this.state;
-    numberToDisplay += NUMBER_TO_ADD_WHEN_MORE_CLICKED;
-    this.setState({
-      numberToDisplay,
-    });
-  }
-
-  loadMoreHasBeenClicked = () => {
-    this.increaseNumberToDisplay();
-    // console.log('load more has been clicked');
-    if (this.props.loadMoreScroll) {
-      // console.log('loadMoreScroll exists');
-      this.props.loadMoreScroll();
-    }
-  }
-
   onChallengeClickLink (challengeWeVoteId) {
     const challenge = ChallengeStore.getChallengeByWeVoteId(challengeWeVoteId);
     if (!challenge) {
@@ -156,6 +139,23 @@ class ChallengeCardList extends Component {
       challengeBasePath = `/+/${challengeWeVoteId}/`;
     }
     return challengeBasePath;
+  }
+
+  loadMoreHasBeenClicked = () => {
+    this.increaseNumberToDisplay();
+    // console.log('load more has been clicked');
+    if (this.props.loadMoreScroll) {
+      // console.log('loadMoreScroll exists');
+      this.props.loadMoreScroll();
+    }
+  }
+
+  increaseNumberToDisplay = () => {
+    let { numberToDisplay } = this.state;
+    numberToDisplay += NUMBER_TO_ADD_WHEN_MORE_CLICKED;
+    this.setState({
+      numberToDisplay,
+    });
   }
 
   render () {
@@ -302,14 +302,16 @@ const ChallengeCardForListVerticalWrapper = styled('div')`
   display: flex;
   flex-direction: column;
   // height: ${isWebApp() ? '100%' : 'unset'};
-  height: 450px;
+  height: auto;
   position: relative;
   width: 80%;
   max-width: 250px;
   margin-right: 5px;
+  margin-bottom: 20px;
 `;
 
-const JoinedButtonsInnerWrapper = styled('div')``;
+const JoinedButtonsInnerWrapper = styled('div')`
+`;
 
 const JoinedButtonsOuterWrapper = styled('div')`
   bottom: 0;
