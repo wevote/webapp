@@ -101,7 +101,6 @@ function extractPoliticianDetailsFromUrl(url) {
 
   // assume the second part of the path is the SEO-friendly string ("nancy-a-montgomery-politician-from-new-york")
   const seoFriendlyPart = parts[1];
-  console.log('SEO Friendly Part:', seoFriendlyPart);
 
   if (!seoFriendlyPart) {
     return { state: null, name: null };  // If there's no seoFriendlyPart, return null for state and name
@@ -109,10 +108,8 @@ function extractPoliticianDetailsFromUrl(url) {
 
   // Split the SEO-friendly part by dashes to get the name and state words
   const words = seoFriendlyPart.split('-');
-  console.log('Words:', words);
 
   const fromIndex = words.lastIndexOf('from');   // Look for the last occurrence of "from", as it typically separates the name and state, reduce chances of pulling "from" in the name
-  console.log('From last Index:', fromIndex);
 
   if (fromIndex === -1) {
     return { state: null, name: null }; // If 'from' is not found, return null for both
@@ -630,9 +627,7 @@ class PoliticianDetailsPage extends Component {
 
   render () {
     renderLog('PoliticianDetailsPage');  // Set LOG_RENDER_EVENTS to log all renders
-
-    const { politicianStateParsedFromURLBeforeLoad } = this.state; // reaname variable state calculated from URL to be used when page is still loading. 
-    const { politicianNameParsedFromURLBeforeLoad } = this.state; // reaname variable name calculated from URL to be used when page is still loading.
+    const { politicianStateParsedFromURLBeforeLoad, politicianNameParsedFromURLBeforeLoad } = this.state; // reaname variable state calculated from URL to be used when page is still loading. 
     const { classes } = this.props;
     const { match: { params } } = this.props;
     const { politicianSEOFriendlyPath: politicianSEOFriendlyPathFromUrl } = params;
@@ -820,7 +815,7 @@ class PoliticianDetailsPage extends Component {
               officeName={contestOfficeName}
               politicalParty={candidateCampaign.party}
               showOfficeName={showOfficeName}
-              stateName={stateName || politicianStateParsedFromURLBeforeLoad}
+              stateName={stateName}
               year={`${year}`}
             />
           </CandidateCampaignWrapper>
@@ -964,8 +959,8 @@ class PoliticianDetailsPage extends Component {
                       {/* Candidate Name */}
                       <CandidateNameAndPartyWrapper>
                         <CandidateNameH4>
-                          {politicianName || politicianNameParsedFromURLBeforeLoad}
-                        </CandidateNameH4>
+                          {politicianName}
+                        </CandidateNameH4>'
                         <CandidateParty>
                           {politicalParty}
                         </CandidateParty>
@@ -1155,8 +1150,8 @@ class PoliticianDetailsPage extends Component {
                   <CampaignOwnersList politicianWeVoteId={politicianWeVoteIdForDisplay} />
                 </CampaignOwnersDesktopWrapper>
                 <CampaignDescriptionDesktopWrapper>
-                  {politicianDataFound && (
-                    <DelayedLoad waitBeforeShow={250}>
+                  {politicianDataFound ? (
+                    <DelayedLoad waitBeforeShow={250} onLoad={this.handleDelayContentLoad}>
                       <CampaignDescriptionDesktop>
                         <AboutAndEditFlex>
                           <SectionTitleSimple>
@@ -1175,6 +1170,11 @@ class PoliticianDetailsPage extends Component {
                         )}
                       </CampaignDescriptionDesktop>
                     </DelayedLoad>
+                  ) : (
+                    <CampaignDescriptionDesktop>
+                      <h1>{politicianNameParsedFromURLBeforeLoad}</h1>
+                      <h2>{politicianStateParsedFromURLBeforeLoad}</h2>
+                    </CampaignDescriptionDesktop>
                   )}
                   {politicianDataFound && (
                     <DelayedLoad waitBeforeShow={250}>
