@@ -32,6 +32,7 @@ const styles = () => ({
   joinChallengeButton: {
     borderRadius: 45,
     maxWidth: 300,
+    minWidth: 110,
     //    background: 'var(--Primary-600, #0858A1)',
     //     border: '1px solid var(--Primary-400, #4187C6)',
     //     color: 'var(--WhiteUI, #FFFFFF)',
@@ -42,6 +43,7 @@ const styles = () => ({
   learnMoreButton: {
     borderRadius: 45,
     maxWidth: 300,
+    minWidth: 110,
     //     background: 'white',
     //     border: '1px solid var(--Primary-400, #4187C6)',
     //     color: 'var(--Neutral-900, #2A2A2C)',
