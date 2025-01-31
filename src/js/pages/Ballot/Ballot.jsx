@@ -1458,15 +1458,14 @@ class Ballot extends Component {
                                       <div
                                         className="ballot_filter_btns"
                                         id="ballotBadgeMobileAndDesktop-All"
-                                        key="filterTypeAll"
-                                        onClick={() => this.setBallotItemFilterType('All', ballotWithItemsFromCompletionFilterType.length)}
-                                      >
+                                        key="filterTypeAll"                                      >
                                         <Chip variant="outlined"
                                           color={(raceLevelFilterType === 'All' && !isSearching) ? 'primary' : 'default'}
                                           className="btn_ballot_filter"
                                           classes={{ root: classes.chipRootAll, label: classes.chipLabel, outlinedPrimary: (raceLevelFilterType === 'All' && !isSearching) ? classes.chipOutlined : null }}
                                           label="All"
                                           style={widthOverride}
+                                          onClick={() => this.setBallotItemFilterType('All', ballotWithItemsFromCompletionFilterType.length)}
                                         />
                                       </div>
                                     )}
@@ -1496,15 +1495,15 @@ class Ballot extends Component {
                                               label={chipLabelText(oneTypeOfBallotItem)}
                                               style={widthOverride}
                                               key={chipLabelText(oneTypeOfBallotItem)}
+                                              onClick={() => this.setBallotItemFilterType(oneTypeOfBallotItem, ballotItemsByFilterType.length)}
                                             />
                                           );
                                           return (
-                                            <div id={`BallotButtonOuterWrapper-${window.performance.now()}`} key={oneTypeOfBallotItem + window.performance.now()}>
+                                            <div id={`BallotButtonOuterWrapper-${window.performance.now()}`} key={oneTypeOfBallotItem + window.performance.now()}   >
                                               <div className="u-show-mobile">
                                                 <div
                                                   className="ballot_filter_btns"
                                                   id={`ballotBadgeMobile-${oneTypeOfBallotItem}`}
-                                                  onClick={() => this.setBallotItemFilterType(oneTypeOfBallotItem, ballotItemsByFilterType.length)}
                                                 >
                                                   {ballotChip}
                                                 </div>
@@ -1517,7 +1516,6 @@ class Ballot extends Component {
                                                     color={(oneTypeOfBallotItem === raceLevelFilterType && !isSearching) ? 'primary' : 'default'}
                                                     id={`ballotBadgeDesktop-${oneTypeOfBallotItem}`}
                                                     invisible={ballotItemsByFilterType.length === 0}
-                                                    onClick={() => this.setBallotItemFilterType(oneTypeOfBallotItem, ballotItemsByFilterType.length)}
                                                   >
                                                     {ballotChip}
                                                   </Badge>
