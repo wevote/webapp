@@ -186,6 +186,8 @@ class BallotTitleHeader extends Component {
                           className={linksOff ? '' : 'u-cursor--pointer'}
                           id="ballotTitleBallotAddress"
                           onClick={this.showSelectBallotModalEditAddress}
+//                           onKeyDown={(event) => {
+//                             if (event.key === 'Enter') this.showSelectBallotModalEditAddress()}}
                         >
                           {ballotCaveat && (
                             <div>{ballotCaveat}</div>
@@ -200,10 +202,12 @@ class BallotTitleHeader extends Component {
                               className={linksOff ? '' : 'u-cursor--pointer'}
                               id="ballotTitleBallotAddress"
                               onClick={this.showSelectBallotModalEditAddress}
+//                               onKeyDown={(event) => {
+//                                 if (event.key === 'Enter') this.showSelectBallotModalEditAddress()}}
                             >
                               Ballot for
                               {' '}
-                              <span
+                              <span tabIndex={0}
                                 className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}
                               >
                                 <span>
@@ -221,10 +225,12 @@ class BallotTitleHeader extends Component {
                                   className={linksOff ? '' : 'u-cursor--pointer'}
                                   id="ballotTitleBallotAddressSubstituted"
                                   onClick={this.showSelectBallotModalEditAddress}
+//                                   onKeyDown={(event) => {
+//                                     if (event.key === 'Enter') this.showSelectBallotModalEditAddress()}}
                                 >
                                   Ballot for
                                   {' '}
-                                  <span className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}>
+                                  <span tabIndex={0} className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}>
                                     {substitutedAddress}
                                   </span>
                                   {linksOff ? <></> : editIconStyled}
@@ -236,8 +242,10 @@ class BallotTitleHeader extends Component {
                                   className={linksOff ? '' : 'u-cursor--pointer'}
                                   id="ballotTitleBallotAddress"
                                   onClick={this.showSelectBallotModalEditAddress}
+//                                   onKeyDown={(event) => {
+//                                     if (event.key === 'Enter') this.showSelectBallotModalEditAddress()}}
                                 >
-                                  <span className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}>
+                                  <span tabIndex={0} className={linksOff ? '' : 'u-link-color u-link-underline-on-hover'}>
                                     Click to enter your address
                                   </span>
                                   {linksOff ? <></> : editIconStyled}
